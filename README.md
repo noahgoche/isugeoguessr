@@ -2,6 +2,9 @@
 
 ## Creators 
 
--Jacob Garcia 
--Dylan Longlett
--Noah Goche
+Jacob Garcia 
+<br>
+Dylan Longlett
+<br>
+Noah Goche
+<br>
