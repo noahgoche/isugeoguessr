@@ -6,39 +6,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import org.w3c.dom.Text;
 
-    private Button strBtn, jsonObjBtn, jsonArrBtn, imgBtn;
+public class MainActivity extends AppCompatActivity {
+
+    private TextView messageText;   // define message textview variable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);             // link to Main activity XML
 
-        strBtn = findViewById(R.id.btnStringRequest);
-        jsonObjBtn = findViewById(R.id.btnJsonObjRequest);
-        jsonArrBtn = findViewById(R.id.btnJsonArrRequest);
-        imgBtn = findViewById(R.id.btnImageRequest);
-
-        /* button click listeners */
-        strBtn.setOnClickListener(this);
-        jsonObjBtn.setOnClickListener(this);
-        jsonArrBtn.setOnClickListener(this);
-        imgBtn.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.btnStringRequest) {
-            startActivity(new Intent(MainActivity.this, StringReqActivity.class));
-        } else if (id == R.id.btnJsonObjRequest) {
-            startActivity(new Intent(MainActivity.this, JsonObjReqActivity.class));
-        } else if (id == R.id.btnJsonArrRequest) {
-            startActivity(new Intent(MainActivity.this, JsonArrReqActivity.class));
-        } else if (id == R.id.btnImageRequest) {
-            startActivity(new Intent(MainActivity.this, ImageReqActivity.class));
-        }
+        /* initialize UI elements */
+        messageText = findViewById(R.id.main_msg_txt);      // link to message textview in the Main activity XML
+        messageText.setText("Hello World");
     }
 }
