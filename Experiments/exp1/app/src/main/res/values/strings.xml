@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">AndroidExample</string>
+    <string name="app_name">Mystery Button</string>
+
+    <string name="title">Click the button...</string>
 </resources>
