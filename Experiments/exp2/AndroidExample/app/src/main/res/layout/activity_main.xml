@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,42 +14,41 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:layout_marginBottom="50dp"
-        android:text="Home Page"
+        android:layout_marginBottom="200dp"
+        android:text="ISU Geo Guesser"
         android:textColor="#fc0303"
         android:textSize="30dp"></TextView>
 
-    <TextView
-        android:id="@+id/main_username_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="100dp"
-        android:textColor="#000000"
-        android:textSize="30dp"></TextView>
 
 
     <Button
         android:id="@+id/main_login_btn"
-        android:layout_width="150dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:backgroundTint="#B60D32"
-        android:text="Login"
+        android:layout_marginBottom="50dp"
+
+        android:text="Play"
         android:textColor="#ffffff"
         android:textColorLink="#B60D32"
         android:textSize="20sp"></Button>
 
     <Button
-        android:id="@+id/main_signup_btn"
-        android:layout_width="150dp"
+        android:id="@+id/main_login_btn3"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:backgroundTint="#B60D32"
-        android:text="Signup"
-        android:textColor="#ffffff"
-        android:textSize="20sp"></Button>
+        android:layout_marginTop="100dp"
+        android:backgroundTint="#FDFDFD"
+        android:text="Sign in with Google"
+        android:textColor="#000000"
+        android:textColorLink="#B60D32"
+        android:textSize="15sp"></Button>
+
+
+
+
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>
