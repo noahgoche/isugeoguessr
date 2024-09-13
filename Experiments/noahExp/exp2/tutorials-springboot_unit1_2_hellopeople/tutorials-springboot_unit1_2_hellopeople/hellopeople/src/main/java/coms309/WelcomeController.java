@@ -21,8 +21,5 @@ class WelcomeController {
     public String hello() {
         return "Something different";
     }
-    @GetMapping("/test2")
-    public String e() {
-        return "different";
-    }
+
 }

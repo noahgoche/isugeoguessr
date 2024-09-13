@@ -64,6 +64,28 @@ public class PeopleController {
         return p;
     }
 
+
+    //Returns the address of the given person's firstname
+    @GetMapping("/address/{firstName}")
+    public String getAddress(@PathVariable String firstName) {
+        Person p = peopleList.get(firstName);
+        return p.getFirstName() + " address:" + p.getAddress();
+    }
+
+    //Returns the telephone number of the given person's firstname
+    @GetMapping("/number/{firstName}")
+    public String getNumber(@PathVariable String firstName) {
+        Person p = peopleList.get(firstName);
+        return p.getFirstName() + " number:" + p.getTelephone();
+    }
+
+    //Returns the last name of the given person's firstname
+    @GetMapping("/lastName/{firstName}")
+    public String getLastName(@PathVariable String firstName) {
+        Person p = peopleList.get(firstName);
+        return p.getFirstName() + " last name: " + p.getLastName();
+    }
+
     // THIS IS THE UPDATE OPERATION
     // We extract the person from the HashMap and modify it.
     // Springboot automatically converts the Person to JSON format
@@ -75,6 +97,14 @@ public class PeopleController {
     public Person updatePerson(@PathVariable String firstName, @RequestBody Person p) {
         peopleList.replace(firstName, p);
         return peopleList.get(firstName);
+    }
+
+    //updates the address for the given person and returns the updated person
+    @PutMapping("/address/{firstName}/{address}")
+    public Person changeAddress(@PathVariable String firstName, @PathVariable String address) {
+        Person p = peopleList.get(firstName);
+        p.setAddress(address);
+        return p;
     }
 
     // THIS IS THE DELETE OPERATION
