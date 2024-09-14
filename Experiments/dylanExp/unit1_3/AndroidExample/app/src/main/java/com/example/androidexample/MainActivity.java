@@ -24,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
         /* initialize UI elements */
         messageText = findViewById(R.id.main_msg_txt);      // link to message textview in the Main activity XML
-      //  usernameText = findViewById(R.id.main_username_txt);// link to username textview in the Main activity XML
+        usernameText = findViewById(R.id.main_username_txt);// link to username textview in the Main activity XML
         loginButton = findViewById(R.id.main_login_btn);    // link to login button in the Main activity XML
-       // signupButton = findViewById(R.id.main_signup_btn);  // link to signup button in the Main activity XML
+        signupButton = findViewById(R.id.main_signup_btn);  // link to signup button in the Main activity XML
 
         /* extract data passed into this activity from another activity */
         Bundle extras = getIntent().getExtras();
