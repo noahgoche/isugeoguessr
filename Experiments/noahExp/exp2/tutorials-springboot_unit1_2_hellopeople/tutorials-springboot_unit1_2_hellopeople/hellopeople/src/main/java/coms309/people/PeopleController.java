@@ -86,6 +86,7 @@ public class PeopleController {
         return p.getFirstName() + " last name: " + p.getLastName();
     }
 
+
     // THIS IS THE UPDATE OPERATION
     // We extract the person from the HashMap and modify it.
     // Springboot automatically converts the Person to JSON format
@@ -104,6 +105,30 @@ public class PeopleController {
     public Person changeAddress(@PathVariable String firstName, @PathVariable String address) {
         Person p = peopleList.get(firstName);
         p.setAddress(address);
+        return p;
+    }
+
+    //updates the number for the given person and returns the updated person
+    @PutMapping("/number/{firstName}/{number}")
+    public Person changeNumber(@PathVariable String firstName, @PathVariable String number) {
+        Person p = peopleList.get(firstName);
+        p.setTelephone(number);
+        return p;
+    }
+
+    //updates the first name for the given person and returns the updated person
+    @PutMapping("/{firstName}/{newFirstName}")
+    public Person changeFirstName(@PathVariable String firstName, @PathVariable String newFirstName) {
+        Person p = peopleList.get(firstName);
+        p.setFirstName(newFirstName);
+        return p;
+    }
+
+    //updates the last name for the given person and returns the updated person
+    @PutMapping("/{firstName}/{lastName}")
+    public Person changeLastName(@PathVariable String firstName, @PathVariable String lastName) {
+        Person p = peopleList.get(firstName);
+        p.setLastName(lastName);
         return p;
     }
 
