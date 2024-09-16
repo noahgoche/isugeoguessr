@@ -11,12 +11,34 @@ import java.util.Random;
 class WelcomeController {
 
     @GetMapping("/randomnumbers")
-    public String arm() {
+    public String genRandom() {
         String value = "";
         Random random = new Random(); 
         for (int i = 0; i < 100000; i++) {
             int randomNumber = random.nextInt(1000000); 
-            value += randomNumber + "\n"; 
+            value += randomNumber + " "; 
+        }
+        return value;
+    }
+
+    @GetMapping("/randomnumbers/{target}")
+    public String genRandom(@PathVariable int target) {
+        if (target > 999999 || target < 0) {
+            return "Please choose a number from 0 to 999,999";
+        }
+
+        String value = "";
+        int count = 0;
+        Random random = new Random(); 
+        while (true) {
+            int randomNumber = random.nextInt(1000000); 
+            value += "   " + randomNumber + "   "; 
+            count++;
+
+            if (randomNumber == target) {
+                value += "  <------    It took " + count + " tries to find your number!!";
+                break;
+            }
         }
         return value;
     }
