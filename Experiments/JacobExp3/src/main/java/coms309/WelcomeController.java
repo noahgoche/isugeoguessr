@@ -23,18 +23,18 @@ class WelcomeController {
 
     @GetMapping("/randomnumbers/{target}")
     public String genRandom(@PathVariable int target) {
-        if (target > 999999 || target < 0) {
-            return "Please choose a number from 0 to 999,999";
+        if (target > 99999 || target < 0) {
+            return "Please choose a number from 0 to 99,999";
         }
 
         String value = "";
         int count = 0;
         Random random = new Random(); 
         while (true) {
-            int randomNumber = random.nextInt(1000000); 
+            int randomNumber = random.nextInt(100000); 
             value += "   " + randomNumber + "   "; 
             count++;
-            System.out.println(count);
+            System.out.println(count + "  -  " + randomNumber);
 
             if (randomNumber == target) {
                 value += "  <------    It took " + count + " tries to find your number!!";
