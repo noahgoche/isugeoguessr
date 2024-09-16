@@ -34,6 +34,7 @@ class WelcomeController {
             int randomNumber = random.nextInt(1000000); 
             value += "   " + randomNumber + "   "; 
             count++;
+            System.out.println(count);
 
             if (randomNumber == target) {
                 value += "  <------    It took " + count + " tries to find your number!!";
