@@ -93,4 +93,12 @@ public class PersonController {
         PersonRepository.deleteById(id);
         return success;
     }
+
+
+    //get testing
+    @GetMapping(path = "/Persons/Computer/{id}")
+    Laptop getLaptop(@PathVariable int id){
+        Person p = PersonRepository.findById(id);
+        return p.getLaptop();
+    }
 }
