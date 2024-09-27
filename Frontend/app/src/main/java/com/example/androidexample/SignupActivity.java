@@ -1,4 +1,4 @@
-package com.example.ISUGeoGuessr;
+package com.example.androidexample;
 
 import androidx.appcompat.app.AppCompatActivity;
 

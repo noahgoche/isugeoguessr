@@ -1,9 +1,26 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.AndroidExample" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.IsuApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Primary color used for UI elements such as buttons and app bar -->
+        <item name="colorPrimary">@color/primaryTextColor</item>
+
+        <!-- Apply custom button style -->
     </style>
 
-    <style name="Theme.AndroidExample" parent="Base.Theme.AndroidExample" />
+    <!-- Extend the base theme -->
+    <style name="Theme.IsuApp" parent="Base.Theme.IsuApp" />
+
+    <!-- Define a custom button style -->
+    <style name="CustomButtonStyle" parent="Widget.Material3.Button">
+        <!-- Button background color -->
+        <item name="backgroundTint">@color/IsuRed</item>
+
+        <!-- Button text color -->
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <!-- Button corner radius (optional) -->
+        <item name="cornerRadius">30dp</item>
+        <!-- Custom padding (optional) -->
+        <item name="android:padding">0dp</item>
+    </style>
 </resources>

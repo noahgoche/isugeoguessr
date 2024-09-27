@@ -1,56 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:context=".MainActivity"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/main_msg_txt"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/map_overview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/beardclean"
+            android:scaleType="centerCrop" />
+
+        <!-- Home Page Text at the top of the image -->
+        <TextView
+            android:id="@+id/main_msg_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/sfprodisplaybold"
+            android:text="Iowa State\nExplorer "
+            android:textAlignment="center"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/main_username_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="20dp"
+            android:text="{{username}}"
+            android:textColor="#000000"
+            android:textSize="20dp" />
+    </FrameLayout>
+
+    <!-- Horizontal LinearLayout for buttons -->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home Page"
+        android:orientation="horizontal"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="50dp"
-        android:textSize="30dp"
-        android:textColor="#fc0303">
-    </TextView>
+        android:layout_marginTop="20dp">
 
-    <TextView
-        android:id="@+id/main_username_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="{{username}}"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="100dp"
-        android:textSize="30dp"
-        android:textColor="#000000">
-    </TextView>
+        <Button
+            style="@style/CustomButtonStyle"
+            android:id="@+id/main_login_btn"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:text="Login" />
 
-
-    <Button
-        android:id="@+id/main_login_btn"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Login"
-        android:textSize="20sp"
-        android:textColor="#ffffff">
-    </Button>
-
-    <Button
-        android:id="@+id/main_signup_btn"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Signup"
-        android:textSize="20sp"
-        android:textColor="#ffffff">
-    </Button>
-
+        <Button
+            style="@style/CustomButtonStyle"
+            android:id="@+id/main_signup_btn"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:text="Signup" />
+    </LinearLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
