@@ -1,6 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- User Profile Button -->
+    <ImageButton
+        android:id="@+id/user_profile_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@color/IsuRed"
+        android:contentDescription="User Profile"
+        android:scaleType="centerInside" />
+
+    <!-- Logo Image -->
+    <ImageView
+        android:id="@+id/logo_image"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_below="@id/user_profile_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/campanile"
+        android:contentDescription="App Logo"
+        android:scaleType="fitCenter" />
+
+    <!-- Play Button -->
+    <Button
+        android:id="@+id/play_button"
+        style="@style/PlayButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logo_image"
+        android:layout_margin="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Play"
+        android:textSize="18sp"
+       />
+  ]
+
+    <!-- Multiplayer Button -->
+    <Button
+        android:id="@+id/multiplayer_button"
+        style="@style/PlayButtonStyle"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/play_button"
+        android:layout_marginTop="16dp"
+        android:text="Multiplayer"
+        android:layout_margin="8dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"/>
+
+    <!-- Shop Button -->
+    <Button
+        android:id="@+id/shop_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/multiplayer_button"
+        android:layout_marginTop="16dp"
+        android:text="Shop"
+        style="@style/PlayButtonStyle"
+        android:layout_margin="8dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"/>
+
+    <!-- Leader Board Button -->
+    <Button
+        android:id="@+id/leaderboard_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/shop_button"
+        android:layout_marginTop="16dp"
+        android:text="Leader Board"
+        style="@style/PlayButtonStyle"
+        android:layout_margin="8dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"/>
+
+</RelativeLayout>
