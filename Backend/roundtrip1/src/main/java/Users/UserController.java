@@ -40,5 +40,11 @@ public class UserController {
         userRepository.deleteById(id);
     }
 
+    @PutMapping(path = "/users/{id}")
+    void updatePassword(@PathVariable int id, @RequestBody String newPassword)
+    {
+        User user = userRepository.findById(id);
+        user.setUserPassword(newPassword);
+    }
 
 }
