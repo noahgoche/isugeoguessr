@@ -1,4 +1,4 @@
-package Users;
+package ISUGeoguessr.Location;
 
 import java.io.IOException;
 import java.sql.Blob;
@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
 
+import ISUGeoguessr.User.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,31 @@ public class LocationController {
     @Autowired
     LocationRepository locationRepository;
 
+    @GetMapping(path = "/Location")
+    List<Location> getAllLocations()
+    {
+        return locationRepository.findAll();
+    }
 
+    @PostMapping(path = "/Location")
+    String createLocation(@RequestBody Location location)
+    {
+        if(location == null)
+        {
+            return "Failure";
+        }
+        locationRepository.save(location);
+        return "Success";
+    }
+
+    @GetMapping(path = "/Location/{id}")
+    Location findLocationById(@PathVariable int id){
+        return locationRepository.findById(id);
+    }
+
+
+    @DeleteMapping(path = "/Location/{id}")
+    void deleteLocationById(@PathVariable int id){
+        locationRepository.deleteById(id);
+    }
 }

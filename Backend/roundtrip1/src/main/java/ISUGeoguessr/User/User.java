@@ -1,8 +1,4 @@
-package Users;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+package ISUGeoguessr.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -10,8 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+
+import ISUGeoguessr.Location.Location;
 
 @Entity
 public class User {
@@ -22,29 +19,30 @@ public class User {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int UserID;
+    private int id;
     private String username;
     private String userEmail;
     private String userPassword;
     //playerStats retrieved from a separate class/table
 
 
-    //Constructor(s)
+    //Constructors
 
-    public User(int UserID, String username, String userEmail, String userPassword)
+    public User(String username, String userEmail, String userPassword)
     {
-        this.UserID = UserID;
         this.username = username;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
     }
 
+    public User(){
+    }
 
     //Accessors and mutators
 
     public int getUserID()
     {
-        return UserID;
+        return id;
     }
 
     public String getUserName()
@@ -65,6 +63,11 @@ public class User {
     public void setUserEmail(String newEmail)
     {
         userEmail = newEmail;
+    }
+
+    public String getUserPassword()
+    {
+        return userPassword;
     }
 
     public void setUserPassword(String newPassword)
