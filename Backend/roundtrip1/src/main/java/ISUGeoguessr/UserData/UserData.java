@@ -1,17 +1,12 @@
-package ISUGeoguessr.User;
+package ISUGeoguessr.UserData;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.*;
-
-import ISUGeoguessr.Location.Location;
 
 @Entity
-public class User {
+public class UserData {
 
     /*
      * The annotation @ID marks the field below as the primary key for the table created by springboot
@@ -28,14 +23,14 @@ public class User {
 
     //Constructors
 
-    public User(String username, String userEmail, String userPassword)
+    public UserData(String username, String userEmail, String userPassword)
     {
         this.username = username;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
     }
 
-    public User(){
+    public UserData(){
     }
 
     //Accessors and mutators

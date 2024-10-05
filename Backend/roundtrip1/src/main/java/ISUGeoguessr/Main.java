@@ -1,16 +1,13 @@
 package ISUGeoguessr;
 
-import java.util.Date;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-
-import ISUGeoguessr.User.User;
-import ISUGeoguessr.User.UserRepository;
+import ISUGeoguessr.UserData.UserDataRepository;
+import ISUGeoguessr.UserData.UserData;
 import ISUGeoguessr.Location.Location;
 import ISUGeoguessr.Location.LocationRepository;
 
@@ -23,14 +20,14 @@ class Main {
     }
 
     @Bean
-    CommandLineRunner initUser(UserRepository userRepository, LocationRepository locationRepository) {
+    CommandLineRunner initUser(UserDataRepository userDataRepository, LocationRepository locationRepository) {
         return args -> {
-            User user1 = new User("John", "john@somemail.com", "PWD");
-            User user2 = new User("Jane", "jane@somemail.com", "123");
-            User user3 = new User("Justin", "justin@somemail.com", "test");
-            userRepository.save(user1);
-            userRepository.save(user2);
-            userRepository.save(user3);
+            UserData userData1 = new UserData("John", "john@somemail.com", "PWD");
+            UserData userData2 = new UserData("Jane", "jane@somemail.com", "123");
+            UserData userData3 = new UserData("Justin", "justin@somemail.com", "test");
+            userDataRepository.save(userData1);
+            userDataRepository.save(userData2);
+            userDataRepository.save(userData3);
 
             Location location1 = new Location("Ames", "12,32,43");
             Location location2 = new Location("Des Moines", "34,12,12");

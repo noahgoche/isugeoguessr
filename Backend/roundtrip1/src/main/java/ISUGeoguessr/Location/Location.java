@@ -1,23 +1,14 @@
 package ISUGeoguessr.Location;
 
 import java.sql.Blob;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import ISUGeoguessr.User.User;
 
 @Entity
 public class Location {
@@ -30,7 +21,7 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String LocationName;
-    private String locationCoords;
+    private String LocationCoords;
 
     @JsonIgnore
     @Lob
@@ -38,10 +29,10 @@ public class Location {
 
     //constructors
 
-    public Location(String LocationName, String locationCoords)
+    public Location(String LocationName, String LocationCoords)
     {
         this.LocationName = LocationName;
-        this.locationCoords = locationCoords;
+        this.LocationCoords = LocationCoords;
     }
 
     public Location(){
@@ -61,7 +52,7 @@ public class Location {
 
     public String getLocationCoords()
     {
-        return locationCoords;
+        return LocationCoords;
     }
 
     public Blob getImage()
