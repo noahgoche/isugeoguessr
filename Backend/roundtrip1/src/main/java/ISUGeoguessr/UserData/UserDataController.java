@@ -35,14 +35,13 @@ public class UserDataController {
         return "Success";
     }
 
-    //TODO Fix? delete doesn't work. Should work once connected to db
     @DeleteMapping(path = "/users/{id}")
     String deleteUserById(@PathVariable int id){
         userDataRepository.deleteById(id);
         return "deleted";
     }
 
-    //TODO Fix? have to use form-data currently in postman to change password
+    //Have to use form-data in postman to change password
     @PutMapping(path = "/users/password/{id}")
     String updatePasswordById(@PathVariable int id, @RequestParam String newPassword)
     {

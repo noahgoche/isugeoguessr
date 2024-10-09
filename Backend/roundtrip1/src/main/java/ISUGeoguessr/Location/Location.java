@@ -8,7 +8,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class Location {

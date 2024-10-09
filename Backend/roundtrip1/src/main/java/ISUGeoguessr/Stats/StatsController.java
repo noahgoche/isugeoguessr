@@ -48,7 +48,7 @@ public class StatsController {
         return "Deleted";
     }
 
-    @PutMapping(path = "/Stats/wins/{id}/{wins}")
+    @PutMapping(path = "/Stats/{id}/wins/{wins}")
     String updateWinsById(@PathVariable int id, @PathVariable int wins)
     {
         Stats stats = statsRepository.findById(id);
@@ -56,8 +56,8 @@ public class StatsController {
         {
             return "Failed";
         }
-
         stats.setWins(wins);
+        statsRepository.save(stats);
         return "Success";
     }
 
