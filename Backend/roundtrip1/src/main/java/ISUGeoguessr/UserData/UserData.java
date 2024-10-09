@@ -1,9 +1,12 @@
 package ISUGeoguessr.UserData;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import jakarta.persistence.*;
+
+import ISUGeoguessr.Stats.Stats;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class UserData {
@@ -18,8 +21,12 @@ public class UserData {
     private String username;
     private String userEmail;
     private String userPassword;
-    //playerStats retrieved from a separate class/table
 
+    /*
+     * @OneToMany tells springboot that one instance of UserData can map to multiple instances of Stats OR one user row can map to multiple rows of the stats table
+     */
+    @OneToMany
+    private List<Stats> stats;
 
     //Constructors
 
@@ -28,6 +35,7 @@ public class UserData {
         this.username = username;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
+        stats = new ArrayList<>();
     }
 
     public UserData(){
