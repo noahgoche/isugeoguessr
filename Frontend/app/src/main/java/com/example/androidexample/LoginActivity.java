@@ -4,9 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -14,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordEditText;  // define password edittext variable
     private Button loginButton;         // define login button variable
     private Button signupButton;        // define signup button variable
+    private TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.login_password_edt);
         loginButton = findViewById(R.id.login_login_btn);    // link to login button in the Login activity XML
         signupButton = findViewById(R.id.login_signup_btn);  // link to signup button in the Login activity XML
+        title = findViewById(R.id.titletxt);
 
         /* click listener on login button pressed */
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -35,11 +51,13 @@ public class LoginActivity extends AppCompatActivity {
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
 
+                makeJsonObjReq();
+
                 /* when login button is pressed, use intent to switch to Login Activity */
-                Intent intent = new Intent(LoginActivity.this, UserHome.class);
-                intent.putExtra("USERNAME", username);  // key-value to pass to the MainActivity
-                intent.putExtra("PASSWORD", password);  // key-value to pass to the MainActivity
-                startActivity(intent);  // go to MainActivity with the key-value data
+                //Intent intent = new Intent(LoginActivity.this, UserHome.class);
+                //intent.putExtra("USERNAME", username);  // key-value to pass to the MainActivity
+                //intent.putExtra("PASSWORD", password);  // key-value to pass to the MainActivity
+                //startActivity(intent);  // go to MainActivity with the key-value data
             }
         });
 
@@ -55,6 +73,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    String URL_JSON_OBJECT = "http://coms-3090-070.class.las.iastate.edu:8080/users/1";
+
     private void makeJsonObjReq() {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.GET,
@@ -66,14 +86,17 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("Volley Response", response.toString());
                         try {
                             // Parse JSON object data
-                            String name = response.getString("name");
-                            String email = response.getString("email");
-                            String phone = response.getString("phone");
+                            String username = response.getString("name");
+                            String email = response.getString("emailId");
+                            //String password = response.getString("userPassword");
+                            /*
+                            private int id;
+                            private String username;
+                            private String userEmail;
+                            private String userPassword;
+                            */
 
-                            // Populate text views with the parsed data
-                            tvName.setText(name);
-                            tvEmail.setText(email);
-                            tvPhone.setText(phone);
+                            title.setText(username);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
