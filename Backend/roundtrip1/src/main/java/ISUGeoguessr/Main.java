@@ -10,6 +10,8 @@ import ISUGeoguessr.UserData.UserDataRepository;
 import ISUGeoguessr.UserData.UserData;
 import ISUGeoguessr.Location.Location;
 import ISUGeoguessr.Location.LocationRepository;
+import ISUGeoguessr.Stats.Stats;
+import ISUGeoguessr.Stats.StatsRepository;
 
 
 @SpringBootApplication
@@ -20,7 +22,7 @@ class Main {
     }
 
     @Bean
-    CommandLineRunner initUser(UserDataRepository userDataRepository, LocationRepository locationRepository) {
+    CommandLineRunner initUser(UserDataRepository userDataRepository, LocationRepository locationRepository, StatsRepository statsRepository) {
         return args -> {
             UserData userData1 = new UserData("John", "john@somemail.com", "PWD");
             UserData userData2 = new UserData("Jane", "jane@somemail.com", "123");
@@ -36,6 +38,9 @@ class Main {
             locationRepository.save(location1);
             locationRepository.save(location2);
             locationRepository.save(location3);
+
+            Stats stats1 = new Stats("Easymode");
+            statsRepository.save(stats1);
         };
     }
 }
