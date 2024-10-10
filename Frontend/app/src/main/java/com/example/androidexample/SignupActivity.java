@@ -83,9 +83,9 @@ public class SignupActivity extends AppCompatActivity {
         // Create JSON object to be sent in the POST request
         JSONObject userData = new JSONObject();
         try {
-            userData.put("name", username);
-            userData.put("email", email);
-            userData.put("password", password);
+            userData.put("username", username);
+            userData.put("user_email", email);
+            userData.put("userPassword", password);
             // Add other user data fields as needed
         } catch (JSONException e) {
             e.printStackTrace();
