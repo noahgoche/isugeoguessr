@@ -4,10 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -52,6 +67,7 @@ public class SignupActivity extends AppCompatActivity {
 
                 if (password.equals(confirm)){
                     Toast.makeText(getApplicationContext(), "Signing up", Toast.LENGTH_LONG).show();
+                    createUser(username, "", password);
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Password don't match", Toast.LENGTH_LONG).show();
@@ -59,4 +75,61 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void createUser(String username, String email, String password) {
+        // URL for the POST request
+        String URL_CREATE_USER = "http://coms-3090-070.class.las.iastate.edu:8080/users";
+
+        // Create JSON object to be sent in the POST request
+        JSONObject userData = new JSONObject();
+        try {
+            userData.put("name", username);
+            userData.put("email", email);
+            userData.put("password", password);
+            // Add other user data fields as needed
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // Create the POST request
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+                Request.Method.POST,
+                URL_CREATE_USER,
+                userData,  // Send user data as request body
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Handle the response (this will be "Success" or "Failed" from your Spring Boot endpoint)
+                        Log.d("Volley Response", response.toString());
+                        try {
+                            String result = response.getString("result");
+                            if (result.equals("Success")) {
+                                Log.d("Create User", "User created successfully");
+                            } else {
+                                Log.d("Create User", "User creation failed");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Volley Error", error.toString());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");  // Specify content type
+                return headers;
+            }
+        };
+
+        // Initialize the request queue and add the request
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+    }
+
 }
