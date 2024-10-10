@@ -15,9 +15,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
 
-                makeJsonObjReq();
+                login(username, password);
 
                 /* when login button is pressed, use intent to switch to Login Activity */
                 //Intent intent = new Intent(LoginActivity.this, UserHome.class);
@@ -75,30 +77,43 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    String URL_JSON_OBJECT = "http://coms-3090-070.class.las.iastate.edu:8080/users/1";
+    private void login(String usernameInput, String passwordInput) {
+        String URL_GET_USERS = "http://coms-3090-070.class.las.iastate.edu:8080/users";
 
-    private void makeJsonObjReq() {
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                URL_JSON_OBJECT,
-                null, // Pass null as the request body since it's a GET request
-                new Response.Listener<JSONObject>() {
+                URL_GET_USERS,
+                null,
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONArray response) {
                         Log.d("Volley Response", response.toString());
                         try {
-                            // Parse JSON object data
-                            String username = response.getString("name");
-                            String email = response.getString("emailId");
-                            //String password = response.getString("userPassword");
-                            /*
-                            private int id;
-                            private String username;
-                            private String userEmail;
-                            private String userPassword;
-                            */
+                            boolean loginSuccess = false;
 
-                            title.setText(username);
+                            // Loop all users
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject userObject = response.getJSONObject(i);
+                                String fetchedUsername = userObject.getString("userName");
+                                String fetchedPassword = userObject.getString("userPassword");
+
+                                // Check username
+                                if (fetchedUsername.equals(usernameInput)) {
+                                    // Check pass
+                                    if (fetchedPassword.equals(passwordInput)) {
+                                        loginSuccess = true;
+                                        Log.d("Login", "Login successful for user: " + usernameInput);
+                                        title.setText("Welcome " + fetchedUsername);
+                                        break;  // Exit the loop once user is found
+                                    } else {
+                                        Log.d("Login", "Incorrect password for user: " + usernameInput);
+                                    }
+                                }
+                            }
+
+                            if (!loginSuccess) {
+                                Log.d("Login", "User not found or incorrect password");
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -113,25 +128,13 @@ public class LoginActivity extends AppCompatActivity {
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                // headers.put("Authorization", "Bearer YOUR_ACCESS_TOKEN");
-                // headers.put("Content-Type", "application/json");
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
                 return headers;
-            }
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                // params.put("param1", "value1");
-                // params.put("param2", "value2");
-                return params;
             }
         };
 
-        // Initialize the request queue (if not already done)
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        // Add the request to the request queue
-        requestQueue.add(jsonObjReq);
+        requestQueue.add(jsonArrayRequest);
     }
 }
