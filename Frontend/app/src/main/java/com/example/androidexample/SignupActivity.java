@@ -66,9 +66,9 @@ public class SignupActivity extends AppCompatActivity {
                 String confirm = confirmEditText.getText().toString();
 
                 if (password.equals(confirm)){
-                    Toast.makeText(getApplicationContext(), "Signing up", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Signing up...", Toast.LENGTH_LONG).show();
                     createUser(username, "test@gmail.com", password);
-                    Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
                     startActivity(intent);  // go to LoginActivity
                 }
                 else {

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -103,7 +104,9 @@ public class LoginActivity extends AppCompatActivity {
                                     if (fetchedPassword.equals(passwordInput)) {
                                         loginSuccess = true;
                                         Log.d("Login", "Login successful for user: " + usernameInput);
-                                        title.setText("Welcome " + fetchedUsername);
+                                        Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(LoginActivity.this, UserHome.class);
+                                        startActivity(intent);
                                         break;  // Exit the loop once user is found
                                     } else {
                                         Log.d("Login", "Incorrect password for user: " + usernameInput);
@@ -113,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             if (!loginSuccess) {
                                 Log.d("Login", "User not found or incorrect password");
+                                Toast.makeText(getApplicationContext(), "User not found or incorrect password", Toast.LENGTH_LONG).show();
                             }
 
                         } catch (JSONException e) {
