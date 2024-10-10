@@ -67,7 +67,9 @@ public class SignupActivity extends AppCompatActivity {
 
                 if (password.equals(confirm)){
                     Toast.makeText(getApplicationContext(), "Signing up", Toast.LENGTH_LONG).show();
-                    createUser(username, "", password);
+                    createUser(username, "test@gmail.com", password);
+                    Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                    startActivity(intent);  // go to LoginActivity
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Password don't match", Toast.LENGTH_LONG).show();
@@ -84,9 +86,8 @@ public class SignupActivity extends AppCompatActivity {
         JSONObject userData = new JSONObject();
         try {
             userData.put("username", username);
-            userData.put("user_email", email);
+            userData.put("userEmail", email);
             userData.put("userPassword", password);
-            // Add other user data fields as needed
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -95,11 +96,10 @@ public class SignupActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                 Request.Method.POST,
                 URL_CREATE_USER,
-                userData,  // Send user data as request body
+                userData,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Handle the response (this will be "Success" or "Failed" from your Spring Boot endpoint)
                         Log.d("Volley Response", response.toString());
                         try {
                             String result = response.getString("result");
@@ -122,12 +122,11 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json");  // Specify content type
+                headers.put("Content-Type", "application/json");
                 return headers;
             }
         };
 
-        // Initialize the request queue and add the request
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjReq);
     }
