@@ -2,11 +2,25 @@ package com.example.androidexample;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserHome extends AppCompatActivity {
 
@@ -17,6 +31,9 @@ public class UserHome extends AppCompatActivity {
     private ImageButton userProfileButton;
 
     private TextView welcomeText;
+
+    private TextView gamesPlayed;
+    private TextView totalScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +53,10 @@ public class UserHome extends AppCompatActivity {
 
         // Set welcome text with the username
         welcomeText = findViewById(R.id.welcomeText);
-        welcomeText.setText("Welcome, " + username +  "!");
+        welcomeText.setText("Welcome, " + username +   "!");
+
+        gamesPlayed = findViewById(R.id.gamesPlayed);
+        totalScore = findViewById(R.id.totalScore);
 
         // Set click listeners for game buttons
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +65,9 @@ public class UserHome extends AppCompatActivity {
                 // Launch Play Activity
                 //Intent intent = new Intent(UserHome.this, PlayActivity.class);
                 //startActivity(intent);
+                gamesPlayed.setText("Games Played: " + 1);
+                totalScore.setText("Total Score: " + 500);
+                updateStats(Integer.parseInt(id));
             }
         });
 
@@ -85,4 +108,58 @@ public class UserHome extends AppCompatActivity {
             }
         });
     }
+
+    private void updateStats(int id) {
+        // URL for the PUT request
+        String URL_UPDATE_STATS = "http://coms-3090-070.class.las.iastate.edu:8080/Stats";
+
+        // Create JSON object to be sent in the PUT request
+        JSONObject statsData = new JSONObject();
+        try {
+            statsData.put("gamesPlayed", 1);
+            statsData.put("totalScore", 500);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // Create the PUT request
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+                Request.Method.POST,
+                URL_UPDATE_STATS,
+                statsData,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Volley Response", response.toString());
+                        try {
+                            String result = response.getString("result");
+                            if (result.equals("Success")) {
+                                Log.d("Update Stats", "Stats updated successfully");
+                            } else {
+                                Log.d("Update Stats", "Failed to update stats");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Volley Error", error.toString());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        // Initialize the request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+    }
+
 }

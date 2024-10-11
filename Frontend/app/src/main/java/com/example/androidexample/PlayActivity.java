@@ -1,2 +1,4 @@
-package com.example.androidexample;public class PlayActivity {
+package com.example.androidexample;
+
+public class PlayActivity {
 }
