@@ -16,6 +16,8 @@ public class UserHome extends AppCompatActivity {
     private Button leaderboardButton;
     private ImageButton userProfileButton;
 
+    private TextView welcomeText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +25,7 @@ public class UserHome extends AppCompatActivity {
 
         // Retrieve username from intent
         String username = getIntent().getStringExtra("USERNAME");
+        String id = getIntent().getStringExtra("ID");
 
         // Initialize UI elements
         playButton = findViewById(R.id.play_button);
@@ -32,7 +35,8 @@ public class UserHome extends AppCompatActivity {
         userProfileButton = findViewById(R.id.user_profile_button);
 
         // Set welcome text with the username
-        //welcomeText.setText("Welcome, " + username + "!");
+        welcomeText = findViewById(R.id.welcomeText);
+        welcomeText.setText("Welcome, " + username +  "!");
 
         // Set click listeners for game buttons
         playButton.setOnClickListener(new View.OnClickListener() {

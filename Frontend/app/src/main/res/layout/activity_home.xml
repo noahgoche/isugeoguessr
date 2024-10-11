@@ -5,18 +5,19 @@
     android:padding="16dp">
 
     <!-- User Profile Button -->
+
+    <!-- Logo Image -->
     <ImageButton
         android:id="@+id/user_profile_button"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:src="@color/IsuRed"
+        android:layout_marginEnd="2dp"
         android:contentDescription="User Profile"
-        android:scaleType="centerInside" />
+        android:scaleType="centerInside"
+        android:src="@color/IsuRed" />
 
-    <!-- Logo Image -->
     <ImageView
         android:id="@+id/logo_image"
         android:layout_width="wrap_content"
@@ -81,5 +82,12 @@
         android:text="Leaderboard"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="75px" />
 
 </RelativeLayout>

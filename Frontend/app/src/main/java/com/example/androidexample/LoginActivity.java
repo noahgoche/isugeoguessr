@@ -97,6 +97,8 @@ public class LoginActivity extends AppCompatActivity {
                                 JSONObject userObject = response.getJSONObject(i);
                                 String fetchedUsername = userObject.getString("userName");
                                 String fetchedPassword = userObject.getString("userPassword");
+                                //String fetchedId = userObject.getString("userId");
+                                //TODO Add Id to api object so we can actually get the ID to use later on when updated stats
 
                                 // Check username
                                 if (fetchedUsername.equals(usernameInput)) {
@@ -106,6 +108,8 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.d("Login", "Login successful for user: " + usernameInput);
                                         Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(LoginActivity.this, UserHome.class);
+                                        intent.putExtra("USERNAME", fetchedUsername);
+                                        //intent.putExtra("ID", fetchedId);
                                         startActivity(intent);
                                         break;  // Exit the loop once user is found
                                     } else {
