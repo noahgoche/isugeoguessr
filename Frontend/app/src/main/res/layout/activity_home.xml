@@ -89,7 +89,7 @@
         android:id="@+id/welcomeText"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="Explore Isu"
         android:textAlignment="center"
         android:textSize="75px" />
 
