@@ -95,9 +95,9 @@ public class LoginActivity extends AppCompatActivity {
                             // Loop all users
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject userObject = response.getJSONObject(i);
-                                String fetchedUsername = userObject.getString("userName");
+                                String fetchedUsername = userObject.getString("username");
                                 String fetchedPassword = userObject.getString("userPassword");
-                                String fetchedId = userObject.getString("userID");
+                                String fetchedId = userObject.getString("id");
 
                                 // Check username
                                 if (fetchedUsername.equals(usernameInput)) {
