@@ -10,9 +10,13 @@ import jakarta.persistence.Lob;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Entity
+@Getter @Setter @NoArgsConstructor
 public class Location {
 
     /*
@@ -29,47 +33,10 @@ public class Location {
     @Lob
     private Blob image;
 
-    //constructors
-
     public Location(String LocationName, String LocationCoords)
     {
         this.LocationName = LocationName;
         this.LocationCoords = LocationCoords;
-    }
-
-    public Location(){
-    }
-
-    //accessors and mutators
-
-    public int getLocationID()
-    {
-        return id;
-    }
-
-    public String getLocationName()
-    {
-        return LocationName;
-    }
-
-    public String getLocationCoords()
-    {
-        return LocationCoords;
-    }
-
-    public Blob getImage()
-    {
-        return image;
-    }
-
-    public void setLocationID(int id)
-    {
-        this.id = id;
-    }
-
-    public void setLocationName(String locationName)
-    {
-        LocationName = locationName;
     }
 
 }

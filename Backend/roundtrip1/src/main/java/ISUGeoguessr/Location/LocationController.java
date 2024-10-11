@@ -4,13 +4,9 @@ import java.util.List;
 import java.sql.SQLException;
 import java.io.IOException;
 
+import ISUGeoguessr.Stats.Stats;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -25,6 +21,12 @@ public class LocationController {
         return locationRepository.findAll();
     }
 
+    @GetMapping(path = "/Location/{id}")
+    Location findLocationById(@PathVariable int id){
+        return locationRepository.findById(id);
+    }
+
+
     @PostMapping(path = "/Location")
     String createLocation(@RequestBody Location location)
     {
@@ -36,11 +38,18 @@ public class LocationController {
         return "Success";
     }
 
-    @GetMapping(path = "/Location/{id}")
-    Location findLocationById(@PathVariable int id){
-        return locationRepository.findById(id);
+    @PutMapping(path = "/Location/{id}")
+    String updateLocationCoordsById(@PathVariable int id, @PathVariable String newCoords)
+    {
+        Location location = locationRepository.findById(id);
+        if (location == null)
+        {
+            return "Failed";
+        }
+        location.setLocationCoords(newCoords);
+        locationRepository.save(location);
+        return "Success";
     }
-
 
     @DeleteMapping(path = "/Location/{id}")
     String deleteLocationById(@PathVariable int id){

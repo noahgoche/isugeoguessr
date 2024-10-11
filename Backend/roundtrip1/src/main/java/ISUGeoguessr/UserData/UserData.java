@@ -1,14 +1,21 @@
 package ISUGeoguessr.UserData;
 
-
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 import ISUGeoguessr.Stats.Stats;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter @Setter
 public class UserData {
 
     /*
@@ -26,56 +33,24 @@ public class UserData {
      * @OneToMany tells springboot that one instance of UserData can map to multiple instances of Stats OR one user row can map to multiple rows of the stats table
      */
     @OneToMany
-    private List<Stats> stats;
-
-    //Constructors
+    private List<Stats> statsList;
 
     public UserData(String username, String userEmail, String userPassword)
     {
         this.username = username;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
-        stats = new ArrayList<>();
+        statsList = new ArrayList<>();
     }
 
-    public UserData(){
-    }
-
-    //Accessors and mutators
-
-    public int getUserID()
+    public UserData()
     {
-        return id;
+        statsList = new ArrayList<>();
     }
 
-    public String getUserName()
+    public void addStats(Stats stats)
     {
-        return username;
-    }
-
-    public String getUserEmail()
-    {
-        return userEmail;
-    }
-
-    public void setUsername(String newUsername)
-    {
-        username = newUsername;
-    }
-
-    public void setUserEmail(String newEmail)
-    {
-        userEmail = newEmail;
-    }
-
-    public String getUserPassword()
-    {
-        return userPassword;
-    }
-
-    public void setUserPassword(String newPassword)
-    {
-        userPassword = newPassword;
+        statsList.add(stats);
     }
 
 }

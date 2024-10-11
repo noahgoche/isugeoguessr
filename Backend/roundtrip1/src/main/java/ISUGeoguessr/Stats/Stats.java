@@ -1,14 +1,23 @@
 package ISUGeoguessr.Stats;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 
 import ISUGeoguessr.UserData.UserData;
 import org.hibernate.bytecode.enhance.spi.EnhancementInfo;
 
-@Entity
-public class Stats {
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Getter @Setter @NoArgsConstructor
+public class Stats {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +28,7 @@ public class Stats {
     private int gamesPlayed;
     private int gamesLost;
     private String gameMode;
+    private String username;
 
     /*
      * @ManyToOne tells springboot that multiple instances of Stats can map to one instance of OR multiple rows of the Stats table can map to one userdata row
@@ -30,7 +40,6 @@ public class Stats {
     @JsonIgnore
     private UserData userData;
 
-    //Constructors
 
     public Stats(String gameMode)
     {
@@ -38,77 +47,5 @@ public class Stats {
 
     }
 
-    public Stats(){}
-
-    //Accessors and mutators
-
-    public int getStatsId(){
-        return id;
-    }
-
-    public void setStatsId(int id)
-    {
-        this.id = id;
-    }
-
-    public int getWins()
-    {
-        return wins;
-    }
-
-    public void setWins(int wins)
-    {
-        this.wins = wins;
-    }
-
-    public int getTotalScore()
-    {
-        return totalScore;
-    }
-
-    public void setTotalScore(int totalScore)
-    {
-        this.totalScore = totalScore;
-    }
-
-    public float getTimePlayed()
-    {
-        return timePlayed;
-    }
-
-    public void setTimePlayed(float timePlayed)
-    {
-        this.timePlayed = timePlayed;
-    }
-
-    public int getGamesPlayed()
-    {
-        return gamesPlayed;
-    }
-
-    public void setGamesPlayed(int gamesPlayed)
-    {
-        this.gamesPlayed = gamesPlayed;
-    }
-
-    public int getGamesLost()
-    {
-        return gamesLost;
-    }
-
-    public void setGamesLost(int gamesLost)
-    {
-        this.gamesLost = gamesLost;
-    }
-
-    public String getGameMode()
-    {
-        return gameMode;
-    }
-
-    public void setGameMode(String gameMode)
-    {
-        this.gameMode = gameMode;
-    }
 
 }

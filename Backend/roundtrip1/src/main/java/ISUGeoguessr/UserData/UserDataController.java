@@ -2,15 +2,21 @@ package ISUGeoguessr.UserData;
 
 
 import java.util.List;
+
+import ISUGeoguessr.Stats.StatsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import ISUGeoguessr.Stats.*;
 
 @RestController
 public class UserDataController {
 
     @Autowired
     UserDataRepository userDataRepository;
+
+    @Autowired
+    StatsRepository statsRepository;
 
     @GetMapping(path = "/users")
     List<UserData> getAllUsers()
@@ -24,6 +30,26 @@ public class UserDataController {
         return userDataRepository.findById(id);
     }
 
+    @GetMapping(path = "users/password/{id}")
+    String getPasswordById(@PathVariable int id)
+    {
+        UserData userData = userDataRepository.findById(id);
+        if(userData == null)
+            return "failed";
+
+        return userData.getUserPassword();
+    }
+
+    @GetMapping(path = "users/Wins/{id}")
+    int getWinsById(@PathVariable int id)
+    {
+        UserData userData = userDataRepository.findById(id);
+        if(userData == null)
+            return -1;
+
+        return userData.getStatsList().get(0).getWins();
+    }
+
     @PostMapping(path = "/users")
     String createUser(@RequestBody UserData userData)
     {
@@ -35,11 +61,26 @@ public class UserDataController {
         return "Success";
     }
 
-    @DeleteMapping(path = "/users/{id}")
-    String deleteUserById(@PathVariable int id){
-        userDataRepository.deleteById(id);
-        return "deleted";
+    @PutMapping(path = "/users/{id}/Stats/{statsId}")
+    String assignStatsToUser(@PathVariable int id, @PathVariable int statsId) {
+        UserData userData = userDataRepository.findById(id);
+        Stats stats = statsRepository.findById(statsId);
+
+        if (userData == null || stats == null)
+        {
+            return "Failed";
+        }
+
+        userData.addStats(stats);
+        stats.setUserData(userData);
+        stats.setUsername(userData.getUsername());
+
+        userDataRepository.save(userData);
+        statsRepository.save(stats);
+
+        return "Success";
     }
+
 
     //Have to use form-data in postman to change password
     @PutMapping(path = "/users/password/{id}")
@@ -57,14 +98,51 @@ public class UserDataController {
         return "Password Updated";
     }
 
-    @GetMapping(path = "users/password/{id}")
-    String getPasswordById(@PathVariable int id)
+    //Have to use form-data in postman to change @RequestParam
+    @PutMapping(path = "/users/username/{id}")
+    String updateUsernameById(@PathVariable int id, @RequestParam String newUsername)
     {
         UserData userData = userDataRepository.findById(id);
-        if(userData == null)
-            return "failed";
 
-        return userData.getUserPassword();
+        if(userData == null)
+        {
+            return "failed";
+        }
+
+        userData.setUsername(newUsername);
+        userDataRepository.save(userData);
+        return "Username Updated";
+    }
+
+    //Have to use form-data in postman to change @RequestParam
+    @PutMapping(path = "/users/email/{id}")
+    String updateEmailById(@PathVariable int id, @RequestParam String newEmail)
+    {
+        UserData userData = userDataRepository.findById(id);
+
+        if(userData == null)
+        {
+            return "failed";
+        }
+
+        userData.setUserEmail(newEmail);
+        userDataRepository.save(userData);
+        return "Email Updated";
+    }
+
+    @DeleteMapping(path = "/users/{id}")
+    String deleteUserById(@PathVariable int id){
+        UserData userData = userDataRepository.findById(id);
+        List<Stats> stats = userData.getStatsList();
+
+        for(int i =0; i < stats.size(); i++)
+        {
+            stats.get(i).setUserData(null);
+        }
+        userData.setStatsList(null);
+
+        userDataRepository.deleteById(id);
+        return "deleted";
     }
 
 }
