@@ -1,0 +1,33 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.IsuApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- Primary color used for UI elements such as buttons and app bar -->
+        <item name="colorPrimary">@color/primaryTextColor</item>
+    </style>
+
+    <!-- Extend the base theme -->
+    <style name="Theme.IsuApp" parent="Base.Theme.IsuApp" />
+
+    <!-- Define a custom button style for all buttons -->
+    <style name="CustomButtonStyle" parent="Widget.Material3.Button">
+        <!-- Remove any default background tint applied by Material3 -->
+        <item name="backgroundTint">@null</item>
+        <!-- Set button background using drawable -->
+        <item name="android:background">@drawable/buttonshape</item>
+        <!-- Set text color -->
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <!-- Set corner radius (optional) -->
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <!-- Specific style for the Play button -->
+    <style name="PlayButtonStyle" parent="Widget.Material3.Button">
+        <!-- Remove default tint and use drawable for background -->
+        <item name="backgroundTint">@null</item>
+        <item name="android:background">@drawable/buttonshape</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+</resources>
