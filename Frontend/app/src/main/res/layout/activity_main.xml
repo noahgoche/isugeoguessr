@@ -28,16 +28,15 @@
         android:text="Explore ISU"
         android:textAlignment="center"
         android:textColor="@color/primaryTextColor"
-        android:textSize="40dp"
-         />
+        android:textSize="40dp" />
 
     <!-- Username TextView -->
     <TextView
         android:id="@+id/main_username_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/main_msg_txt"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:text="{{username}}"
         android:textColor="#000000"
@@ -50,25 +49,25 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:padding="10dp"
-    android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-    <Button
-        android:id="@+id/main_login_btn"
-        style="@style/CustomButtonStyle"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:text="Login" />
+        <Button
+            android:id="@+id/main_login_btn"
+            style="@style/CustomButtonStyle"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:text="Login" />
 
-    <Button
-        android:id="@+id/main_signup_btn"
-        style="@style/CustomButtonStyle"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Signup" />
+        <Button
+            android:id="@+id/main_signup_btn"
+            style="@style/CustomButtonStyle"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Signup" />
 
-</LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>
