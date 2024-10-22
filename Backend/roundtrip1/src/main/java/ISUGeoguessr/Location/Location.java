@@ -28,6 +28,7 @@ public class Location {
     private int id;
     private String LocationName;
     private String LocationCoords;
+    private String imageFilePath;
 
     @JsonIgnore
     @Lob
