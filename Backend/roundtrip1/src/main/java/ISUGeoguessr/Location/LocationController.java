@@ -18,7 +18,8 @@ public class LocationController {
     @Autowired
     LocationRepository locationRepository;
 
-   // private static String directory = "/tmp/";
+    //todo set to server folder once we pick a permanent location outside of testing
+    //private final static String IMAGE_FILEPATH = "/";
 
 
     @GetMapping(path = "/Location")
@@ -33,9 +34,11 @@ public class LocationController {
     }
 
     @GetMapping(path = "/Location/images/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    byte[] findImageFileById(@PathVariable int id) throws IOException{
+    byte[] findImageById(@PathVariable int id) throws IOException{
         Location location = locationRepository.findById(id);
-        File imageFile = new File(location.getImageFilePath());
+        File imageFile = new File(location.getImageFileName());
+
+        //File imageFile = new File(IMAGE_FILEPATH + location.getImageFileName());
 
         return Files.readAllBytes(imageFile.toPath());
     }
@@ -60,19 +63,6 @@ public class LocationController {
             return "Failed";
         }
         location.setLocationCoords(newCoords);
-        locationRepository.save(location);
-        return "Success";
-    }
-
-    @PutMapping(path = "/image/{id}")
-    String updateImageFileById(@PathVariable int id, @PathVariable String fileName)
-    {
-        Location location = locationRepository.findById(id);
-        if (location == null)
-        {
-            return "Failed";
-        }
-        location.setImageFilePath(fileName);
         locationRepository.save(location);
         return "Success";
     }
