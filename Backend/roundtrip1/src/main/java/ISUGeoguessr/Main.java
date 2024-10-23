@@ -16,6 +16,7 @@ import ISUGeoguessr.Stats.Stats;
 import ISUGeoguessr.Stats.StatsRepository;
 
 
+
 @SpringBootApplication
 @EnableJpaRepositories
 class Main {

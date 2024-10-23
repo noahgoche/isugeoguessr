@@ -1,7 +1,5 @@
 package com.example.androidexample;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -65,13 +65,12 @@ public class SignupActivity extends AppCompatActivity {
                 String password = passwordEditText.getText().toString();
                 String confirm = confirmEditText.getText().toString();
 
-                if (password.equals(confirm)){
+                if (password.equals(confirm)) {
                     Toast.makeText(getApplicationContext(), "Signing up...", Toast.LENGTH_LONG).show();
                     createUser(username, "test@gmail.com", password);
                     Intent intent = new Intent(SignupActivity.this, MainActivity.class);
                     startActivity(intent);  // go to LoginActivity
-                }
-                else {
+                } else {
                     Toast.makeText(getApplicationContext(), "Password don't match", Toast.LENGTH_LONG).show();
                 }
             }
