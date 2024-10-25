@@ -1,14 +1,12 @@
 package com.example.androidexample;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
         /* extract data passed into this activity from another activity */
         Bundle extras = getIntent().getExtras();
-        if(extras == null) {
-           // messageText.setText("Home Page");
+        if (extras == null) {
+            // messageText.setText("Home Page");
             usernameText.setVisibility(View.INVISIBLE);             // set username text invisible initially
         } else {
             messageText.setText("Welcome");

@@ -1,12 +1,13 @@
 package com.example.androidexample;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -53,7 +54,7 @@ public class UserHome extends AppCompatActivity {
 
         // Set welcome text with the username
         welcomeText = findViewById(R.id.welcomeText);
-        welcomeText.setText("Welcome, " + username +   "!");
+        welcomeText.setText("Welcome, " + username + "!");
 
         gamesPlayed = findViewById(R.id.gamesPlayed);
         totalScore = findViewById(R.id.totalScore);
@@ -93,7 +94,7 @@ public class UserHome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Launch Leaderboard Activity
-               // Intent intent = new Intent(UserHome.this, LeaderboardActivity.class);
+                // Intent intent = new Intent(UserHome.this, LeaderboardActivity.class);
                 //startActivity(intent);
             }
         });

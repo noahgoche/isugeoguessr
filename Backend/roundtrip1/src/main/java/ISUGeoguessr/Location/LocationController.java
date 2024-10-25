@@ -1,11 +1,14 @@
 package ISUGeoguessr.Location;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.List;
 import java.sql.SQLException;
 import java.io.IOException;
 
 import ISUGeoguessr.Stats.Stats;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -14,6 +17,10 @@ public class LocationController {
 
     @Autowired
     LocationRepository locationRepository;
+
+    //todo set to server folder once we pick a permanent location outside of testing
+    //private final static String IMAGE_FILEPATH = "/";
+
 
     @GetMapping(path = "/Location")
     List<Location> getAllLocations()
@@ -26,6 +33,15 @@ public class LocationController {
         return locationRepository.findById(id);
     }
 
+    @GetMapping(path = "/Location/images/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    byte[] findImageById(@PathVariable int id) throws IOException{
+        Location location = locationRepository.findById(id);
+        File imageFile = new File(location.getImageFileName());
+
+        //File imageFile = new File(IMAGE_FILEPATH + location.getImageFileName());
+
+        return Files.readAllBytes(imageFile.toPath());
+    }
 
     @PostMapping(path = "/Location")
     String createLocation(@RequestBody Location location)
