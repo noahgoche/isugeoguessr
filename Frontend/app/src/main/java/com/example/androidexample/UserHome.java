@@ -73,11 +73,7 @@ public class UserHome extends AppCompatActivity implements WebSocketListener {
         });
 
         chatButton.setOnClickListener(view -> {
-            String serverUrl = "ws://localhost:8080/chat/" + "hey";
 
-            // Establish WebSocket connection and set listener
-            WebSocketManager.getInstance().connectWebSocket(serverUrl);
-            WebSocketManager.getInstance().setWebSocketListener(this);
 
             // got to chat activity
             Intent intent = new Intent(this, Chat.class);

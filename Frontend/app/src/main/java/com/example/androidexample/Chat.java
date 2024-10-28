@@ -22,6 +22,11 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chat);
+        String serverUrl = "ws://10.0.2.2:8080/chat/"+ "INSERT_USERNAME";
+
+        // Establish WebSocket connection and set listener
+        WebSocketManager.getInstance().connectWebSocket(serverUrl);
+        WebSocketManager.getInstance().setWebSocketListener(this);
 
         // Initialize UI elements
         sendBtn = findViewById(R.id.sendBtn);
@@ -34,7 +39,7 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
         sendBtn.setOnClickListener(v -> {
             try {
                 // send message
-                WebSocketManager.getInstance().sendMessage("jeu");
+                WebSocketManager.getInstance().sendMessage(msgEtx.getText().toString());
             } catch (Exception e) {
                 Log.d("ExceptionSendMessage:", e.getMessage().toString());
             }
