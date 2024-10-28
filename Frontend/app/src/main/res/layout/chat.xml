@@ -4,34 +4,21 @@
     android:padding="16dp"
     android:background="#EFEFEF">
 
-    <!-- Chat Messages List (Scrollable) -->
-    <ScrollView
-        android:id="@+id/chatScrollView"
+    <!-- TextView for displaying chat messages -->
+    <TextView
+        android:id="@+id/tx1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignParentTop="true"
         android:layout_above="@id/messageInputLayout"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="8dp"
+        android:padding="8dp"
+        android:background="#FFFFFF"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:scrollbars="vertical" />
 
-        <LinearLayout
-            android:id="@+id/chatMessagesLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp">
-
-            <!-- Placeholder chat message -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp"
-                android:text="Welcome to the chat!"
-                android:textColor="#000000" />
-        </LinearLayout>
-    </ScrollView>
-
-    <!-- Message Input Layout -->
+    <!-- Message input and buttons layout -->
     <LinearLayout
         android:id="@+id/messageInputLayout"
         android:layout_width="match_parent"
@@ -42,20 +29,20 @@
         android:background="#FFFFFF"
         android:elevation="2dp">
 
-        <!-- Text Input for New Message -->
+        <!-- EditText for typing messages -->
         <EditText
-            android:id="@+id/messageInput"
+            android:id="@+id/msgEdt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Type a message"
             android:padding="12dp"
+            android:background="@android:drawable/edit_text"
             android:textColor="#000000" />
-           <!-- android:background="@drawable/message_input_background"-->
 
         <!-- Send Button -->
         <Button
-            android:id="@+id/sendButton"
+            android:id="@+id/sendBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -64,4 +51,14 @@
             android:textColor="#FFFFFF"
             android:padding="12dp" />
     </LinearLayout>
+
+    <!-- Back button -->
+    <Button
+        android:id="@+id/backMainBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:text="Back" />
+
 </RelativeLayout>
