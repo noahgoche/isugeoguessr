@@ -33,11 +33,15 @@ public class LocationController {
         return locationRepository.findById(id);
     }
 
+    @GetMapping(path = "/Location/Coordinates/{id}")
+    String findCoordinatesById(@PathVariable int id)
+    {
+        return "latitude: " + locationRepository.findById(id).getLatitude() + ", longitude: " + locationRepository.findById(id).getLongitude();
+    }
+
     @GetMapping(path = "/Location/images/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     byte[] findImageById(@PathVariable int id) throws IOException{
         Location location = locationRepository.findById(id);
-        //File imageFile = new File(location.getImageFileName());
-
         File imageFile = new File(IMAGE_FILEPATH + location.getImageFileName());
 
         return Files.readAllBytes(imageFile.toPath());
@@ -55,14 +59,15 @@ public class LocationController {
     }
 
     @PutMapping(path = "/Location/{id}")
-    String updateLocationCoordsById(@PathVariable int id, @PathVariable String newCoords)
+    String updateLocationCoordsById(@PathVariable int id, @PathVariable double newLat, @PathVariable double newLong)
     {
         Location location = locationRepository.findById(id);
         if (location == null)
         {
             return "Failed";
         }
-        location.setLocationCoords(newCoords);
+        location.setLatitude(newLat);
+        location.setLongitude(newLong);
         locationRepository.save(location);
         return "Success";
     }

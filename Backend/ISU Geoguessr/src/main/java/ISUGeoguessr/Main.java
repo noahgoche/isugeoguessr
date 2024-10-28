@@ -23,7 +23,8 @@ class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
-//
+
+//  Test data
 //    @Bean
 //    CommandLineRunner initUser(UserDataRepository userDataRepository, LocationRepository locationRepository, StatsRepository statsRepository) {
 //        return args -> {
