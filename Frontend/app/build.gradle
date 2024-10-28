@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'com.example.androidexample'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.androidexample"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -32,7 +32,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.0.2' // Use the latest version
     implementation 'org.osmdroid:osmdroid-android:6.1.20'  // Adjust to a stable version
     implementation 'org.osmdroid:osmdroid-wms:6.1.20'
-    implementation 'org.osmdroid:osmdroid-android:6.1.20'
+    implementation 'com.github.hannesa2:panoramagl:1.11'
+
 
     // Ensure the same version for both
     testImplementation 'junit:junit:4.13.2'

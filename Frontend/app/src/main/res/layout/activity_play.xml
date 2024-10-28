@@ -2,14 +2,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- ImageView placeholder for the location photo -->
-    <ImageView
+    <!-- PLView for the panoramic image -->
+    <FrameLayout
         android:id="@+id/locationPhoto"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_alignParentTop="true"
-        android:background="#CCCCCC"
-        android:contentDescription="Location Photo Placeholder" />
+        android:layout_alignParentTop="true" />
 
     <!-- MapView for displaying the map -->
     <org.osmdroid.views.MapView
