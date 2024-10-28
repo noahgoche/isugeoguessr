@@ -27,13 +27,17 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String LocationName;
-    private String LocationCoords;
     private String imageFileName;
+    private double latitude;
+    private double longitude;
 
-    public Location(String LocationName, String LocationCoords)
+
+    public Location(String LocationName, double latitude, double longitude, String imageFileName)
     {
         this.LocationName = LocationName;
-        this.LocationCoords = LocationCoords;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.imageFileName = imageFileName;
     }
 
 }
