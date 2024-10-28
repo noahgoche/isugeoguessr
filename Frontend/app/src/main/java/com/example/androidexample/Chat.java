@@ -28,26 +28,15 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
         msgEtx = findViewById(R.id.msgEdt);
         msgTv = findViewById(R.id.tx1);
 
-        // Placeholder WebSocket URL (replace with actual server URL)
-        String serverUrl = "ws://yourserver.com/chat";
-
-        // Connect WebSocket and set listener
-        WebSocketManager1.getInstance().connectWebSocket(serverUrl);
-        WebSocketManager1.getInstance().setWebSocketListener(Chat.this);
+        WebSocketManager.getInstance().setWebSocketListener(Chat.this);
 
         // Send button listener
         sendBtn.setOnClickListener(v -> {
-            String message = msgEtx.getText().toString();
-            if (!message.isEmpty()) {
-                try {
-                    WebSocketManager1.getInstance().sendMessage(message);
-                    msgEtx.setText(""); // Clear input field
-                } catch (Exception e) {
-                    Log.d("ExceptionSendMessage:", e.getMessage());
-                    Toast.makeText(this, "Failed to send message", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(this, "Please enter a message", Toast.LENGTH_SHORT).show();
+            try {
+                // send message
+                WebSocketManager.getInstance().sendMessage("jeu");
+            } catch (Exception e) {
+                Log.d("ExceptionSendMessage:", e.getMessage().toString());
             }
         });
     }
@@ -55,9 +44,15 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
     // Handle incoming WebSocket messages
     @Override
     public void onWebSocketMessage(String message) {
+        /**
+         * In Android, all UI-related operations must be performed on the main UI thread
+         * to ensure smooth and responsive user interfaces. The 'runOnUiThread' method
+         * is used to post a runnable to the UI thread's message queue, allowing UI updates
+         * to occur safely from a background or non-UI thread.
+         */
         runOnUiThread(() -> {
-            String currentMessages = msgTv.getText().toString();
-            msgTv.setText(currentMessages + "\n" + message);
+            String s = msgTv.getText().toString();
+            msgTv.setText(s + "\n"+message);
         });
     }
 
@@ -66,28 +61,20 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
     public void onWebSocketClose(int code, String reason, boolean remote) {
         String closedBy = remote ? "server" : "local";
         runOnUiThread(() -> {
-            String currentMessages = msgTv.getText().toString();
-            msgTv.setText(currentMessages + "\n---\nConnection closed by " + closedBy + "\nReason: " + reason);
+            String s = msgTv.getText().toString();
+            msgTv.setText(s + "---\nconnection closed by " + closedBy + "\nreason: " + reason);
         });
     }
 
     // Handle WebSocket open events
     @Override
-    public void onWebSocketOpen(ServerHandshake handshakedata) {
-        runOnUiThread(() -> {
-            String currentMessages = msgTv.getText().toString();
-            msgTv.setText(currentMessages + "\n---\nConnected to chat!");
-        });
-    }
+    public void onWebSocketOpen(ServerHandshake handshakedata) {}
+
 
     // Handle WebSocket errors
     @Override
-    public void onWebSocketError(Exception ex) {
-        runOnUiThread(() -> {
-            String currentMessages = msgTv.getText().toString();
-            msgTv.setText(currentMessages + "\n---\nError: " + ex.getMessage());
-        });
-    }
+    public void onWebSocketError(Exception ex) {}
+
 
     @Override
     protected void onDestroy() {

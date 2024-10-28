@@ -14,13 +14,13 @@ import java.net.URI;
  * This instance ensures that there is only one WebSocketManager throughout
  * the application's lifecycle, allowing for centralized WebSocket handling.
  */
-public class WebSocketManager1 {
+public class WebSocketManager {
 
-    private static WebSocketManager1 instance;
+    private static WebSocketManager instance;
     private MyWebSocketClient webSocketClient;
     private WebSocketListener webSocketListener;
 
-    private WebSocketManager1() {}
+    private WebSocketManager() {}
 
     /**
      * Retrieves a synchronized instance of the WebSocketManager, ensuring that
@@ -29,9 +29,9 @@ public class WebSocketManager1 {
      *
      * @return A synchronized instance of WebSocketManager.
      */
-    public static synchronized WebSocketManager1 getInstance() {
+    public static synchronized WebSocketManager getInstance() {
         if (instance == null) {
-            instance = new WebSocketManager1();
+            instance = new WebSocketManager();
         }
         return instance;
     }

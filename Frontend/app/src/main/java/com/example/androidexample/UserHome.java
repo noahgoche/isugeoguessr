@@ -18,13 +18,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserHome extends AppCompatActivity {
+public class UserHome extends AppCompatActivity implements WebSocketListener {
 
     private Button playButton;
     private Button chatButton;
@@ -71,15 +72,17 @@ public class UserHome extends AppCompatActivity {
             }
         });
 
-       chatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Launch chat Activity
-                Intent intent = new Intent(UserHome.this, Chat.class);
-                startActivity(intent);
-            }
-        });
+        chatButton.setOnClickListener(view -> {
+            String serverUrl = "ws://localhost:8080/chat/" + "hey";
 
+            // Establish WebSocket connection and set listener
+            WebSocketManager.getInstance().connectWebSocket(serverUrl);
+            WebSocketManager.getInstance().setWebSocketListener(this);
+
+            // got to chat activity
+            Intent intent = new Intent(this, Chat.class);
+            startActivity(intent);
+        });
         shopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,4 +166,23 @@ public class UserHome extends AppCompatActivity {
         requestQueue.add(jsonObjReq);
     }
 
+    @Override
+    public void onWebSocketOpen(ServerHandshake handshakedata) {
+
+    }
+
+    @Override
+    public void onWebSocketMessage(String message) {
+
+    }
+
+    @Override
+    public void onWebSocketClose(int code, String reason, boolean remote) {
+
+    }
+
+    @Override
+    public void onWebSocketError(Exception ex) {
+
+    }
 }
