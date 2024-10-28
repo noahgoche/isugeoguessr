@@ -14,22 +14,25 @@ import org.java_websocket.handshake.ServerHandshake;
 
 public class Chat extends AppCompatActivity implements WebSocketListener {
 
-    private Button sendBtn, backMainBtn;
+    private Button sendBtn;
     private EditText msgEtx;
     private TextView msgTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.tx1);
+        setContentView(R.layout.chat);
 
         // Initialize UI elements
         sendBtn = findViewById(R.id.sendBtn);
-        backMainBtn = findViewById(R.id.backMainBtn);
         msgEtx = findViewById(R.id.msgEdt);
         msgTv = findViewById(R.id.tx1);
 
-        // Connect this activity to the WebSocket instance
+        // Placeholder WebSocket URL (replace with actual server URL)
+        String serverUrl = "ws://yourserver.com/chat";
+
+        // Connect WebSocket and set listener
+        WebSocketManager1.getInstance().connectWebSocket(serverUrl);
         WebSocketManager1.getInstance().setWebSocketListener(Chat.this);
 
         // Send button listener
@@ -37,7 +40,6 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
             String message = msgEtx.getText().toString();
             if (!message.isEmpty()) {
                 try {
-                    // Send message through WebSocket
                     WebSocketManager1.getInstance().sendMessage(message);
                     msgEtx.setText(""); // Clear input field
                 } catch (Exception e) {
@@ -48,16 +50,10 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
                 Toast.makeText(this, "Please enter a message", Toast.LENGTH_SHORT).show();
             }
         });
-
-        // Back button listener
-        backMainBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        });
     }
 
     // Handle incoming WebSocket messages
-
+    @Override
     public void onWebSocketMessage(String message) {
         runOnUiThread(() -> {
             String currentMessages = msgTv.getText().toString();
@@ -66,7 +62,7 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
     }
 
     // Handle WebSocket close events
-
+    @Override
     public void onWebSocketClose(int code, String reason, boolean remote) {
         String closedBy = remote ? "server" : "local";
         runOnUiThread(() -> {
@@ -76,7 +72,7 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
     }
 
     // Handle WebSocket open events
-
+    @Override
     public void onWebSocketOpen(ServerHandshake handshakedata) {
         runOnUiThread(() -> {
             String currentMessages = msgTv.getText().toString();
@@ -85,7 +81,7 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
     }
 
     // Handle WebSocket errors
-
+    @Override
     public void onWebSocketError(Exception ex) {
         runOnUiThread(() -> {
             String currentMessages = msgTv.getText().toString();
@@ -96,6 +92,6 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       // WebSocketManager1.getInstance().disconnect(); // Disconnect WebSocket when activity is destroyed
+        // WebSocketManager1.getInstance().disconnect(); // Disconnect WebSocket when activity is destroyed
     }
 }

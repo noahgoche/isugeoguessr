@@ -4,21 +4,24 @@
     android:padding="16dp"
     android:background="#EFEFEF">
 
-    <!-- TextView for displaying chat messages -->
-    <TextView
-        android:id="@+id/tx1"
+    <!-- Scrollable area for displaying chat messages -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_alignParentTop="true"
         android:layout_above="@id/messageInputLayout"
-        android:layout_marginBottom="8dp"
-        android:padding="8dp"
-        android:background="#FFFFFF"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:scrollbars="vertical" />
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="8dp">
 
-    <!-- Message input and buttons layout -->
+        <TextView
+            android:id="@+id/tx1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="The conversation will appear here:\n"
+            android:textSize="20sp"
+            android:scrollbars="vertical" />
+    </ScrollView>
+
+    <!-- Message input and send button layout -->
     <LinearLayout
         android:id="@+id/messageInputLayout"
         android:layout_width="match_parent"
@@ -52,7 +55,8 @@
             android:padding="12dp" />
     </LinearLayout>
 
-    <!-- Back button -->
+    <!-- Uncomment the back button if needed -->
+    <!--
     <Button
         android:id="@+id/backMainBtn"
         android:layout_width="wrap_content"
@@ -60,5 +64,5 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:text="Back" />
-
+    -->
 </RelativeLayout>
