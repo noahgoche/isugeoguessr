@@ -1,9 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".PlayActivity">
+    android:layout_height="match_parent">
 
+    <!-- ImageView placeholder for the location photo -->
+    <ImageView
+        android:id="@+id/locationPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_alignParentTop="true"
+        android:background="#CCCCCC"
+        android:contentDescription="Location Photo Placeholder" />
+
+    <!-- MapView for displaying the map -->
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_below="@id/locationPhoto"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Submit Button for confirming the marker's location -->
+    <Button
+        android:id="@+id/submitLocationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mapView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Submit Location" />
 
 </RelativeLayout>

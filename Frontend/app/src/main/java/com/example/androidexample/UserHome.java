@@ -1,5 +1,6 @@
 package com.example.androidexample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -64,11 +65,11 @@ public class UserHome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Launch Play Activity
-                //Intent intent = new Intent(UserHome.this, PlayActivity.class);
-                //startActivity(intent);
-                gamesPlayed.setText("Games Played: " + 1);
-                totalScore.setText("Total Score: " + 500);
-                updateStats(Integer.parseInt(id));
+                Intent intent = new Intent(UserHome.this, PlayActivity.class);
+                startActivity(intent);
+                //gamesPlayed.setText("Games Played: " + 1);
+                //otalScore.setText("Total Score: " + 500);
+                //updateStats(Integer.parseInt(id));
             }
         });
 
