@@ -18,8 +18,8 @@ public class LocationController {
     @Autowired
     LocationRepository locationRepository;
 
-    //todo set to server folder once we pick a permanent location outside of testing
-    //private final static String IMAGE_FILEPATH = "/";
+    //String for the file path on the server
+    private final static String IMAGE_FILEPATH = "/srv/images/";
 
 
     @GetMapping(path = "/Location")
@@ -36,9 +36,9 @@ public class LocationController {
     @GetMapping(path = "/Location/images/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     byte[] findImageById(@PathVariable int id) throws IOException{
         Location location = locationRepository.findById(id);
-        File imageFile = new File(location.getImageFileName());
+        //File imageFile = new File(location.getImageFileName());
 
-        //File imageFile = new File(IMAGE_FILEPATH + location.getImageFileName());
+        File imageFile = new File(IMAGE_FILEPATH + location.getImageFileName());
 
         return Files.readAllBytes(imageFile.toPath());
     }

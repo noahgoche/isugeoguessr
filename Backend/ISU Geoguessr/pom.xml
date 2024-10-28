@@ -5,7 +5,7 @@
 
 <modelVersion>4.0.0</modelVersion>
 <groupId>ISUGeoguessr</groupId>
-<artifactId>roundtrip1</artifactId>
+<artifactId>ISUGeoguessr</artifactId>
 <version>1.0.0</version>
 
 <!-- To make it a spring boot project -->
