@@ -27,7 +27,7 @@ import java.util.Map;
 public class UserHome extends AppCompatActivity {
 
     private Button playButton;
-    private Button multiplayerButton;
+    private Button chatButton;
     private Button shopButton;
     private Button leaderboardButton;
     private ImageButton userProfileButton;
@@ -48,7 +48,7 @@ public class UserHome extends AppCompatActivity {
 
         // Initialize UI elements
         playButton = findViewById(R.id.play_button);
-        multiplayerButton = findViewById(R.id.multiplayer_button);
+       chatButton = findViewById(R.id.chat_button);
         shopButton = findViewById(R.id.shop_button);
         leaderboardButton = findViewById(R.id.leaderboard_button);
         userProfileButton = findViewById(R.id.user_profile_button);
@@ -67,18 +67,16 @@ public class UserHome extends AppCompatActivity {
                 // Launch Play Activity
                 Intent intent = new Intent(UserHome.this, PlayActivity.class);
                 startActivity(intent);
-                //gamesPlayed.setText("Games Played: " + 1);
-                //otalScore.setText("Total Score: " + 500);
-                //updateStats(Integer.parseInt(id));
+                finish();
             }
         });
 
-        multiplayerButton.setOnClickListener(new View.OnClickListener() {
+       chatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Launch Multiplayer Activity
-                //Intent intent = new Intent(UserHome.this, MultiplayerActivity.class);
-                //startActivity(intent);
+                // Launch chat Activity
+                Intent intent = new Intent(UserHome.this, Chat.class);
+                startActivity(intent);
             }
         });
 
@@ -95,8 +93,9 @@ public class UserHome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Launch Leaderboard Activity
-                // Intent intent = new Intent(UserHome.this, LeaderboardActivity.class);
-                //startActivity(intent);
+                 Intent intent = new Intent(UserHome.this, Leaderboard.class);
+                startActivity(intent);
+
             }
         });
 

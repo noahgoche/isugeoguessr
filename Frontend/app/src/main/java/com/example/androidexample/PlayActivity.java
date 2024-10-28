@@ -1,5 +1,6 @@
 package com.example.androidexample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.Button;
@@ -110,6 +111,11 @@ public class PlayActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "No location selected!", Toast.LENGTH_SHORT).show();
             }
+            // have like five rounds of guessing before this
+            Intent intent = new Intent(PlayActivity.this, GameOver.class);
+            startActivity(intent);
+            finish();
+
         });
     }
 

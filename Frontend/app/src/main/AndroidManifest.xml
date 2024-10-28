@@ -27,7 +27,18 @@
             android:exported="false" />
 
         <activity
+            android:name=".GameOver"
+            android:exported="false" />
+
+        <activity
+            android:name=".Leaderboard"
+            android:exported="false" />
+
+        <activity
             android:name=".PlayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Chat"
             android:exported="false" />
 
         <activity

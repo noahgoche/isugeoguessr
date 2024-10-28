@@ -43,9 +43,9 @@
         android:textSize="18sp" />
     ]
 
-    <!-- Multiplayer Button -->
+    <!-- Stupid ass chat Button -->
     <Button
-        android:id="@+id/multiplayer_button"
+        android:id="@+id/chat_button"
         style="@style/PlayButtonStyle"
 
         android:layout_width="match_parent"
@@ -53,7 +53,7 @@
         android:layout_below="@id/play_button"
         android:layout_margin="8dp"
         android:layout_marginTop="16dp"
-        android:text="Multiplayer"
+        android:text="Chat"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 
@@ -63,7 +63,7 @@
         style="@style/PlayButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/multiplayer_button"
+        android:layout_below="@id/chat_button"
         android:layout_margin="8dp"
         android:layout_marginTop="16dp"
         android:text="Shop"

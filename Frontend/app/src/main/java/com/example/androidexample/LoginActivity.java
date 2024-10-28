@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, UserHome.class);
                 startActivity(intent);
+                finish();
                 /* grab strings from user inputs */
                // String username = usernameEditText.getText().toString();
                // String password = passwordEditText.getText().toString();
