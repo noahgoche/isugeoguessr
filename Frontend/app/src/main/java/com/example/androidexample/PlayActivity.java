@@ -17,6 +17,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
+import android.view.View;
 
 public class PlayActivity extends AppCompatActivity {
 
@@ -63,7 +64,22 @@ public class PlayActivity extends AppCompatActivity {
         // Initialize other UI elements
         mapView = findViewById(R.id.mapView);
         submitLocationButton = findViewById(R.id.submitLocationButton);
+        Button mapToggleButton = findViewById(R.id.mapToggleButton); // Find the new button
 
+        // Toggle map visibility when map button is clicked
+        mapToggleButton.setOnClickListener(v -> {
+            if (mapView.getVisibility() == View.GONE) {
+                mapView.setVisibility(View.VISIBLE);
+                submitLocationButton.setVisibility(View.VISIBLE);
+
+                mapToggleButton.setText("Close Map"); // Update button text to "Close Map"
+            } else {
+                mapView.setVisibility(View.GONE);
+                submitLocationButton.setVisibility(View.GONE);
+
+                mapToggleButton.setText("Map"); // Reset button text
+            }
+        });
 
 
 

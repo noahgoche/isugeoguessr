@@ -6,26 +6,38 @@
     <FrameLayout
         android:id="@+id/locationPhoto"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true" />
 
-    <!-- MapView for displaying the map -->
+    <!-- MapView for displaying the map (initially set to GONE) -->
     <org.osmdroid.views.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_below="@id/locationPhoto"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginTop="320dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" /> <!-- Set initial visibility to GONE -->
 
     <!-- Submit Button for confirming the marker's location -->
     <Button
         android:id="@+id/submitLocationButton"
+        style="@style/PlayButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/mapView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Submit Location" />
+        android:text="Submit Location"
+        android:visibility="gone"/>
 
+    <!-- Map toggle button in the bottom-right corner -->
+    <Button
+        android:id="@+id/mapToggleButton"
+        style="@style/PlayButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:text="Map" />
 </RelativeLayout>

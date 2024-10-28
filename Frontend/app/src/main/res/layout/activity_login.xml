@@ -71,6 +71,8 @@
         <Button
             android:id="@+id/login_login_btn"
             android:layout_width="150dp"
+            style="@style/PlayButtonStyle"
+
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:text="Login"
@@ -79,6 +81,7 @@
 
         <Button
             android:id="@+id/login_signup_btn"
+            style="@style/PlayButtonStyle"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
