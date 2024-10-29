@@ -6,6 +6,7 @@
 
     <!-- Scrollable area for displaying chat messages -->
     <ScrollView
+        android:id="@+id/chatScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_above="@id/messageInputLayout"
@@ -50,19 +51,21 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Send"
-            android:backgroundTint="#6200EA"
+            android:backgroundTint='@color/IsuRed'
             android:textColor="#FFFFFF"
             android:padding="12dp" />
     </LinearLayout>
 
     <!-- Uncomment the back button if needed -->
-    <!--
+
     <Button
-        android:id="@+id/backMainBtn"
+        android:id="@+id/backButton"
+        android:backgroundTint='@color/IsuRed'
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:text="Back" />
-    -->
+
 </RelativeLayout>
