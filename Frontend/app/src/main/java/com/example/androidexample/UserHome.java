@@ -49,7 +49,7 @@ public class UserHome extends AppCompatActivity implements WebSocketListener {
 
         // Initialize UI elements
         playButton = findViewById(R.id.play_button);
-       chatButton = findViewById(R.id.chat_button);
+        chatButton = findViewById(R.id.chat_button);
         shopButton = findViewById(R.id.shop_button);
         leaderboardButton = findViewById(R.id.leaderboard_button);
         userProfileButton = findViewById(R.id.user_profile_button);
@@ -73,10 +73,9 @@ public class UserHome extends AppCompatActivity implements WebSocketListener {
         });
 
         chatButton.setOnClickListener(view -> {
-
-
-            // got to chat activity
+            //go to chat activity
             Intent intent = new Intent(this, Chat.class);
+            intent.putExtra("USERNAME", username);
             startActivity(intent);
         });
         shopButton.setOnClickListener(new View.OnClickListener() {
