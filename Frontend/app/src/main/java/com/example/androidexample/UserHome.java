@@ -29,7 +29,7 @@ public class UserHome extends AppCompatActivity implements WebSocketListener {
 
     private Button playButton;
     private Button chatButton;
-    private Button shopButton;
+    private Button statsButton;
     private Button leaderboardButton;
     private ImageButton userProfileButton;
 
@@ -50,16 +50,12 @@ public class UserHome extends AppCompatActivity implements WebSocketListener {
         // Initialize UI elements
         playButton = findViewById(R.id.play_button);
         chatButton = findViewById(R.id.chat_button);
-        shopButton = findViewById(R.id.shop_button);
+        statsButton = findViewById(R.id.stats_button);
         leaderboardButton = findViewById(R.id.leaderboard_button);
         userProfileButton = findViewById(R.id.user_profile_button);
 
         // Set welcome text with the username
-        welcomeText = findViewById(R.id.welcomeText);
-        welcomeText.setText("Welcome, " + username + "!");
 
-        gamesPlayed = findViewById(R.id.gamesPlayed);
-        totalScore = findViewById(R.id.totalScore);
 
         // Set click listeners for game buttons
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -78,12 +74,12 @@ public class UserHome extends AppCompatActivity implements WebSocketListener {
             intent.putExtra("USERNAME", username);
             startActivity(intent);
         });
-        shopButton.setOnClickListener(new View.OnClickListener() {
+        statsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Launch Shop Activity
-                //Intent intent = new Intent(UserHome.this, ShopActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(UserHome.this, Stats.class);
+                startActivity(intent);
             }
         });
 

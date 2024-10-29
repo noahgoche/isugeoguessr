@@ -59,14 +59,14 @@
 
     <!-- Shop Button -->
     <Button
-        android:id="@+id/shop_button"
+        android:id="@+id/stats_button"
         style="@style/PlayButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/chat_button"
         android:layout_margin="8dp"
         android:layout_marginTop="16dp"
-        android:text="Shop"
+        android:text="Stats"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 
@@ -76,47 +76,11 @@
         style="@style/PlayButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/shop_button"
+        android:layout_below="@id/stats_button"
         android:layout_margin="8dp"
         android:layout_marginTop="16dp"
         android:text="Leaderboard"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/welcomeText"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:text="Explore Isu"
-        android:textAlignment="center"
-        android:textSize="75px" />
-
-    <TextView
-        android:id="@+id/gamesPlayed"
-        android:layout_width="160dp"
-        android:layout_height="84dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="58dp"
-        android:layout_marginLeft="58dp"
-        android:layout_marginTop="631dp"
-        android:layout_marginEnd="177dp"
-        android:layout_marginBottom="0dp" />
-
-    <TextView
-        android:id="@+id/totalScore"
-        android:layout_width="82dp"
-        android:layout_height="66dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="243dp"
-        android:layout_marginEnd="70dp"
-        android:layout_marginRight="70dp"
-        android:layout_marginBottom="2dp" />
 
 </RelativeLayout>

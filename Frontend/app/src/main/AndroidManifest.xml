@@ -29,6 +29,9 @@
         <activity
             android:name=".GameOver"
             android:exported="false" />
+        <activity
+            android:name=".Stats"
+            android:exported="false" />
 
         <activity
             android:name=".Leaderboard"
