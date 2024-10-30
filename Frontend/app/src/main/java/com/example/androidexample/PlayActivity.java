@@ -22,16 +22,16 @@ import android.view.View;
 
 public class PlayActivity extends AppCompatActivity {
 
-    private PLManager plManager;  // PanoramaGL Manager
+    private PLManager plManager;
+    private PLSphericalPanorama panorama;
     private MapView mapView;
     private Button submitLocationButton;
     private Marker currentMarker;
     private static final int TOTAL_ROUNDS = 5;
     private int currentRound = 0;
+    private int currentImageResourceId = R.drawable.sighisoara_sphere; // Default image resource ID
 
     @Override
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -40,60 +40,47 @@ public class PlayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play);
 
         // Initialize PanoramaGL Manager and link to the PLView in XML
-
-            plManager = new PLManager(this);
-        plManager.setContentView(findViewById(R.id.locationPhoto));  // Link to the PLView defined in XML
+        plManager = new PLManager(this);
+        plManager.setContentView(findViewById(R.id.locationPhoto));
         plManager.onCreate();
-        plManager.getPanorama().getCamera().setFovFactor(1.0f); // Set a default FOV if needed
 
-        findViewById(R.id.locationPhoto).setOnTouchListener((v, event) -> {
-            return plManager.onTouchEvent(event); // Pass the touch event to PLManager
-        });
+        findViewById(R.id.locationPhoto).setOnTouchListener((v, event) -> plManager.onTouchEvent(event));
+
         // Set up the spherical panorama
-        PLSphericalPanorama panorama = new PLSphericalPanorama();
-        panorama.getCamera().lookAt(30.0f, 90.0f);  // Optional: set initial camera orientation
-
-        // Set up the camera to support interactive movement
-        panorama.getCamera().setYMin(0.5f);  // Minimum zoom level for more detail
-        panorama.getCamera().setYMax(2.0f);  // Maximum zoom level for close-up
-
-        // Enable movement by default (should be interactive by default in PanoramaGL)
-        plManager.setAccelerometerEnabled(false);  // Optional: Disable accelerometer if not needed
-        gamelogic();
-
-        panorama.setImage(new PLImage(PLUtils.getBitmap(this, R.drawable.sighisoara_sphere), false));
+        panorama = new PLSphericalPanorama();
+        panorama.getCamera().lookAt(30.0f, 90.0f);
+        panorama.getCamera().setYMin(0.5f);
+        panorama.getCamera().setYMax(2.0f);
         plManager.setPanorama(panorama);
 
-
-
+        // Set the initial image
+        updatePanoramaImage(currentImageResourceId);
 
         // Initialize other UI elements
         mapView = findViewById(R.id.mapView);
         submitLocationButton = findViewById(R.id.submitLocationButton);
-        Button mapToggleButton = findViewById(R.id.mapToggleButton); // Find the new button
+        Button mapToggleButton = findViewById(R.id.mapToggleButton);
+
+        // Start the first round
+        startRound();
 
         // Toggle map visibility when map button is clicked
         mapToggleButton.setOnClickListener(v -> {
             if (mapView.getVisibility() == View.GONE) {
                 mapView.setVisibility(View.VISIBLE);
                 submitLocationButton.setVisibility(View.VISIBLE);
-
-                mapToggleButton.setText("Close Map"); // Update button text to "Close Map"
+                mapToggleButton.setText("Close Map");
             } else {
                 mapView.setVisibility(View.GONE);
                 submitLocationButton.setVisibility(View.GONE);
-
-                mapToggleButton.setText("Map"); // Reset button text
+                mapToggleButton.setText("Map");
             }
         });
-
-
-
 
         // Set up the map
         mapView.setMultiTouchControls(true);
         mapView.getController().setZoom(18.0);
-        GeoPoint startPoint = new GeoPoint(42.0267, -93.6465);  // Iowa State University
+        GeoPoint startPoint = new GeoPoint(42.0267, -93.6465);
         mapView.getController().setCenter(startPoint);
 
         // Custom overlay to detect single taps
@@ -113,30 +100,47 @@ public class PlayActivity extends AppCompatActivity {
                 double latitude = currentMarker.getPosition().getLatitude();
                 double longitude = currentMarker.getPosition().getLongitude();
                 Toast.makeText(this, "Submitted Location:\nLat: " + latitude + "\nLng: " + longitude, Toast.LENGTH_LONG).show();
+
+                // Move to the next round
+                currentRound++;
+                startRound();
             } else {
                 Toast.makeText(this, "No location selected!", Toast.LENGTH_SHORT).show();
             }
-            // have like five rounds of guessing before this
-            gamelogic();
-            ++currentRound;
         });
     }
-private void endGame(){
+
+    private void endGame() {
         Intent intent = new Intent(PlayActivity.this, GameOver.class);
         startActivity(intent);
         finish();
-
     }
-    private void gamelogic(){
+
+    private void startRound() {
         if (currentRound < TOTAL_ROUNDS) {
+            // Update the current image resource ID dynamically based on round
+            if (currentRound == 1) {
+                currentImageResourceId = R.drawable.room;
+            } else if (currentRound == 2) {
+                currentImageResourceId = R.drawable.sighisoara_sphere;
+            }
 
+            // Apply the panorama image change immediately
+            updatePanoramaImage(currentImageResourceId);
 
-
-            return;
+            // Clear the current marker from the map for a fresh start in each round
+            mapView.getOverlays().remove(currentMarker);
+            currentMarker = null;
         } else {
-            endGame(); // End the game if rounds are complete
+            endGame();
         }
     }
+
+    private void updatePanoramaImage(int imageResourceId) {
+        // Update the panorama image dynamically
+        panorama.setImage(new PLImage(PLUtils.getBitmap(this, imageResourceId), false));
+    }
+
     private void placeMarker(double latitude, double longitude) {
         // Remove previous marker, if any
         if (currentMarker != null) {
@@ -147,7 +151,7 @@ private void endGame(){
         currentMarker = new Marker(mapView);
         currentMarker.setPosition(new GeoPoint(latitude, longitude));
         currentMarker.setTitle("Selected Location");
-        currentMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM); // Set anchor to bottom center for better appearance
+        currentMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         mapView.getOverlays().add(currentMarker);
         mapView.invalidate();
     }
