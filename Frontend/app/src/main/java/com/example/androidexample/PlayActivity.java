@@ -52,7 +52,7 @@ public class PlayActivity extends AppCompatActivity {
         panorama.getCamera().lookAt(30.0f, 90.0f);  // Optional: set initial camera orientation
 
         // Load the image from raw resources and set it as the panorama image
-        panorama.setImage(new PLImage(PLUtils.getBitmap(this, R.drawable.sighisoara_sphere), false));
+        panorama.setImage(new PLImage(PLUtils.getBitmap(this, R.drawable.armorypanorama), false));
         plManager.setPanorama(panorama); // Set the panorama
 
         // Set up the camera to support interactive movement
