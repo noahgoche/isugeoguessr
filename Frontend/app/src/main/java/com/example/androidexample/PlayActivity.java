@@ -29,7 +29,10 @@ public class PlayActivity extends AppCompatActivity {
     private Marker currentMarker;
     private static final int TOTAL_ROUNDS = 5;
     private int currentRound = 0;
+    private double gameScore;
     private int currentImageResourceId = R.drawable.sighisoara_sphere; // Default image resource ID
+    double latitude;
+    double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,12 +100,13 @@ public class PlayActivity extends AppCompatActivity {
         // Set click listener for submit button to confirm the marker location
         submitLocationButton.setOnClickListener(v -> {
             if (currentMarker != null) {
-                double latitude = currentMarker.getPosition().getLatitude();
-                double longitude = currentMarker.getPosition().getLongitude();
+                 latitude = currentMarker.getPosition().getLatitude();
+                 longitude = currentMarker.getPosition().getLongitude();
                 Toast.makeText(this, "Submitted Location:\nLat: " + latitude + "\nLng: " + longitude, Toast.LENGTH_LONG).show();
 
                 // Move to the next round
                 currentRound++;
+
                 startRound();
             } else {
                 Toast.makeText(this, "No location selected!", Toast.LENGTH_SHORT).show();
@@ -119,9 +123,22 @@ public class PlayActivity extends AppCompatActivity {
     private void startRound() {
         if (currentRound < TOTAL_ROUNDS) {
             // Update the current image resource ID dynamically based on round
+            //terible ass jit coding but i couldnt care less
             if (currentRound == 1) {
+                calculateScore(latitude,longitude,latitude,longitude);
+
+                //set image for round 1
                 currentImageResourceId = R.drawable.room;
+                //get random image and the lat and long
+
+
             } else if (currentRound == 2) {
+                currentImageResourceId = R.drawable.sighisoara_sphere;
+            }else if (currentRound == 3) {
+                currentImageResourceId = R.drawable.sighisoara_sphere;
+            }else if (currentRound == 4) {
+                currentImageResourceId = R.drawable.sighisoara_sphere;
+            }else if (currentRound == 5) {
                 currentImageResourceId = R.drawable.sighisoara_sphere;
             }
 
@@ -134,6 +151,28 @@ public class PlayActivity extends AppCompatActivity {
         } else {
             endGame();
         }
+    }
+    private void calculateScore(double guessLatitude, double guessLongitude, double correctLatitude, double correctLongitude ){
+// some dumb ass math that apparently works
+        double earthRadius = 6371; // Radius of the Earth in kilometers
+        double dLat = Math.toRadians(correctLatitude - guessLatitude);
+        double dLon = Math.toRadians(correctLongitude - guessLongitude);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(guessLatitude)) * Math.cos(Math.toRadians(correctLatitude)) *
+                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = earthRadius * c; // Distance in kilometers
+
+        // Calculate score based on distance
+        int maxScore = 1000;
+        int minScore = 1;
+        double maxDistance = 10000; // Maximum distance (in km) for the lowest score
+        double score = maxScore - (distance / maxDistance) * (maxScore - minScore);
+
+        // Ensure score is within bounds
+        score = Math.max(minScore, Math.min(score, maxScore));
+        gameScore += score; // Accumulate score for the entire game
+        System.out.println("Score: " + (int) score); // Print or return score
     }
 
     private void updatePanoramaImage(int imageResourceId) {
