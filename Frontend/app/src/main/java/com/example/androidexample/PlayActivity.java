@@ -26,6 +26,8 @@ public class PlayActivity extends AppCompatActivity {
     private MapView mapView;
     private Button submitLocationButton;
     private Marker currentMarker;
+    private static final int TOTAL_ROUNDS = 5;
+    private int currentRound = 0;
 
     @Override
 
@@ -51,16 +53,19 @@ public class PlayActivity extends AppCompatActivity {
         PLSphericalPanorama panorama = new PLSphericalPanorama();
         panorama.getCamera().lookAt(30.0f, 90.0f);  // Optional: set initial camera orientation
 
-        // Load the image from raw resources and set it as the panorama image
-        panorama.setImage(new PLImage(PLUtils.getBitmap(this, R.drawable.armorypanorama), false));
-        plManager.setPanorama(panorama); // Set the panorama
-
         // Set up the camera to support interactive movement
         panorama.getCamera().setYMin(0.5f);  // Minimum zoom level for more detail
         panorama.getCamera().setYMax(2.0f);  // Maximum zoom level for close-up
 
         // Enable movement by default (should be interactive by default in PanoramaGL)
         plManager.setAccelerometerEnabled(false);  // Optional: Disable accelerometer if not needed
+        gamelogic();
+
+        panorama.setImage(new PLImage(PLUtils.getBitmap(this, R.drawable.sighisoara_sphere), false));
+        plManager.setPanorama(panorama);
+
+
+
 
         // Initialize other UI elements
         mapView = findViewById(R.id.mapView);
@@ -112,13 +117,26 @@ public class PlayActivity extends AppCompatActivity {
                 Toast.makeText(this, "No location selected!", Toast.LENGTH_SHORT).show();
             }
             // have like five rounds of guessing before this
-            Intent intent = new Intent(PlayActivity.this, GameOver.class);
-            startActivity(intent);
-            finish();
-
+            gamelogic();
+            ++currentRound;
         });
     }
+private void endGame(){
+        Intent intent = new Intent(PlayActivity.this, GameOver.class);
+        startActivity(intent);
+        finish();
 
+    }
+    private void gamelogic(){
+        if (currentRound < TOTAL_ROUNDS) {
+
+
+
+            return;
+        } else {
+            endGame(); // End the game if rounds are complete
+        }
+    }
     private void placeMarker(double latitude, double longitude) {
         // Remove previous marker, if any
         if (currentMarker != null) {
