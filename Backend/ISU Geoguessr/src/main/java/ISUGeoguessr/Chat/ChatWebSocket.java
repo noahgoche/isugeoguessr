@@ -1,4 +1,4 @@
-package Chat;
+package ISUGeoguessr.Chat;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -57,7 +57,7 @@ public class ChatWebSocket {
         sendMessageToPArticularUser(username, getChatHistory());
 
         // broadcast that new user joined
-        String message = "User:" + username + " has Joined the Chat";
+        String message = "User:" + username + " has Joined the ISUGeoguessr.Chat";
         broadcast(message);
     }
 
@@ -136,7 +136,7 @@ public class ChatWebSocket {
     }
 
 
-    // Gets the Chat history from the repository
+    // Gets the ISUGeoguessr.Chat history from the repository
     private String getChatHistory() {
         List<Message> messages = msgRepo.findAll();
 

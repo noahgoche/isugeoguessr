@@ -1,4 +1,4 @@
-package Chat;
+package ISUGeoguessr.Chat;
 
 import java.util.Date;
 
