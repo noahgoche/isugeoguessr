@@ -115,6 +115,7 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     private void endGame() {
+        // send out gameScore
         Intent intent = new Intent(PlayActivity.this, GameOver.class);
         startActivity(intent);
         finish();
@@ -125,7 +126,7 @@ public class PlayActivity extends AppCompatActivity {
             // Update the current image resource ID dynamically based on round
             //terible ass jit coding but i couldnt care less
             if (currentRound == 1) {
-                calculateScore(latitude,longitude,latitude,longitude);
+                calculateScore(latitude,longitude,12,22);
 
                 //set image for round 1
                 currentImageResourceId = R.drawable.room;
@@ -133,7 +134,7 @@ public class PlayActivity extends AppCompatActivity {
 
 
             } else if (currentRound == 2) {
-                currentImageResourceId = R.drawable.sighisoara_sphere;
+                currentImageResourceId = R.drawable.beard;
             }else if (currentRound == 3) {
                 currentImageResourceId = R.drawable.sighisoara_sphere;
             }else if (currentRound == 4) {
