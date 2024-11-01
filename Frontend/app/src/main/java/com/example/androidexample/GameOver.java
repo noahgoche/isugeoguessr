@@ -23,7 +23,8 @@ public class GameOver extends AppCompatActivity {
 
         // Set the user's score (Placeholder score here)
         int userScore = 75; // Placeholder score
-        scoreTextView.setText("Your Score: " + userScore);
+        double gameScore = getIntent().getExtras().getDouble("GAME_SCORE");
+        scoreTextView.setText("Your Score: " + gameScore);
 
         // Set up the Home button to open UserHome activity
         homeButton.setOnClickListener(v -> {
