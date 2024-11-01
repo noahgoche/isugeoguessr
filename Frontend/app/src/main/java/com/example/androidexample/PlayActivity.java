@@ -2,6 +2,7 @@ package com.example.androidexample;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.Toast;
@@ -19,6 +20,21 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
 import android.view.View;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlayActivity extends AppCompatActivity {
 
@@ -56,8 +72,9 @@ public class PlayActivity extends AppCompatActivity {
         panorama.getCamera().setYMax(2.0f);
         plManager.setPanorama(panorama);
 
+
         // Set the initial image
-        updatePanoramaImage(currentImageResourceId);
+        //updatePanoramaImage(currentImageResourceId);
 
         // Initialize other UI elements
         mapView = findViewById(R.id.mapView);
@@ -65,7 +82,7 @@ public class PlayActivity extends AppCompatActivity {
         Button mapToggleButton = findViewById(R.id.mapToggleButton);
 
         // Start the first round
-        startRound();
+
 
         // Toggle map visibility when map button is clicked
         mapToggleButton.setOnClickListener(v -> {
@@ -96,66 +113,95 @@ public class PlayActivity extends AppCompatActivity {
             }
         };
         mapView.getOverlays().add(touchOverlay);
+        startRound();
 
         // Set click listener for submit button to confirm the marker location
         submitLocationButton.setOnClickListener(v -> {
             if (currentMarker != null) {
-                 latitude = currentMarker.getPosition().getLatitude();
-                 longitude = currentMarker.getPosition().getLongitude();
-                Toast.makeText(this, "Submitted Location:\nLat: " + latitude + "\nLng: " + longitude, Toast.LENGTH_LONG).show();
+                latitude = currentMarker.getPosition().getLatitude();
+                longitude = currentMarker.getPosition().getLongitude();
+
+                // Calculate score here
+                calculateScore(latitude, longitude, getCorrectLatitude(), getCorrectLongitude());
 
                 // Move to the next round
                 currentRound++;
-
                 startRound();
             } else {
                 Toast.makeText(this, "No location selected!", Toast.LENGTH_SHORT).show();
             }
         });
-    }
 
+    }
+    private double getCorrectLatitude() {
+        // Return the correct latitude based on the current round
+        switch (currentRound) {
+            case 0: return 42.025227; // Correct latitude for round 1
+            case 1: return 42.025659; // Correct latitude for round 2
+            case 2: return 42.025000; // Add correct latitude for round 3
+            case 3: return 42.024500; // Add correct latitude for round 4
+            case 4: return 42.024000; // Add correct latitude for round 5
+            default: return 0; // Default return
+        }
+    }
+    private double getCorrectLongitude() {
+        // Return the correct longitude based on the current round
+        switch (currentRound) {
+            case 0: return -93.649116; // Correct longitude for round 1
+            case 1: return -93.648445; // Correct longitude for round 2
+            case 2: return -93.647000; // Add correct longitude for round 3
+            case 3: return -93.646500; // Add correct longitude for round 4
+            case 4: return -93.646000; // Add correct longitude for round 5
+            default: return 0; // Default return
+        }
+    }
     private void endGame() {
         // send out gameScore
         Intent intent = new Intent(PlayActivity.this, GameOver.class);
+        intent.putExtra("GAME_SCORE", gameScore);
         startActivity(intent);
         finish();
     }
 
     private void startRound() {
         if (currentRound < TOTAL_ROUNDS) {
-            // Update the current image resource ID dynamically based on round
-            //terible ass jit coding but i couldnt care less
-            if (currentRound == 1) {
-                calculateScore(latitude,longitude,12,22);
-
-                //set image for round 1
-                currentImageResourceId = R.drawable.room;
-                //get random image and the lat and long
-
-
-            } else if (currentRound == 2) {
-                currentImageResourceId = R.drawable.beard;
-            }else if (currentRound == 3) {
-                currentImageResourceId = R.drawable.sighisoara_sphere;
-            }else if (currentRound == 4) {
-                currentImageResourceId = R.drawable.sighisoara_sphere;
-            }else if (currentRound == 5) {
-                currentImageResourceId = R.drawable.sighisoara_sphere;
+            // Set image for the current round
+            switch (currentRound) {
+                case 0:
+                    currentImageResourceId = R.drawable.enviormental;
+                    break;
+                case 1:
+                    currentImageResourceId = R.drawable.carver;
+                    break;
+                case 2:
+                    currentImageResourceId = R.drawable.beard;
+                    break;
+                case 3:
+                    currentImageResourceId = R.drawable.sighisoara_sphere;
+                    break;
+                case 4:
+                    currentImageResourceId = R.drawable.sighisoara_sphere;
+                    break;
+                default:
+                    endGame(); // Ensure endGame is called if rounds exceed
+                    return;
             }
 
-            // Apply the panorama image change immediately
+            // Update the panorama image immediately
             updatePanoramaImage(currentImageResourceId);
 
             // Clear the current marker from the map for a fresh start in each round
-            mapView.getOverlays().remove(currentMarker);
-            currentMarker = null;
+            if (currentMarker != null) {
+                mapView.getOverlays().remove(currentMarker);
+                currentMarker = null;
+            }
         } else {
-            endGame();
+            endGame(); // End the game if all rounds are completed
         }
     }
-    private void calculateScore(double guessLatitude, double guessLongitude, double correctLatitude, double correctLongitude ){
-// some dumb ass math that apparently works
-        double earthRadius = 6371; // Radius of the Earth in kilometers
+    private void calculateScore(double guessLatitude, double guessLongitude, double correctLatitude, double correctLongitude) {
+        // Earth radius in kilometers
+        double earthRadius = 6371;
         double dLat = Math.toRadians(correctLatitude - guessLatitude);
         double dLon = Math.toRadians(correctLongitude - guessLongitude);
         double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -165,15 +211,19 @@ public class PlayActivity extends AppCompatActivity {
         double distance = earthRadius * c; // Distance in kilometers
 
         // Calculate score based on distance
-        int maxScore = 1000;
-        int minScore = 1;
-        double maxDistance = 10000; // Maximum distance (in km) for the lowest score
-        double score = maxScore - (distance / maxDistance) * (maxScore - minScore);
+        int maxScore = 1000; // Maximum score
+        int minScore = 0; // Minimum score
+        double maxDistance = 5.0; // Maximum distance in kilometers for scoring purposes (5 miles ~ 8 km)
 
-        // Ensure score is within bounds
-        score = Math.max(minScore, Math.min(score, maxScore));
-        gameScore += score; // Accumulate score for the entire game
-        System.out.println("Score: " + (int) score); // Print or return score
+        // Calculate the score inversely proportional to the distance
+        double score = Math.max(minScore, Math.min(maxScore, maxScore * (1 - (distance / maxDistance))));
+
+        // Accumulate score
+        gameScore += (int) score; // Store score as an integer
+
+        // Provide feedback
+        Toast.makeText(this, "Score: " + (int) score, Toast.LENGTH_LONG).show();
+        System.out.println("Score: " + (int) score); // For debugging
     }
 
     private void updatePanoramaImage(int imageResourceId) {
@@ -215,4 +265,7 @@ public class PlayActivity extends AppCompatActivity {
         super.onDestroy();
         plManager.onDestroy();
     }
+
+
+
 }
