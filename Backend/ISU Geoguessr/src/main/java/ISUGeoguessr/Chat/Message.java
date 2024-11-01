@@ -13,10 +13,14 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "messages")
 @Data
+@Getter @Setter @NoArgsConstructor
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,48 +33,12 @@ public class Message {
     private String content;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "sent")
+    @Column(name = "sent on")
     private Date sent = new Date();
-
-
-    public Message() {};
 
     public Message(String userName, String content) {
         this.userName = userName;
         this.content = content;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Date getSent() {
-        return sent;
-    }
-
-    public void setSent(Date sent) {
-        this.sent = sent;
-    }
-
 
 }

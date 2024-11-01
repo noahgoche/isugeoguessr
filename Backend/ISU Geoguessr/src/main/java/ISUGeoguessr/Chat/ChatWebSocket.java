@@ -21,8 +21,7 @@ import org.springframework.stereotype.Controller;
 @Controller      // this is needed for this to be an endpoint to springboot
 @ServerEndpoint(value = "/chat/{username}")  // this is Websocket url
 public class ChatWebSocket {
-    // cannot autowire static directly (instead we do it by the below
-    // method
+    // cannot autowire static directly (instead we do it by the below method)
     private static MessageRepository msgRepo;
 
     /*
@@ -57,7 +56,7 @@ public class ChatWebSocket {
         sendMessageToPArticularUser(username, getChatHistory());
 
         // broadcast that new user joined
-        String message = "User:" + username + " has Joined the ISUGeoguessr.Chat";
+        String message = "User:" + username + " has joined the chat.";
         broadcast(message);
     }
 
