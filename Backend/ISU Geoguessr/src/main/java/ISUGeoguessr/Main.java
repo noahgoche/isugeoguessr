@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.context.annotation.ComponentScan;
+
 
 import ISUGeoguessr.UserData.UserDataRepository;
 import ISUGeoguessr.UserData.UserData;
@@ -19,6 +21,7 @@ import ISUGeoguessr.Stats.StatsRepository;
 
 @SpringBootApplication
 @EnableJpaRepositories
+@ComponentScan(basePackages = {"ISUGeoguessr"})
 class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
@@ -35,9 +38,9 @@ class Main {
 //            userDataRepository.save(userData2);
 //            userDataRepository.save(userData3);
 //
-//            Location location1 = new Location("Ames", "12,32,43");
-//            Location location2 = new Location("Des Moines", "34,12,12");
-//            Location location3 = new Location("Slater", "34,243,243");
+//            Location location1 = new Location("Ames", 100, 20120, "TestImage");
+//            Location location2 = new Location("Des Moines", 100, 20120, "TestImage");
+//            Location location3 = new Location("Slater", 100, 20120, "TestImage");
 //
 //            locationRepository.save(location1);
 //            locationRepository.save(location2);
