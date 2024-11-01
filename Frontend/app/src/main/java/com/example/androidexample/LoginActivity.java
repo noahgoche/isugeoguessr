@@ -50,20 +50,11 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, UserHome.class);
-                startActivity(intent);
-                finish();
                 /* grab strings from user inputs */
-               // String username = usernameEditText.getText().toString();
-               // String password = passwordEditText.getText().toString();
+                String username = usernameEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
 
-                //login(username, password);
-
-                /* when login button is pressed, use intent to switch to Login Activity */
-                //Intent intent = new Intent(LoginActivity.this, UserHome.class);
-                //intent.putExtra("USERNAME", username);  // key-value to pass to the MainActivity
-                //intent.putExtra("PASSWORD", password);  // key-value to pass to the MainActivity
-                //startActivity(intent);  // go to MainActivity with the key-value data
+                login(username, password);
             }
         });
 
@@ -81,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void login(String usernameInput, String passwordInput) {
         //skip login for testing
-/**
+
         String URL_GET_USERS = "http://coms-3090-070.class.las.iastate.edu:8080/users";
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -146,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
- **/
+
     }
 
 }
