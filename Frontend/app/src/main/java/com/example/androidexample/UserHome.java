@@ -35,9 +35,6 @@ public class UserHome extends AppCompatActivity implements WebSocketListener {
 
     private TextView welcomeText;
 
-    private TextView gamesPlayed;
-    private TextView totalScore;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +52,8 @@ public class UserHome extends AppCompatActivity implements WebSocketListener {
         userProfileButton = findViewById(R.id.user_profile_button);
 
         // Set welcome text with the username
+        welcomeText = findViewById(R.id.welcomeText);
+        welcomeText.setText("Welcome, " + username + "!");
 
 
         // Set click listeners for game buttons
