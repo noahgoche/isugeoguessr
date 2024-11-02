@@ -132,7 +132,7 @@ public class SignupActivity extends AppCompatActivity {
         String URL_CREATE_STATS = "http://coms-3090-070.class.las.iastate.edu:8080/Stats";
         JSONObject statsData = new JSONObject();
         try {
-            statsData.put("userData", userData); 
+            statsData.put("userData", userData);
             statsData.put("username", userData.get("username"));
             statsData.put("gameMode", "campus");
             statsData.put("totalScore", 0);

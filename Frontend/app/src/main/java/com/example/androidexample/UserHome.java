@@ -77,8 +77,9 @@ public class UserHome extends AppCompatActivity implements WebSocketListener {
         statsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Launch Shop Activity
+                // Launch Stats Activity
                 Intent intent = new Intent(UserHome.this, Stats.class);
+                intent.putExtra("USERNAME", username);
                 startActivity(intent);
             }
         });

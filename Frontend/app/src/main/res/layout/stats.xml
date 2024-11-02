@@ -16,32 +16,6 @@
         android:layout_gravity="center_horizontal"
         android:paddingBottom="16dp" />
 
-    <!-- Hours Played -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingVertical="8dp">
-
-        <TextView
-            android:id="@+id/hoursPlayedLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Hours Played:"
-            android:textSize="18sp"
-            android:textColor="#333333" />
-
-        <TextView
-            android:id="@+id/hoursPlayedValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#000000" />
-    </LinearLayout>
-
     <!-- Games Played -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -94,32 +68,6 @@
             android:textColor="#000000" />
     </LinearLayout>
 
-    <!-- Number of Perfect Scores -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingVertical="8dp">
-
-        <TextView
-            android:id="@+id/perfectScoresLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Perfect Scores:"
-            android:textSize="18sp"
-            android:textColor="#333333" />
-
-        <TextView
-            android:id="@+id/perfectScoresValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#000000" />
-
-    </LinearLayout>
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
