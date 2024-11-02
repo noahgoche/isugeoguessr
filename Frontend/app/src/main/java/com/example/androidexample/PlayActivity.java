@@ -54,6 +54,8 @@ public class PlayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        String username = getIntent().getStringExtra("USERNAME");
+
         // Initialize osmdroid configuration
         Configuration.getInstance().setUserAgentValue(getPackageName());
         setContentView(R.layout.activity_play);
@@ -159,6 +161,7 @@ public class PlayActivity extends AppCompatActivity {
         // send out gameScore
         Intent intent = new Intent(PlayActivity.this, GameOver.class);
         intent.putExtra("GAME_SCORE", gameScore);
+        intent.putExtra("USERNAME", username);
         startActivity(intent);
         finish();
     }

@@ -62,6 +62,7 @@ public class UserHome extends AppCompatActivity implements WebSocketListener {
             public void onClick(View v) {
                 // Launch Play Activity
                 Intent intent = new Intent(UserHome.this, PlayActivity.class);
+                intent.putExtra("USERNAME", username);
                 startActivity(intent);
                 finish();
             }
