@@ -104,6 +104,8 @@ public class SignupActivity extends AppCompatActivity {
                             String result = response.getString("result");
                             if (result.equals("Success")) {
                                 Log.d("Create User", "User created successfully");
+                                //String userdataId = response.getString("id");
+                                createStatsEntry(String.valueOf(15));
                             } else {
                                 Log.d("Create User", "User creation failed");
                             }
@@ -128,6 +130,33 @@ public class SignupActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjReq);
+    }
+
+    private void createStatsEntry(String userdataId) {
+        String URL_CREATE_STATS = "http://coms-3090-070.class.las.iastate.edu:8080/Stats";
+        JSONObject statsData = new JSONObject();
+        try {
+            statsData.put("userdataId", userdataId);
+            statsData.put("gameMode", "campus");
+            statsData.put("totalScore", 0);
+            statsData.put("timePlayed", 0.0);
+            statsData.put("wins", 0);
+            statsData.put("gamesPlayed", 0);
+            statsData.put("gamesLost", 0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonStatsReq = new JsonObjectRequest(
+                Request.Method.POST,
+                URL_CREATE_STATS,
+                statsData,
+                response -> Log.d("Create Stats", "Stats created successfully"),
+                error -> Log.e("Stats Error", error.toString())
+        );
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonStatsReq);
     }
 
 }
