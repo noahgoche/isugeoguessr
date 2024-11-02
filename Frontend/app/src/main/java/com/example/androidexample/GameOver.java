@@ -2,17 +2,27 @@ package com.example.androidexample;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class GameOver extends AppCompatActivity {
 
+    String username;
     private Button homeButton;
     private TextView scoreTextView;
-
-    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,38 +35,98 @@ public class GameOver extends AppCompatActivity {
         homeButton = findViewById(R.id.homeButton);
         scoreTextView = findViewById(R.id.scoreTextView);
 
-        // Set the user's score (Placeholder score here)
-        int userScore = 75; // Placeholder score
         double gameScore = getIntent().getExtras().getDouble("GAME_SCORE");
         scoreTextView.setText("Your Score: " + gameScore);
+
+        updateStats(username, gameScore);
 
         // Set up the Home button to open UserHome activity
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(GameOver.this, UserHome.class);
             intent.putExtra("USERNAME", username);
             startActivity(intent);
-            finish(); // Close GameOver activity to prevent stacking
+            finish();
         });
     }
 
-    // Method to populate leaderboard (placeholder)
-    private void populateLeaderboard() {
-        // Placeholder leaderboard data
-        String[] leaderboardEntries = {
-                "1. Player1 - 100",
-                "2. Player2 - 90",
-                "3. Player3 - 80",
-                "4. Player4 - 70",
-                "5. Player5 - 60"
-        };
+    private void updateStats(String username, double gameScore) {
+        String URL_GET_STATS = "http://coms-3090-070.class.las.iastate.edu:8080/Stats";
 
-        // Display leaderboard entries (commented since LinearLayout was commented)
-        for (String entry : leaderboardEntries) {
-            TextView textView = new TextView(this);
-            textView.setText(entry);
-            textView.setTextSize(18);
-            textView.setPadding(0, 8, 0, 8);
-            //leaderboardLayout.addView(textView); // Uncomment if leaderboardLayout is used
-        }
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                URL_GET_STATS,
+                null,
+                response -> {
+                    try {
+                        // Find the stats record for the specified username
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject statsRecord = response.getJSONObject(i);
+                            if (statsRecord.getString("username").equals(username)) {
+                                int gamesPlayed = statsRecord.getInt("gamesPlayed");
+                                int totalScore = statsRecord.getInt("totalScore");
+
+                                int updatedGamesPlayed = gamesPlayed + 1;
+                                int updatedTotalScore = totalScore + (int) gameScore;
+                                int statsId = statsRecord.getInt("id");
+
+                                // Chain updates: first update the total score, then games played
+                                updateTotalScoreAndChain(statsId, updatedTotalScore, updatedGamesPlayed);
+                                break;
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Log.e("Stats Error", error.toString())
+        );
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonArrayRequest);
     }
+
+    private void updateTotalScoreAndChain(int id, int updatedTotalScore, int updatedGamesPlayed) {
+        String url = "http://coms-3090-070.class.las.iastate.edu:8080/Stats/" + id + "/totalScore/" + updatedTotalScore;
+
+        StringRequest putRequest = new StringRequest(
+                Request.Method.PUT,
+                url,
+                response -> {
+                    if ("Success".equals(response)) {
+                        Log.i("Update TotalScore", "Total score update succeeded");
+
+                        // Chain to update games played after total score update
+                        updateGamesPlayed(id, updatedGamesPlayed);
+                    } else {
+                        Log.e("Update TotalScore", "Unexpected response: " + response);
+                    }
+                },
+                error -> Log.e("Update Error", error.toString())
+        );
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(putRequest);
+    }
+
+    private void updateGamesPlayed(int id, int updatedGamesPlayed) {
+        String url = "http://coms-3090-070.class.las.iastate.edu:8080/Stats/" + id + "/gamesPlayed/" + updatedGamesPlayed;
+
+        StringRequest putRequest = new StringRequest(
+                Request.Method.PUT,
+                url,
+                response -> {
+                    if ("Success".equals(response)) {
+                        Log.i("Update GamesPlayed", "Games played update succeeded");
+                    } else {
+                        Log.e("Update GamesPlayed", "Unexpected response: " + response);
+                    }
+                },
+                error -> Log.e("Update Error", error.toString())
+        );
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(putRequest);
+    }
+
+
 }
