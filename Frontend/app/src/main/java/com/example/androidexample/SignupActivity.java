@@ -16,6 +16,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
@@ -78,10 +79,8 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void createUser(String username, String email, String password) {
-        // URL for the POST request
         String URL_CREATE_USER = "http://coms-3090-070.class.las.iastate.edu:8080/users";
 
-        // Create JSON object to be sent in the POST request
         JSONObject userData = new JSONObject();
         try {
             userData.put("username", username);
@@ -91,26 +90,18 @@ public class SignupActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // Create the POST request
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+        StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 URL_CREATE_USER,
-                userData,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("Volley Response", response.toString());
-                        try {
-                            String result = response.getString("result");
-                            if (result.equals("Success")) {
-                                Log.d("Create User", "User created successfully");
-                                //String userdataId = response.getString("id");
-                                createStatsEntry(String.valueOf(15));
-                            } else {
-                                Log.d("Create User", "User creation failed");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    public void onResponse(String response) {
+                        Log.d("Volley Response", response);
+                        if (response.equals("Success")) {
+                            Log.d("Create User", "User created successfully");
+                            createStatsEntry(userData);
+                        } else {
+                            Log.d("Create User", "User creation failed");
                         }
                     }
                 },
@@ -121,6 +112,11 @@ public class SignupActivity extends AppCompatActivity {
                     }
                 }) {
             @Override
+            public byte[] getBody() throws AuthFailureError {
+                return userData.toString().getBytes();
+            }
+
+            @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
@@ -129,14 +125,15 @@ public class SignupActivity extends AppCompatActivity {
         };
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(jsonObjReq);
+        requestQueue.add(stringRequest);
     }
 
-    private void createStatsEntry(String userdataId) {
+    private void createStatsEntry(JSONObject userData) {
         String URL_CREATE_STATS = "http://coms-3090-070.class.las.iastate.edu:8080/Stats";
         JSONObject statsData = new JSONObject();
         try {
-            statsData.put("userdataId", userdataId);
+            statsData.put("userData", userData); 
+            statsData.put("username", userData.get("username"));
             statsData.put("gameMode", "campus");
             statsData.put("totalScore", 0);
             statsData.put("timePlayed", 0.0);
