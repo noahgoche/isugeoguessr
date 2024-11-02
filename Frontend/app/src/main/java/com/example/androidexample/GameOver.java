@@ -12,10 +12,14 @@ public class GameOver extends AppCompatActivity {
     private Button homeButton;
     private TextView scoreTextView;
 
+    String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_over);
+
+        username = getIntent().getStringExtra("USERNAME");
 
         // Initialize UI components
         homeButton = findViewById(R.id.homeButton);
@@ -29,6 +33,7 @@ public class GameOver extends AppCompatActivity {
         // Set up the Home button to open UserHome activity
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(GameOver.this, UserHome.class);
+            intent.putExtra("USERNAME", username);
             startActivity(intent);
             finish(); // Close GameOver activity to prevent stacking
         });

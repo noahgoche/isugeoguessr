@@ -50,11 +50,13 @@ public class PlayActivity extends AppCompatActivity {
     double latitude;
     double longitude;
 
+    String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String username = getIntent().getStringExtra("USERNAME");
+        username = getIntent().getStringExtra("USERNAME");
 
         // Initialize osmdroid configuration
         Configuration.getInstance().setUserAgentValue(getPackageName());
