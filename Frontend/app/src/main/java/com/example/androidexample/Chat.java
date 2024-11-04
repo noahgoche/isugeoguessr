@@ -59,7 +59,7 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
         chatRoom1Button.setOnClickListener(v -> {
             Intent intent = new Intent(Chat.this, ChatRoom1.class); // Assuming ChatRoom1 is your target activity
             startActivity(intent);
-          
+
         });
     }
 
