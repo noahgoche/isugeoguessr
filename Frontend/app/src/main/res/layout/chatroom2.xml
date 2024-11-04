@@ -56,7 +56,8 @@
             android:padding="12dp" />
     </LinearLayout>
 
-    <!-- Back Button -->
+    <!-- Uncomment the back button if needed -->
+
     <Button
         android:id="@+id/backButton"
         android:backgroundTint='@color/IsuRed'
@@ -65,37 +66,5 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:text="Back" />
-
-    <!-- New Button to navigate to ChatRoom1 -->
-    <Button
-        android:id="@+id/chatRoom1Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint='@color/IsuRed'
-        android:text="Room 1"
-        android:textColor="#FFFFFF"
-        android:padding="12dp"/>
-    <Button
-        android:id="@+id/chatRoom2Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint='@color/IsuRed'
-        android:text="Room 2"
-        android:layout_marginLeft="98dp"
-
-        android:textColor="#FFFFFF"
-        android:padding="12dp"/>
-    <Button
-        android:id="@+id/chatRoom3Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint='@color/IsuRed'
-        android:text="Room 3"
-        android:layout_marginLeft="195dp"
-
-
-    android:layout_alignParentTop="true"
-        android:textColor="#FFFFFF"
-        android:padding="12dp"/>
 
 </RelativeLayout>
