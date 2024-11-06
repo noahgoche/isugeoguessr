@@ -1,6 +1,7 @@
 package ISUGeoguessr.Chat;
 
 import java.io.IOException;
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller      // this is needed for this to be an endpoint to springboot
-@ServerEndpoint(value = "/chat/{username}")  // this is Websocket url
-public class ChatWebSocket {
+@ServerEndpoint(value = "/chatroom2/{username}")  // this is Websocket url
+public class Chatroom2 {
     // cannot autowire static directly (instead we do it by the below method)
     private static MessageRepository msgRepo;
 
@@ -40,24 +41,32 @@ public class ChatWebSocket {
     private static Map<Session, String> sessionUsernameMap = new Hashtable<>();
     private static Map<String, Session> usernameSessionMap = new Hashtable<>();
 
-    private final Logger logger = LoggerFactory.getLogger(ChatWebSocket.class);
+    private final Logger logger = LoggerFactory.getLogger(Chatroom2.class);
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username)
-            throws IOException {
+    public void onOpen(Session session, @PathParam("username") String username) throws IOException {
 
         logger.info("Entered into Open");
+
+        // Handle the case of a duplicate username
+        if (usernameSessionMap.containsKey(username)) {
+            session.getBasicRemote().sendText("User already in chat.");
+            session.close();
+        }
+
+        // broadcast that new user joined
+        String message = "User:" + username + " has joined chatroom2.";
+        broadcast(message);
+
 
         // store connecting user information
         sessionUsernameMap.put(session, username);
         usernameSessionMap.put(username, session);
 
         //Send chat history to the newly connected user
-        sendMessageToPArticularUser(username, getChatHistory());
+        //sendMessageToPArticularUser(username, getChatHistory());
 
-        // broadcast that new user joined
-        String message = "User:" + username + " has joined the chat.";
-        broadcast(message);
+
     }
 
 
@@ -82,7 +91,7 @@ public class ChatWebSocket {
         }
 
         // Saving chat history to repository
-        msgRepo.save(new Message(username, message));
+        msgRepo.save(new Message(username, message, "Chatroom 2"));
     }
 
 
@@ -112,8 +121,7 @@ public class ChatWebSocket {
     private void sendMessageToPArticularUser(String username, String message) {
         try {
             usernameSessionMap.get(username).getBasicRemote().sendText(message);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             logger.info("Exception: " + e.getMessage().toString());
             e.printStackTrace();
         }
@@ -149,4 +157,4 @@ public class ChatWebSocket {
         return sb.toString();
     }
 
-} // end of Class
+}
