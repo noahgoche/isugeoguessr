@@ -32,13 +32,17 @@ public class Message {
     @Lob
     private String content;
 
+    @Column
+    private String chatroom;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "sent on")
     private Date sent = new Date();
 
-    public Message(String userName, String content) {
+    public Message(String userName, String content, String chatroom) {
         this.userName = userName;
         this.content = content;
+        this.chatroom = chatroom;
     }
 
 }
