@@ -55,7 +55,7 @@ public class Chatroom2 {
         }
 
         // broadcast that new user joined
-        String message = "User:" + username + " has joined the chat.";
+        String message = "User:" + username + " has joined chatroom2.";
         broadcast(message);
 
 
