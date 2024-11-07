@@ -4,11 +4,8 @@ import ISUGeoguessr.Stats.*;
 import ISUGeoguessr.UserData.*;
 
 import java.io.IOException;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import ISUGeoguessr.UserData.UserDataRepository;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnError;
 import jakarta.websocket.OnMessage;
@@ -22,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+
 @Controller      // this is needed for this to be an endpoint to springboot
 @ServerEndpoint(value = "/Leaderboard")  // this is Websocket url
 public class LeaderboardWebSocket {
@@ -33,36 +31,61 @@ public class LeaderboardWebSocket {
         statsRepository = statsRepo;
     }
 
-    @Autowired
-    UserDataRepository userDataRepository;
+    private Session session;
+
+    private static List<Stats> statList = new ArrayList<Stats>();
+
+    List<Stats> top50;
 
     private final Logger logger = LoggerFactory.getLogger(LeaderboardWebSocket.class);
 
-    List<Stats> statList = statsRepository.findAll();
-    //List<UserData> userList = userDataRepository.findAll();
-
-    List<Stats> top50;
 
     @OnOpen
     public void onOpen(Session session) throws IOException
     {
         logger.info("Opened leaderboard");
-     //   Stats stats = statsRepository.findById(4);
-     //   session.getBasicRemote().sendText(stats.getUsername());
-   //       session.getBasicRemote().sendText(statList.size() + " ");
-          session.getBasicRemote().sendText("test");
 
+        this.session = session;
+
+        if(statsRepository == null)
+            session.getBasicRemote().sendText("Stats Repository is empty");
+
+        statList = statsRepository.findAll();
+        statList.sort(new Stats());
+        
+        if(statList.size() < 50)
+            top50 = statList;
+        else
+            top50 = statList.subList(0,50);
+
+
+        for (Stats stats : top50) {
+            if (stats != null) {
+                session.getBasicRemote().sendText("Player: " + stats.getUsername() + "\tScore: " + stats.getTotalScore());
+            }
+        }
 
     }
-    //   for(i = 0; i < 50; i++){
-    //      find largest score and corresponding user name and add to top50 list in order
-//            session.getBasicRemote().sendText(username and score)//not actual syntax
-//
-//      }
+
+    @OnMessage
+    public void onMessage(Session session, String message) throws IOException {
+
+        // Handle new messages
+        logger.info("Entered into Message: Got Message:" + message);
+
+    }
 
     @OnClose
     public void onClose(Session session) throws IOException {
         logger.info("Entered into Close");
 
     }
+
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+        // Do error handling here
+        logger.info("Entered into Error");
+        throwable.printStackTrace();
+    }
+
 }

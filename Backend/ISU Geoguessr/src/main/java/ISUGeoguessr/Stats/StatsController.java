@@ -180,8 +180,10 @@ public class StatsController {
             return "failed";
         }
         UserData userData = stats.getUserData();
-        userData.setStatsList(null);
-        stats.setUserData(null);
+        if(userData != null) {
+            userData.setStatsList(null);
+            stats.setUserData(null);
+        }
 
         statsRepository.deleteById(id);
         return "Deleted";
