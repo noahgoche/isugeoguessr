@@ -7,7 +7,7 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 @Configuration
 public class LeaderboardWebSocketConfig {
     @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
+    public ServerEndpointExporter serverEndpointExporter2() {
         return new ServerEndpointExporter();
     }
 

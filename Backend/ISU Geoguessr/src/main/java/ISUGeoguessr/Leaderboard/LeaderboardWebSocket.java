@@ -1,6 +1,5 @@
 package ISUGeoguessr.Leaderboard;
 
-import ISUGeoguessr.Chat.ChatWebSocket;
 import ISUGeoguessr.Stats.*;
 import ISUGeoguessr.UserData.*;
 
@@ -27,17 +26,43 @@ import org.springframework.stereotype.Controller;
 @ServerEndpoint(value = "/Leaderboard")  // this is Websocket url
 public class LeaderboardWebSocket {
 
+    private static StatsRepository statsRepository;
+
     @Autowired
-    StatsRepository statsRepository;
+    public void setStatsRepository(StatsRepository statsRepo){
+        statsRepository = statsRepo;
+    }
 
     @Autowired
     UserDataRepository userDataRepository;
 
     private final Logger logger = LoggerFactory.getLogger(LeaderboardWebSocket.class);
 
+    List<Stats> statList = statsRepository.findAll();
+    //List<UserData> userList = userDataRepository.findAll();
+
+    List<Stats> top50;
+
+    @OnOpen
+    public void onOpen(Session session) throws IOException
+    {
+        logger.info("Opened leaderboard");
+     //   Stats stats = statsRepository.findById(4);
+     //   session.getBasicRemote().sendText(stats.getUsername());
+   //       session.getBasicRemote().sendText(statList.size() + " ");
+          session.getBasicRemote().sendText("test");
+
+
+    }
     //   for(i = 0; i < 50; i++){
-    //      find largest score and corresponding user name
+    //      find largest score and corresponding user name and add to top50 list in order
 //            session.getBasicRemote().sendText(username and score)//not actual syntax
 //
 //      }
+
+    @OnClose
+    public void onClose(Session session) throws IOException {
+        logger.info("Entered into Close");
+
+    }
 }
