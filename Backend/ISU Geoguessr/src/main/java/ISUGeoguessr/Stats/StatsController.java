@@ -170,6 +170,21 @@ public class StatsController {
         return "Success";
     }
 
+    @PutMapping(path = "/Stats/username/{id}")
+    String updateUsernameById(@PathVariable int id, @RequestParam String newUsername)
+    {
+        Stats stats = statsRepository.findById(id);
+
+        if(stats == null)
+        {
+            return "failed";
+        }
+
+        stats.setUsername(newUsername);
+        statsRepository.save(stats);
+        return "Username Updated";
+    }
+
     @DeleteMapping(path = "/Stats/{id}")
     String deleteById(@PathVariable int id)
     {
