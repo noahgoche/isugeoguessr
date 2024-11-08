@@ -173,16 +173,16 @@ public class PlayActivity extends AppCompatActivity {
             // Set image for the current round
             switch (currentRound) {
                 case 0:
-                    currentImageResourceId = R.drawable.enviormental;
+                    currentImageResourceId = R.drawable.image3tmp;
                     break;
                 case 1:
                     currentImageResourceId = R.drawable.carver;
                     break;
                 case 2:
-                    currentImageResourceId = R.drawable.beard;
+                    currentImageResourceId = R.drawable.image3tmp;
                     break;
                 case 3:
-                    currentImageResourceId = R.drawable.sighisoara_sphere;
+                    currentImageResourceId = R.drawable.image4tmp;
                     break;
                 case 4:
                     currentImageResourceId = R.drawable.sighisoara_sphere;

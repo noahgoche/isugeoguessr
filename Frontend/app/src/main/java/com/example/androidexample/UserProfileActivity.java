@@ -1,2 +1,4 @@
-package com.example.androidexample;public class UserProfileActivity {
+package com.example.androidexample;
+
+public class UserProfileActivity {
 }
