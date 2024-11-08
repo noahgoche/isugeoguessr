@@ -2,8 +2,6 @@ package ISUGeoguessr.UserData;
 
 
 import java.util.List;
-
-import ISUGeoguessr.Stats.StatsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

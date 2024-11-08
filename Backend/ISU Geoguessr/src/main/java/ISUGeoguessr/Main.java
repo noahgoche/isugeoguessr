@@ -5,18 +5,17 @@ import java.util.Date;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.context.annotation.ComponentScan;
 
 
-import ISUGeoguessr.UserData.UserDataRepository;
-import ISUGeoguessr.UserData.UserData;
-import ISUGeoguessr.Location.Location;
-import ISUGeoguessr.Location.LocationRepository;
-import ISUGeoguessr.Stats.Stats;
-import ISUGeoguessr.Stats.StatsRepository;
-
+import ISUGeoguessr.UserData.*;
+import ISUGeoguessr.Location.*;
+import ISUGeoguessr.Stats.*;
+import ISUGeoguessr.Chat.*;
+import ISUGeoguessr.Leaderboard.*;
 
 
 @SpringBootApplication

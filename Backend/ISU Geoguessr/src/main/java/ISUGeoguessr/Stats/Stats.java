@@ -9,15 +9,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 
 import ISUGeoguessr.UserData.UserData;
-import org.hibernate.bytecode.enhance.spi.EnhancementInfo;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+import java.util.Comparator;
+
 @Entity
 @Getter @Setter @NoArgsConstructor
-public class Stats {
+public class Stats implements Comparator<Stats> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +32,7 @@ public class Stats {
     private String username;
 
     /*
-     * @ManyToOne tells springboot that multiple instances of Stats can map to one instance of OR multiple rows of the Stats table can map to one userdata row
+     * @ManyToOne tells Springboot that multiple instances of Stats can map to one instance of OR multiple rows of the Stats table can map to one userdata row
      * @JoinColumn specifies the ownership of the key i.e. The Stats table will contain a foreign key from the UserData table and the column name will be userdata_id
      * @JsonIgnore is to assure that there is no infinite loop while returning either userdata/stats objects
      */
@@ -47,5 +48,10 @@ public class Stats {
 
     }
 
+    @Override
+    public int compare(Stats stats1, Stats stats2)
+    {
+        return stats2.getTotalScore() - stats1.getTotalScore();
+    }
 
 }
