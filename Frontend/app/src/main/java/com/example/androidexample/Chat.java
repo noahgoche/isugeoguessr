@@ -1,7 +1,6 @@
 package com.example.androidexample;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,12 +9,11 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.java_websocket.handshake.ServerHandshake;
 
 public class Chat extends AppCompatActivity implements WebSocketListener {
 
-    private Button sendBtn, backButton, chatRoom1Button, chatRoom2Button,chatRoom3Button;  // Added chatRoom1Button
+    private Button sendBtn, backButton, chatRoom1Button, chatRoom2Button, chatRoom3Button;
     private EditText msgEtx;
     private TextView msgTv;
     private ScrollView chatScrollView;
@@ -35,9 +33,9 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
         msgEtx = findViewById(R.id.msgEdt);
         msgTv = findViewById(R.id.tx1);
         chatScrollView = findViewById(R.id.chatScrollView);
-        chatRoom1Button = findViewById(R.id.chatRoom1Button); // Initialize the new button
-        chatRoom2Button = findViewById(R.id.chatRoom2Button); // Initialize the new button
-        chatRoom3Button = findViewById(R.id.chatRoom3Button); // Initialize the new button
+        chatRoom1Button = findViewById(R.id.chatRoom1Button);
+        chatRoom2Button = findViewById(R.id.chatRoom2Button);
+        chatRoom3Button = findViewById(R.id.chatRoom3Button);
 
         sendBtn.setOnClickListener(v -> {
             String message = msgEtx.getText().toString();
@@ -57,21 +55,20 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
 
-        // Set OnClickListener for the chatRoom1Button
         chatRoom1Button.setOnClickListener(v -> {
-            Intent intent = new Intent(Chat.this, ChatRoom1.class); // Assuming ChatRoom1 is your target activity
+            Intent intent = new Intent(Chat.this, ChatRoom1.class);
+            intent.putExtra("USERNAME", username);
             startActivity(intent);
-
         });
         chatRoom2Button.setOnClickListener(v -> {
-            Intent intent = new Intent(Chat.this, ChatRoom1.class); // Assuming ChatRoom1 is your target activity
+            Intent intent = new Intent(Chat.this, ChatRoom1.class);
+            intent.putExtra("USERNAME", username);
             startActivity(intent);
-
         });
         chatRoom3Button.setOnClickListener(v -> {
-            Intent intent = new Intent(Chat.this, ChatRoom1.class); // Assuming ChatRoom1 is your target activity
+            Intent intent = new Intent(Chat.this, ChatRoom1.class);
+            intent.putExtra("USERNAME", username);
             startActivity(intent);
-
         });
     }
 
