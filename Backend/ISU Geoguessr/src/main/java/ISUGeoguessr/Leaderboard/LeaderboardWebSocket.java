@@ -61,7 +61,7 @@ public class LeaderboardWebSocket {
 
         for (Stats stats : top50) {
             if (stats != null) {
-                session.getBasicRemote().sendText("Player: " + stats.getUsername() + "\tScore: " + stats.getTotalScore());
+                session.getBasicRemote().sendText(stats.getUsername() + " - " + stats.getTotalScore());
             }
         }
 
