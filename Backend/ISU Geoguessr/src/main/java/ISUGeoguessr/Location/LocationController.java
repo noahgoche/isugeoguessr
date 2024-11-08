@@ -58,7 +58,7 @@ public class LocationController {
         return "Success";
     }
 
-    @PutMapping(path = "/Location/{id}")
+    @PutMapping(path = "/Location/{id}/{newLat}/{newLong}")
     String updateLocationCoordsById(@PathVariable int id, @PathVariable double newLat, @PathVariable double newLong)
     {
         Location location = locationRepository.findById(id);
