@@ -28,7 +28,7 @@ public class ChatRoom3 extends AppCompatActivity implements WebSocketListener {
         String username = getIntent().getStringExtra("USERNAME");
         String serverUrl = "ws://coms-3090-070.class.las.iastate.edu:8080/chatroom3/" + username;  // Use correct server address
 
-        // Establish WebSocket connection and set listener
+        WebSocketManager.getInstance().disconnectWebSocket();
         WebSocketManager.getInstance().connectWebSocket(serverUrl);
         WebSocketManager.getInstance().setWebSocketListener(this);
 
@@ -56,6 +56,7 @@ public class ChatRoom3 extends AppCompatActivity implements WebSocketListener {
         });
         Button backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
+            WebSocketManager.getInstance().disconnectWebSocket();
             finish();
         });
     }

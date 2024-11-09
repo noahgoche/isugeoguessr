@@ -26,6 +26,8 @@ public class Chat extends AppCompatActivity implements WebSocketListener {
         String username = getIntent().getStringExtra("USERNAME");
         String serverUrl = "ws://coms-3090-070.class.las.iastate.edu:8080/chat/" + username;
 
+        WebSocketManager.getInstance().disconnectWebSocket();
+
         WebSocketManager.getInstance().connectWebSocket(serverUrl);
         WebSocketManager.getInstance().setWebSocketListener(this);
 

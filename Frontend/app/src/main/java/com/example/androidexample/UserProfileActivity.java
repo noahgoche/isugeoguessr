@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    private Button deleteButton;
+    private Button deleteButton, backButton;
     private String username;
 
     @Override
@@ -36,11 +36,19 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         username = getIntent().getStringExtra("USERNAME");
         deleteButton = findViewById(R.id.deleteProfileButton);
+        backButton = findViewById(R.id.backButton);
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fetchUserId(username);
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() { // Set up back button logic
+            @Override
+            public void onClick(View v) {
+                finish(); // Close this activity and go back to the previous one
             }
         });
     }
