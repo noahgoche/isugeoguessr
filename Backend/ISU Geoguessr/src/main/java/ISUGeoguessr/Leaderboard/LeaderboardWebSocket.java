@@ -51,7 +51,17 @@ public class LeaderboardWebSocket {
         if(statsRepository == null)
             session.getBasicRemote().sendText("Stats Repository is empty");
 
+        //creates a list of stat objects from the stats repository for easier accessing and sorting
+        statList = statsRepository.findAll();
+        statList.sort(new Stats());
 
+        //create a separate list holding a set amount for the leader board
+        if (statList.size() < 50)
+            top50 = statList;
+        else
+            top50 = statList.subList(0, 50);
+
+        //while session is open the leaderboard will update
         while (session.isOpen()) {
             statList = statsRepository.findAll();
             statList.sort(new Stats());
@@ -61,6 +71,7 @@ public class LeaderboardWebSocket {
             else
                 top50 = statList.subList(0, 50);
 
+            //if statement is true when the list changes and then updates the leaderboard
             if(!top50.equals(prevTop50)) {
                 for (Stats stats : top50) {
                     if (stats != null) {
