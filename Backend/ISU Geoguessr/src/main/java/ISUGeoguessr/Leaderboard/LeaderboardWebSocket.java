@@ -14,6 +14,7 @@ import jakarta.websocket.Session;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 
+import org.aspectj.bridge.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class LeaderboardWebSocket {
     private static List<Stats> statList = new ArrayList<Stats>();
 
     List<Stats> top50;
-
+    List<Stats> prevTop50;
     private final Logger logger = LoggerFactory.getLogger(LeaderboardWebSocket.class);
 
 
@@ -50,28 +51,25 @@ public class LeaderboardWebSocket {
         if(statsRepository == null)
             session.getBasicRemote().sendText("Stats Repository is empty");
 
-        statList = statsRepository.findAll();
-        statList.sort(new Stats());
-        
-        if(statList.size() < 50)
-            top50 = statList;
-        else
-            top50 = statList.subList(0,50);
 
+        while (session.isOpen()) {
+            statList = statsRepository.findAll();
+            statList.sort(new Stats());
 
-        for (Stats stats : top50) {
-            if (stats != null) {
-                session.getBasicRemote().sendText(stats.getUsername() + " - " + stats.getTotalScore());
+            if (statList.size() < 50)
+                top50 = statList;
+            else
+                top50 = statList.subList(0, 50);
+
+            if(!top50.equals(prevTop50)) {
+                for (Stats stats : top50) {
+                    if (stats != null) {
+                        session.getBasicRemote().sendText(stats.getUsername() + " - " + stats.getTotalScore());
+                    }
+                }
+                prevTop50 = top50;
             }
         }
-
-    }
-
-    @OnMessage
-    public void onMessage(Session session, String message) throws IOException {
-
-        // Handle new messages
-        logger.info("Entered into Message: Got Message:" + message);
 
     }
 
