@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
         android:layout_marginBottom="80dp"
-        android:text="Signup Example"
+        android:text="Signup"
         android:textColor="#fc0303"
         android:textSize="30dp"></TextView>
 
@@ -92,6 +92,8 @@
         <Button
             android:id="@+id/signup_login_btn"
             android:layout_width="150dp"
+            style="@style/PlayButtonStyle"
+
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:text="Login"
@@ -101,6 +103,7 @@
         <Button
             android:id="@+id/signup_signup_btn"
             android:layout_width="150dp"
+            style="@style/PlayButtonStyle"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="Signup"

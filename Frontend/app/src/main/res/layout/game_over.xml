@@ -1,0 +1,100 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F5F5F5">
+
+    <!-- Game Over Title -->
+    <TextView
+        android:id="@+id/gameOverTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Game Over"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:textColor="#FF0000" />
+
+    <!-- User Score -->
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Score: 0"
+        android:textSize="20sp"
+        android:layout_below="@id/gameOverTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:textColor="#000000" />
+
+    <!-- Leaderboard Title -->
+    <TextView
+        android:id="@+id/leaderboardTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scoreTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Leaderboard Placeholder -->
+    <LinearLayout
+        android:id="@+id/leaderboardLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/leaderboardTitle"
+        android:padding="8dp"
+        android:layout_margin="16dp">
+
+        <!-- Placeholder entries -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="4dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="4dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="4dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="4dp"
+            android:textSize="18sp" />
+
+        <!-- Add more placeholder leaderboard items as needed -->
+    </LinearLayout>
+
+
+    <!-- Home Button -->
+
+    <Button
+        android:id="@+id/homeButton"
+        style="@style/PlayButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/leaderboardLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="Home" />
+
+
+
+</RelativeLayout>

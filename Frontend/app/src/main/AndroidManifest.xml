@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IsuApp"
         tools:targetApi="31">
+
         <activity
             android:name=".SignupActivity"
             android:exported="false" />
@@ -25,14 +26,38 @@
             android:name=".UserHome"
             android:exported="false" />
         <activity
+            android:name=".GameOver"
+            android:exported="false" />
+        <activity
+            android:name=".Stats"
+            android:exported="false" />
+        <activity
+            android:name=".Leaderboard"
+            android:exported="false" />
+        <activity
+            android:name=".PlayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Chat"
+            android:exported="false" />
+        <activity
+            android:name=".ChatRoom1"
+            android:exported="false" />
+
+        <!-- New UserProfileActivity added here -->
+        <activity
+            android:name=".UserProfileActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
