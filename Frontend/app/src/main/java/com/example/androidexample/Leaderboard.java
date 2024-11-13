@@ -10,6 +10,9 @@ import org.java_websocket.handshake.ServerHandshake;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * Class to see leaderboard of all users and their total score
+ */
 public class Leaderboard extends AppCompatActivity {
 
     private LinearLayout leaderboardList;

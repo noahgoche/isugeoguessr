@@ -25,6 +25,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class for user to create an account
+ */
 public class SignupActivity extends AppCompatActivity {
 
     private EditText usernameEditText;  // define username edittext variable
@@ -78,6 +81,12 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Gets username and password and uses put method to CREATE user in DB
+     * @param username
+     * @param email
+     * @param password
+     */
     private void createUser(String username, String email, String password) {
         String URL_CREATE_USER = "http://coms-3090-070.class.las.iastate.edu:8080/users";
 
@@ -128,6 +137,10 @@ public class SignupActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    /**
+     * Creates a stats entry based on the new user information
+     * @param userData
+     */
     private void createStatsEntry(JSONObject userData) {
         String URL_CREATE_STATS = "http://coms-3090-070.class.las.iastate.edu:8080/Stats";
         JSONObject statsData = new JSONObject();

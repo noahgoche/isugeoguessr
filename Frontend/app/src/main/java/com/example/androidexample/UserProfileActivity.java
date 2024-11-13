@@ -25,6 +25,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * View to see profile information
+ */
 public class UserProfileActivity extends AppCompatActivity {
 
     private Button deleteButton, backButton;
@@ -53,6 +56,10 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Gets logged in users id from DB
+     * @param username
+     */
     private void fetchUserId(String username) {
         String URL_GET_USERS = "http://coms-3090-070.class.las.iastate.edu:8080/users";
 
@@ -102,6 +109,11 @@ public class UserProfileActivity extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
+    /**
+     * Gets logged in users stat id
+     * @param username
+     * @param userId
+     */
     private void fetchStatsId(String username, String userId) {
         String URL_GET_STATS = "http://coms-3090-070.class.las.iastate.edu:8080/Stats";
 
@@ -151,6 +163,11 @@ public class UserProfileActivity extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
     }
 
+    /**
+     * Takes userId and statsId and uses this information to delete the user from user table
+     * @param userId
+     * @param statsId
+     */
     private void deleteUser(String userId, String statsId) {
         String URL_DELETE_USER = "http://coms-3090-070.class.las.iastate.edu:8080/users/" + userId;
 
@@ -183,6 +200,10 @@ public class UserProfileActivity extends AppCompatActivity {
         requestQueue.add(deleteUserRequest);
     }
 
+    /**
+     * Takes statsId and deletes stats of the user
+     * @param statsId
+     */
     private void deleteStats(String statsId) {
         String URL_DELETE_STATS = "http://coms-3090-070.class.las.iastate.edu:8080/Stats/" + statsId;
 
