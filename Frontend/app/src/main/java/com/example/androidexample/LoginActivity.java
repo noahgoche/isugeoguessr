@@ -26,6 +26,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class to log in to our app.
+ *
+ * @author Jacob Garcia
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private EditText usernameEditText;  // define username edittext variable
@@ -70,6 +75,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method that checks DB for existing user and logs them in
+     * @param usernameInput
+     * @param passwordInput
+     */
     private void login(String usernameInput, String passwordInput) {
         //skip login for testing
 
