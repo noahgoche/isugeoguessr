@@ -50,6 +50,18 @@ public class StatsController {
         return stats.getTotalScore();
     }
 
+    @GetMapping(path = "/Stats/{id}/perfectGuesses")
+    int getPerfectGuessesById(@PathVariable int id)
+    {
+        Stats stats = statsRepository.findById(id);
+        if(stats == null)
+        {
+            return -1;
+        }
+
+        return stats.getPerfectGuesses();
+    }
+
     @GetMapping(path = "/Stats/{id}/timePlayed")
     float getTimePlayedById(@PathVariable int id)
     {
