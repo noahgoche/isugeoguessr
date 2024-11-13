@@ -48,9 +48,9 @@ public class LeaderboardWebSocket {
 
         this.session = session;
 
-        if(statsRepository == null)
+        if(statsRepository == null) {
             session.getBasicRemote().sendText("Stats Repository is empty");
-
+    }
         //creates a list of stat objects from the stats repository for easier accessing and sorting
         statList = statsRepository.findAll();
         statList.sort(new Stats());

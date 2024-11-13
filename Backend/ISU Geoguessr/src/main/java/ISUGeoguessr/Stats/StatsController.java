@@ -130,6 +130,20 @@ public class StatsController {
         return "Success";
     }
 
+    @PutMapping(path = "/Stats/{id}/perfectGuesses/{perfectGuesses}")
+    String updatePerfectGuessesById(@PathVariable int id, @PathVariable int perfectGuesses)
+    {
+        Stats stats = statsRepository.findById(id);
+        if(stats == null)
+        {
+            return "Failed";
+        }
+        stats.setPerfectGuesses(perfectGuesses);
+        statsRepository.save(stats);
+
+        return "Succes";
+    }
+
     @PutMapping(path = "/Stats/{id}/timePlayed/{timePlayed}")
     String updateTimePlayedById(@PathVariable int id, @PathVariable float timePlayed)
     {
