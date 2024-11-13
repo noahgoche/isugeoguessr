@@ -34,12 +34,15 @@ public class LeaderboardWebSocket {
 
     private Session session;
 
-    private static List<Stats> statList = new ArrayList<Stats>();
+    List<Stats> allStats = new ArrayList<Stats>();
+    List<Stats> top50 = new ArrayList<Stats>();
+    List<Stats> prevTop50 = new ArrayList<Stats>();
 
-    List<Stats> top50;
-    List<Stats> prevTop50;
     private final Logger logger = LoggerFactory.getLogger(LeaderboardWebSocket.class);
 
+    boolean listComp = false;
+
+    Stats stats = new Stats();
 
     @OnOpen
     public void onOpen(Session session) throws IOException
@@ -51,34 +54,67 @@ public class LeaderboardWebSocket {
         if(statsRepository == null) {
             session.getBasicRemote().sendText("Stats Repository is empty");
     }
-        //creates a list of stat objects from the stats repository for easier accessing and sorting
-        statList = statsRepository.findAll();
-        statList.sort(new Stats());
+        //allStats holds all the stats objects in statsRepository
+        allStats = statsRepository.findAll();
 
-        //create a separate list holding a set amount for the leader board
-        if (statList.size() < 50)
-            top50 = statList;
+        //sort the list in order of highest total score to lowest
+        allStats.sort(new Stats());
+
+        //create a list holding a set amount for the leader board or all stats objects if the count is less than the max leaderboard size
+        if (statsRepository.count() < 50)
+            top50 = allStats;
         else
-            top50 = statList.subList(0, 50);
+            top50 = allStats.subList(0, 50);
+
+        //displays top players on open
+        for (Stats stats : top50) {
+            if (stats != null) {
+                session.getBasicRemote().sendText(stats.getUsername() + " - " + stats.getTotalScore());
+            }
+        }
+
+        //sets the prevTop50 = top50 for checking if any stats change or are added
+        prevTop50 = top50;
 
         //while session is open the leaderboard will update
-        while (session.isOpen()) {
-            statList = statsRepository.findAll();
-            statList.sort(new Stats());
+        while (this.session.isOpen()) {
 
-            if (statList.size() < 50)
-                top50 = statList;
+            //check the statsRepository to see if anything has been added or changed
+            //allStats holds all the stats objects in statsRepository
+            allStats = statsRepository.findAll();
+
+            //sort the list in order of highest total score to lowest
+            allStats.sort(new Stats());
+
+            //create a list holding a set amount for the leader board or all stats objects if the count is less than the max leaderboard size
+            if (statsRepository.count() < 50)
+                top50 = allStats;
             else
-                top50 = statList.subList(0, 50);
+                top50 = allStats.subList(0, 50);
 
-            //if statement is true when the list changes and then updates the leaderboard
-            if(!top50.equals(prevTop50)) {
+            //compare the previous stats data with newly received data and if any stats have been added or updated set listComp true
+            //if the size of the current and previous top players match then compare each individual object otherwise set listComp true
+            if(top50.size() == prevTop50.size()) {
+                int count = 0;
+                while(!listComp && count < top50.size())
+                {
+                    //if top50 doesn't have the exact same objects as previous top 50, listComp is set to true and breaks the loop
+                    listComp = stats.compare(top50.get(count), prevTop50.get(count)) != 0;
+                    count++;
+                }
+            }
+            else
+                listComp = true;
+
+            //if top50 doesn't equal the previous top 50 then the list changes and updates the leaderboard
+            if(listComp) {
                 for (Stats stats : top50) {
                     if (stats != null) {
                         session.getBasicRemote().sendText(stats.getUsername() + " - " + stats.getTotalScore());
                     }
                 }
                 prevTop50 = top50;
+                listComp = false;
             }
         }
 
