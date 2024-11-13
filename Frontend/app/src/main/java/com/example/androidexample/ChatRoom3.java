@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.java_websocket.handshake.ServerHandshake;
 
+/**
+ * ChatRoom3 activity that handles communication with the WebSocket server for chatroom 3 and displays messages in a chat interface.
+ */
 public class ChatRoom3 extends AppCompatActivity implements WebSocketListener {
 
     private Button sendBtn, backButton;
@@ -19,6 +22,12 @@ public class ChatRoom3 extends AppCompatActivity implements WebSocketListener {
     private TextView msgTv;
     private ScrollView chatScrollView;  // Reference to ScrollView for auto-scrolling
 
+    /**
+     * Called when the activity is created.
+     * Initializes UI components and sets up WebSocket connection for chatroom 3.
+     *
+     * @param savedInstanceState the saved state of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +63,8 @@ public class ChatRoom3 extends AppCompatActivity implements WebSocketListener {
                 Toast.makeText(this, "Please enter a message", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Back button listener
         Button backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
             WebSocketManager.getInstance().disconnectWebSocket();
@@ -61,7 +72,11 @@ public class ChatRoom3 extends AppCompatActivity implements WebSocketListener {
         });
     }
 
-        // Method to add a message and scroll to the bottom
+    /**
+     * Adds a new message to the chat display and scrolls to the bottom of the chat view.
+     *
+     * @param message the message to display.
+     */
     private void addMessageToChat(String message) {
         String currentMessages = msgTv.getText().toString();
         msgTv.setText(currentMessages + "\n" + message);
@@ -70,32 +85,53 @@ public class ChatRoom3 extends AppCompatActivity implements WebSocketListener {
         chatScrollView.post(() -> chatScrollView.fullScroll(ScrollView.FOCUS_DOWN));
     }
 
-
-    // Handle incoming WebSocket messages
+    /**
+     * Callback method when a message is received from the WebSocket server.
+     *
+     * @param message the received message.
+     */
     @Override
     public void onWebSocketMessage(String message) {
         runOnUiThread(() -> addMessageToChat(message));
     }
 
-    // Handle WebSocket close events
+    /**
+     * Callback method when the WebSocket connection is closed.
+     *
+     * @param code the status code indicating the reason for closure.
+     * @param reason a message indicating the reason for closure.
+     * @param remote true if the connection was closed by the remote server, false if closed locally.
+     */
     @Override
     public void onWebSocketClose(int code, String reason, boolean remote) {
         String closedBy = remote ? "server" : "local";
         runOnUiThread(() -> addMessageToChat("---\nConnection closed by " + closedBy + "\nReason: " + reason));
     }
 
-    // Handle WebSocket open events
+    /**
+     * Callback method when the WebSocket connection is successfully opened.
+     * Displays a connection confirmation message.
+     *
+     * @param handshakedata the data received during the WebSocket handshake.
+     */
     @Override
     public void onWebSocketOpen(ServerHandshake handshakedata) {
         runOnUiThread(() -> addMessageToChat("---\nConnected to chat!"));
     }
 
-    // Handle WebSocket errors
+    /**
+     * Callback method when an error occurs during WebSocket communication.
+     *
+     * @param ex the exception describing the error.
+     */
     @Override
     public void onWebSocketError(Exception ex) {
         runOnUiThread(() -> addMessageToChat("---\nError: " + ex.getMessage()));
     }
 
+    /**
+     * Called when the activity is destroyed. Disconnects the WebSocket connection.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
