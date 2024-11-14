@@ -35,6 +35,7 @@ public class StatsController {
             return "Failed";
         }
 
+        stats.setUserData(userDataRepository.findByUsername(stats.getUsername()));
         statsRepository.save(stats);
         return "Success";
     }

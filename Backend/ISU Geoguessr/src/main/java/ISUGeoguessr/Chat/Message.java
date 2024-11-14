@@ -2,15 +2,9 @@ package ISUGeoguessr.Chat;
 
 import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import ISUGeoguessr.UserData.UserData;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 import lombok.Data;
 import lombok.Getter;
@@ -39,10 +33,16 @@ public class Message {
     @Column(name = "sent on")
     private Date sent = new Date();
 
+    @ManyToOne
+    @JoinColumn(name = "userdata_id")
+    @JsonIgnore
+    private UserData userData;
+
     public Message(String userName, String content, String chatroom) {
         this.userName = userName;
         this.content = content;
         this.chatroom = chatroom;
+
     }
 
 }

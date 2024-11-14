@@ -1,10 +1,7 @@
 package ISUGeoguessr.UserData;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import ISUGeoguessr.Chat.Message;
+import jakarta.persistence.*;
 
 import ISUGeoguessr.Stats.Stats;
 
@@ -35,22 +32,32 @@ public class UserData {
     @OneToMany
     private List<Stats> statsList;
 
+    @OneToMany
+    private List<Message> messageList;
+
     public UserData(String username, String userEmail, String userPassword)
     {
         this.username = username;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
         statsList = new ArrayList<>();
+        messageList = new ArrayList<>();
     }
 
     public UserData()
     {
         statsList = new ArrayList<>();
+        messageList = new ArrayList<>();
     }
 
     public void addStats(Stats stats)
     {
         statsList.add(stats);
+    }
+
+    public void addMessages(Message message)
+    {
+        messageList.add(message);
     }
 
 }

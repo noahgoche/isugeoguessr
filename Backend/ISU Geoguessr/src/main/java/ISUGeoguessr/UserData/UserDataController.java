@@ -2,6 +2,9 @@ package ISUGeoguessr.UserData;
 
 
 import java.util.List;
+
+import ISUGeoguessr.Chat.Message;
+import ISUGeoguessr.Chat.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +19,9 @@ public class UserDataController {
     @Autowired
     StatsRepository statsRepository;
 
+    @Autowired
+    MessageRepository messageRepository;
+
     @GetMapping(path = "/users")
     List<UserData> getAllUsers()
     {
@@ -26,6 +32,14 @@ public class UserDataController {
     UserData getUserById(@PathVariable int id)
     {
         return userDataRepository.findById(id);
+    }
+
+    @GetMapping(path = "/users/{id}/messages")
+    List<Message> getUserMessagesById(@PathVariable int id)
+    {
+        UserData userData = userDataRepository.findById(id);
+
+        return userData.getMessageList();
     }
 
     @GetMapping(path = "users/password/{id}")
@@ -132,12 +146,15 @@ public class UserDataController {
     String deleteUserById(@PathVariable int id){
         UserData userData = userDataRepository.findById(id);
         List<Stats> stats = userData.getStatsList();
+        List<Message> messages = userData.getMessageList();
 
         for(int i =0; i < stats.size(); i++)
         {
             stats.get(i).setUserData(null);
+            messages.get(i).setUserData(null);
         }
         userData.setStatsList(null);
+        userData.setMessageList(null);
 
         userDataRepository.deleteById(id);
         return "deleted";
