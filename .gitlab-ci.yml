@@ -1,19 +1,37 @@
 stages:
   - androidbuild
-  - androidtest
-
+  - androidtest 
+  
 android-build:
   image: afirefly/android-ci:java17
   stage: androidbuild
   tags:
-    - Jacob_tag
+   - Jacob_tag                   
+  before_script:                    
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./Frontend/gradlew
   script:
-    - echo "Running Android build task..."
+    - cd Frontend                  
+    - ./gradlew build
+  only:
+    refs:
+      - Jacob_CICD
+    changes:
+      - Frontend/**/*
 
 android-test:
   image: afirefly/android-ci:java17
   stage: androidtest
   tags:
-    - Jacob_tag
+    - Jacob_tag                  
+  before_script:                   
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./Frontend/gradlew
   script:
-    - echo "Running Android test task..."
+    - cd Frontend                  
+    - ./gradlew test
+  only:
+    refs:
+      - Jacob_CICD
+    changes:
+      - Frontend/**/*
