@@ -1,13 +1,13 @@
+stages:
+  - build
+  - test
+
 androidbuild:
-  stage: androidbuild
-  tags:
-    - Jacob_tag
+  stage: build
   script:
     - echo "Android build stage"
 
 androidtest:
-  stage: androidtest
-  tags:
-    - Jacob_tag
+  stage: test
   script:
     - echo "Android test stage"
