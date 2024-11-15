@@ -1,0 +1,13 @@
+stages:
+  - androidbuild
+  - androidtest
+
+androidbuild:
+  stage: androidbuild
+  script:
+    - echo "Android build stage (no action yet)"
+
+androidtest:
+  stage: androidtest
+  script:
+    - echo "Android test stage (no action yet)"
