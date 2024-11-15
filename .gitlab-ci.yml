@@ -1,17 +1,17 @@
 stages:
   - androidbuild
-  - androidtest 
-  
+  - androidtest
+
 android-build:
   image: afirefly/android-ci:java17
   stage: androidbuild
   tags:
-   - Jacob_tag                   # <-- change to your runner's tag
-  before_script:                    # change 'Frontend' to where you have 'gradlew'
+    - Jacob_tag
+  before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
     - chmod +x ./Frontend/gradlew
   script:
-    - cd Frontend                   # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
+    - cd Frontend
     - ./gradlew build
   only:
     refs:
@@ -23,12 +23,12 @@ android-test:
   image: afirefly/android-ci:java17
   stage: androidtest
   tags:
-    - Jacob_tag                  # <-- change to your runner's tag
-  before_script:                   # change 'Frontend' to where you have 'gradlew'
+    - Jacob_tag
+  before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
     - chmod +x ./Frontend/gradlew
   script:
-    - cd Frontend                  # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
+    - cd Frontend
     - ./gradlew test
   only:
     refs:
