@@ -15,7 +15,7 @@ android-build:
     - ./gradlew build
   only:
     refs:
-      - YOURNAME_CICD
+      - dylan_CICD
     changes:
       - Frontend/**/*
 
