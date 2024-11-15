@@ -32,7 +32,7 @@ import java.util.Map;
  * @author Jacob Garcia
  */
 public class LoginActivity extends AppCompatActivity {
-    //mini test 6
+    //mini test 7
     private EditText usernameEditText;  // define username edittext variable
     private EditText passwordEditText;  // define password edittext variable
     private Button loginButton;         // define login button variable
