@@ -1,13 +1,37 @@
-androidbuild:
-  stage: build
+stages:
+  - androidbuild
+  - androidtest 
+  
+android-build:
+  image: afirefly/android-ci:java17
+  stage: androidbuild
   tags:
-    - Jacob_tag
+   - Jacob_tag                   # <-- change to your runner's tag
+  before_script:                    # change 'Frontend' to where you have 'gradlew'
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./Frontend/gradlew
   script:
-    - echo "Android build stage"
+    - cd Frontend                   # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
+    - ./gradlew build
+  only:
+    refs:
+      - Jacob_CICD
+    changes:
+      - Frontend/**/*
 
-androidtest:
-  stage: test
+android-test:
+  image: afirefly/android-ci:java17
+  stage: androidtest
   tags:
-    - Jacob_tag
+    - Jacob_tag                  # <-- change to your runner's tag
+  before_script:                   # change 'Frontend' to where you have 'gradlew'
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./Frontend/gradlew
   script:
-    - echo "Android test stage"
+    - cd Frontend                  # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
+    - ./gradlew test
+  only:
+    refs:
+      - Jacob_CICD
+    changes:
+      - Frontend/**/*
