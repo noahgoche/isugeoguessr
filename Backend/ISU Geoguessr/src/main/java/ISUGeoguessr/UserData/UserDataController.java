@@ -7,7 +7,7 @@ import ISUGeoguessr.Chat.Message;
 import ISUGeoguessr.Chat.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-//
+
 import ISUGeoguessr.Stats.*;
 
 @RestController
