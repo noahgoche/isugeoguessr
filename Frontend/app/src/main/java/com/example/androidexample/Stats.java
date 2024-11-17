@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 /**
  * Class to view users stats
+ * Class to view poop stats
  */
 public class Stats extends AppCompatActivity {
 
