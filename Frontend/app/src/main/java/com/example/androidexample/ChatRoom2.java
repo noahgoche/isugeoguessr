@@ -71,7 +71,7 @@ public class ChatRoom2 extends AppCompatActivity implements WebSocketListener {
     }
 
 
-    // Handle incoming WebSocket messages
+    // Handle incoming WebSocket messagesmmmm
     @Override
     public void onWebSocketMessage(String message) {
         runOnUiThread(() -> addMessageToChat(message));
