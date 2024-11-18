@@ -215,17 +215,31 @@ public class PlayActivity extends AppCompatActivity {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = earthRadius * c;
 
+        double quarterMile = 0.402336;  // Quarter mile in kilometers
+        double thirtyFeet = 0.009144;  // 30 feet in kilometers
         int maxScore = 1000;
         int minScore = 0;
-        double maxDistance = 5.0;
 
-        double score = Math.max(minScore, Math.min(maxScore, maxScore * (1 - (distance / maxDistance))));
+        double score;
+        if (distance <= thirtyFeet) {
+            score = maxScore;
+        } else if (distance >= quarterMile) {
+            score = minScore;
+        } else {
+            // Smooth quadratic decay from maxScore to minScore between 0 and quarterMile
+            double decayFactor = (quarterMile - distance) / quarterMile;
+            score = Math.max(minScore, Math.min(maxScore, maxScore * decayFactor * decayFactor));
+        }
 
         gameScore += (int) score;
 
         Toast.makeText(this, "Score: " + (int) score, Toast.LENGTH_LONG).show();
+
         System.out.println("Score: " + (int) score);
     }
+
+
+
 
     /**
      * Updates the panorama image displayed on the screen.
