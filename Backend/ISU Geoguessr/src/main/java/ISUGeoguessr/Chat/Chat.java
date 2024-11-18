@@ -1,12 +1,14 @@
 package ISUGeoguessr.Chat;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
 import ISUGeoguessr.UserData.UserData;
 import ISUGeoguessr.UserData.UserDataRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnError;
 import jakarta.websocket.OnMessage;
@@ -105,12 +107,13 @@ public class Chat {
         Message chatMessage = new Message(username, message, "All chat");
         UserData user = userDataRepo.findByUsername(username);
 
+
         chatMessage.setUserData(user);
         msgRepo.save(chatMessage);
 
         //TODO fix LazyInitializatonException
-//        user.addMessages(chatMessage);
-//        userDataRepo.save(user);
+        user.addMessages(chatMessage);
+        userDataRepo.save(user);
 
     }
 
