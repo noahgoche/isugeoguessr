@@ -113,10 +113,10 @@ public class Chat {
         msgRepo.save(chatMessage);
 
         //TODO fix LazyInitializatonException
-        messages = user.getMessageList();
-        messages.add(chatMessage);
-        user.setMessageList(messages);
-        userDataRepo.save(user);
+//        messages = user.getMessageList();
+//        messages.add(chatMessage);
+//        user.setMessageList(messages);
+//        userDataRepo.save(user);
 
     }
 
