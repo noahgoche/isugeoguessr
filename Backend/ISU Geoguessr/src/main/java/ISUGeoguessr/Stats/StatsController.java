@@ -107,6 +107,17 @@ public class StatsController {
         return stats.getGamesLost();
     }
 
+    @GetMapping(path = "/Stats/{id}/perfectGames")
+    int getPerfectGamesById(@PathVariable int id)
+    {
+        Stats stats = statsRepository.findById(id);
+        if(stats == null)
+        {
+            return -1;
+        }
+        return stats.getPerfectGames();
+    }
+
     @GetMapping(path = "/Stats/{id}/gameMode")
     String getModeById(@PathVariable int id)
     {
@@ -193,6 +204,19 @@ public class StatsController {
             return "Failed";
         }
         stats.setGamesLost(losses);
+        statsRepository.save(stats);
+        return "Success";
+    }
+
+    @PutMapping(path = "/Stats/{id}/perfectGames/{perfectGames}")
+    String updateUserPerfectGamesById(@PathVariable int id, @PathVariable int perfectGames)
+    {
+        Stats stats = statsRepository.findById(id);
+        if(stats == null)
+        {
+            return "failed";
+        }
+        stats.setPerfectGames(perfectGames);
         statsRepository.save(stats);
         return "Success";
     }

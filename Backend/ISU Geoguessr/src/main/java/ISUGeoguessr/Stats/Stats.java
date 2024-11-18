@@ -29,6 +29,7 @@ public class Stats implements Comparator<Stats> {
     private int wins;
     private int gamesPlayed;
     private int gamesLost;
+    private int perfectGames;
     private String gameMode;
     private String username;
 
