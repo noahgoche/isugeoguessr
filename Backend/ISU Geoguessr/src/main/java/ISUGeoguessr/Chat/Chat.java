@@ -54,6 +54,8 @@ public class Chat {
 
     private final Logger logger = LoggerFactory.getLogger(Chat.class);
 
+    private List<Message> messages;
+
     @OnOpen
     public void onOpen(Session session, @PathParam("username") String username) throws IOException {
 
@@ -109,8 +111,10 @@ public class Chat {
         msgRepo.save(chatMessage);
 
         //TODO fix LazyInitializatonException
-//        user.addMessages(chatMessage);
-//        userDataRepo.save(user);
+        messages = user.getMessageList();
+        messages.add(chatMessage);
+        user.setMessageList(messages);
+        userDataRepo.save(user);
 
     }
 
