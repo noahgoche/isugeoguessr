@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import ISUGeoguessr.UserData.UserData;
 import ISUGeoguessr.UserData.UserDataRepository;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnError;
@@ -100,8 +101,13 @@ public class Chatroom2 {
 
         // Saving chat history to repository
         Message chatMessage = new Message(username, message, "Chatroom 2");
-        chatMessage.setUserData(userDataRepo.findByUsername(username));
+        UserData user = userDataRepo.findByUsername(username);
+        chatMessage.setUserData(user);
         msgRepo.save(chatMessage);
+
+        //add to list of messages in user object
+        user.addMessages(chatMessage);
+        userDataRepo.save(user);
     }
 
 

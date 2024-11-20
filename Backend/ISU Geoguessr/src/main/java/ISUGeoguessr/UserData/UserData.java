@@ -32,7 +32,7 @@ public class UserData {
     @OneToMany
     private List<Stats> statsList;
 
-    @OneToMany
+    @OneToMany (fetch = FetchType.EAGER)
     private List<Message> messageList;
 
     public UserData(String username, String userEmail, String userPassword)
