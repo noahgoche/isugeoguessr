@@ -23,7 +23,7 @@ import ISUGeoguessr.Leaderboard.*;
 @ComponentScan(basePackages = {"ISUGeoguessr"})
 class Main {
     public static void main(String[] args) {
-        System.setProperty("hibernate.enable_lazy_load_no_trans", "true");
+      //  System.setProperty("hibernate.enable_lazy_load_no_trans", "true");
         SpringApplication.run(Main.class, args);
     }
 
