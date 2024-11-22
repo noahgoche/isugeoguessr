@@ -7,7 +7,7 @@ maven-build:
   tags:
     - Noah_tag      # <-- change to your runner's tag
   script:
-    - cd "ISU Geoguessr"        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
+    - cd Backend/ISU\ Geoguessr        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
     - mvn package
   only:
     refs:
@@ -21,7 +21,7 @@ maven-test:
   tags:
     - Noah_tag     # <-- change to your runner's tag
   script:
-    - cd "ISU Geoguessr"       # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
+    - cd Backend/ISU\ Geoguessr       # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
     - mvn test
   only:
     refs:
