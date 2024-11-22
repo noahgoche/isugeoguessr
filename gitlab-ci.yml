@@ -1,0 +1,30 @@
+stages:
+  - mavenbuild
+  - maventest
+  
+maven-build:            
+  stage: mavenbuild
+  tags:
+    - Noah_tag      # <-- change to your runner's tag
+  script:
+    - cd "ISU Geoguessr"        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
+    - mvn package
+  only:
+    refs:
+      - YOURNAME_CICD
+    changes:
+      - Backend/**/*
+
+
+maven-test:             
+  stage: maventest
+  tags:
+    - Noah_tag     # <-- change to your runner's tag
+  script:
+    - cd "ISU Geoguessr"       # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
+    - mvn test
+  only:
+    refs:
+      - Noah_CICD
+    changes:
+      - Backend/**/*
