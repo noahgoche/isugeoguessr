@@ -1,7 +1,5 @@
 package com.example.androidexample;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,13 +9,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -51,18 +50,11 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 /* grab strings from user inputs */
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
 
                 login(username, password);
-
-                /* when login button is pressed, use intent to switch to Login Activity */
-                //Intent intent = new Intent(LoginActivity.this, UserHome.class);
-                //intent.putExtra("USERNAME", username);  // key-value to pass to the MainActivity
-                //intent.putExtra("PASSWORD", password);  // key-value to pass to the MainActivity
-                //startActivity(intent);  // go to MainActivity with the key-value data
             }
         });
 
@@ -79,6 +71,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(String usernameInput, String passwordInput) {
+        //skip login for testing
+
         String URL_GET_USERS = "http://coms-3090-070.class.las.iastate.edu:8080/users";
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -143,5 +137,7 @@ public class LoginActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonArrayRequest);
+
     }
+
 }

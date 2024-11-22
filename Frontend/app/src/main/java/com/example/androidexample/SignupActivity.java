@@ -1,7 +1,5 @@
 package com.example.androidexample;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,12 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
@@ -65,13 +66,12 @@ public class SignupActivity extends AppCompatActivity {
                 String password = passwordEditText.getText().toString();
                 String confirm = confirmEditText.getText().toString();
 
-                if (password.equals(confirm)){
+                if (password.equals(confirm)) {
                     Toast.makeText(getApplicationContext(), "Signing up...", Toast.LENGTH_LONG).show();
                     createUser(username, "test@gmail.com", password);
                     Intent intent = new Intent(SignupActivity.this, MainActivity.class);
                     startActivity(intent);  // go to LoginActivity
-                }
-                else {
+                } else {
                     Toast.makeText(getApplicationContext(), "Password don't match", Toast.LENGTH_LONG).show();
                 }
             }
@@ -79,10 +79,8 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void createUser(String username, String email, String password) {
-        // URL for the POST request
         String URL_CREATE_USER = "http://coms-3090-070.class.las.iastate.edu:8080/users";
 
-        // Create JSON object to be sent in the POST request
         JSONObject userData = new JSONObject();
         try {
             userData.put("username", username);
@@ -92,24 +90,18 @@ public class SignupActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // Create the POST request
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+        StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 URL_CREATE_USER,
-                userData,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("Volley Response", response.toString());
-                        try {
-                            String result = response.getString("result");
-                            if (result.equals("Success")) {
-                                Log.d("Create User", "User created successfully");
-                            } else {
-                                Log.d("Create User", "User creation failed");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    public void onResponse(String response) {
+                        Log.d("Volley Response", response);
+                        if (response.equals("Success")) {
+                            Log.d("Create User", "User created successfully");
+                            createStatsEntry(userData);
+                        } else {
+                            Log.d("Create User", "User creation failed");
                         }
                     }
                 },
@@ -120,6 +112,11 @@ public class SignupActivity extends AppCompatActivity {
                     }
                 }) {
             @Override
+            public byte[] getBody() throws AuthFailureError {
+                return userData.toString().getBytes();
+            }
+
+            @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
@@ -128,7 +125,35 @@ public class SignupActivity extends AppCompatActivity {
         };
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(jsonObjReq);
+        requestQueue.add(stringRequest);
+    }
+
+    private void createStatsEntry(JSONObject userData) {
+        String URL_CREATE_STATS = "http://coms-3090-070.class.las.iastate.edu:8080/Stats";
+        JSONObject statsData = new JSONObject();
+        try {
+            statsData.put("userData", userData);
+            statsData.put("username", userData.get("username"));
+            statsData.put("gameMode", "campus");
+            statsData.put("totalScore", 0);
+            statsData.put("timePlayed", 0.0);
+            statsData.put("wins", 0);
+            statsData.put("gamesPlayed", 0);
+            statsData.put("gamesLost", 0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonStatsReq = new JsonObjectRequest(
+                Request.Method.POST,
+                URL_CREATE_STATS,
+                statsData,
+                response -> Log.d("Create Stats", "Stats created successfully"),
+                error -> Log.e("Stats Error", error.toString())
+        );
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonStatsReq);
     }
 
 }
