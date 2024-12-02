@@ -1,12 +1,11 @@
 package ISUGeoguessr.Chat;
 
 import java.io.IOException;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import ISUGeoguessr.UserData.UserData;
-import ISUGeoguessr.UserData.UserDataRepository;
+import ISUGeoguessr.UserData.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Persistence;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnError;
 import jakarta.websocket.OnMessage;
@@ -15,13 +14,16 @@ import jakarta.websocket.Session;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 
+
 import org.apache.catalina.User;
 import org.hibernate.Hibernate;
+import org.hibernate.SessionFactory;
+import org.hibernate.proxy.HibernateProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
+
 
 @Controller      // this is needed for this to be an endpoint to springboot
 @ServerEndpoint(value = "/chat/{username}")  // this is Websocket url
@@ -54,11 +56,11 @@ public class Chat {
 
     private final Logger logger = LoggerFactory.getLogger(Chat.class);
 
+
     @OnOpen
     public void onOpen(Session session, @PathParam("username") String username) throws IOException {
 
         logger.info("Entered into Open");
-
 
         // Handle the case of a duplicate username
         if (usernameSessionMap.containsKey(username)) {
@@ -77,6 +79,7 @@ public class Chat {
 
         //Send chat history to the newly connected user
         sendMessageToPArticularUser(username, getChatHistory());
+
 
 
     }
@@ -101,16 +104,16 @@ public class Chat {
             broadcast(username + ": " + message);
         }
 
-        // Saving chat history to repository
+        // Saving chat history to repository and user that sent the message
         Message chatMessage = new Message(username, message, "All chat");
         UserData user = userDataRepo.findByUsername(username);
-
         chatMessage.setUserData(user);
         msgRepo.save(chatMessage);
 
-        //TODO fix LazyInitializatonException
-//        user.addMessages(chatMessage);
-//        userDataRepo.save(user);
+        //add to list of messages in user object
+        user.addMessages(chatMessage);
+        userDataRepo.save(user);
+
 
     }
 

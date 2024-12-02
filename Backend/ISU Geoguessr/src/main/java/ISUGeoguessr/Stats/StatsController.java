@@ -3,6 +3,7 @@ package ISUGeoguessr.Stats;
 import java.util.List;
 
 import ISUGeoguessr.UserData.*;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,18 +16,21 @@ public class StatsController {
     @Autowired
     UserDataRepository userDataRepository;
 
+    @Operation(summary = "Retrieves all Stats objects")
     @GetMapping(path = "/Stats")
     List<Stats> getAllStatsInfo()
     {
         return statsRepository.findAll();
     }
 
+    @Operation(summary = "Retrieves a specific Stats object by its id")
     @GetMapping(path = "/Stats/{id}")
     Stats getStatsById(@PathVariable int id)
     {
         return statsRepository.findById(id);
     }
 
+    @Operation(summary = "Create a new Stats object")
     @PostMapping(path = "/Stats")
     String createStatsObject(@RequestBody Stats stats)
     {
@@ -40,6 +44,7 @@ public class StatsController {
         return "Success";
     }
 
+    @Operation(summary = "Retrieves the total score of a specific Stats object found by id")
     @GetMapping(path = "/Stats/{id}/totalScore")
     int getTotalScoreById(@PathVariable int id)
     {
@@ -51,6 +56,7 @@ public class StatsController {
         return stats.getTotalScore();
     }
 
+    @Operation(summary = "Retrieves the number of perfect guesses of a specific Stats object found by id")
     @GetMapping(path = "/Stats/{id}/perfectGuesses")
     int getPerfectGuessesById(@PathVariable int id)
     {
@@ -63,6 +69,7 @@ public class StatsController {
         return stats.getPerfectGuesses();
     }
 
+    @Operation(summary = "Retrieves the time played of a specific Stats object found by id")
     @GetMapping(path = "/Stats/{id}/timePlayed")
     float getTimePlayedById(@PathVariable int id)
     {
@@ -74,6 +81,7 @@ public class StatsController {
         return stats.getTimePlayed();
     }
 
+    @Operation(summary = "Retrieves the number of wins of a specific Stats object found by id")
     @GetMapping(path = "/Stats/{id}/wins")
     int getWinsById(@PathVariable int id)
     {
@@ -85,6 +93,7 @@ public class StatsController {
         return stats.getTotalScore();
     }
 
+    @Operation(summary = "Retrieves the games played of a specific Stats object found by id")
     @GetMapping(path = "/Stats/{id}/gamesPlayed")
     int getGamesPlayedById(@PathVariable int id)
     {
@@ -96,6 +105,7 @@ public class StatsController {
         return stats.getGamesPlayed();
     }
 
+    @Operation(summary = "Retrieves the losses of a specific Stats object found by id")
     @GetMapping(path = "/Stats/{id}/losses")
     int getLossesById(@PathVariable int id)
     {
@@ -107,6 +117,19 @@ public class StatsController {
         return stats.getGamesLost();
     }
 
+    @Operation(summary = "Retrieves the number of perfect games of a specific Stats object found by id")
+    @GetMapping(path = "/Stats/{id}/perfectGames")
+    int getPerfectGamesById(@PathVariable int id)
+    {
+        Stats stats = statsRepository.findById(id);
+        if(stats == null)
+        {
+            return -1;
+        }
+        return stats.getPerfectGames();
+    }
+
+    @Operation(summary = "Retrieves the game mode of a specific Stats object found by id")
     @GetMapping(path = "/Stats/{id}/gameMode")
     String getModeById(@PathVariable int id)
     {
@@ -118,6 +141,7 @@ public class StatsController {
         return stats.getGameMode();
     }
 
+    @Operation(summary = "Updates the totalScore of a specific Stats object found by id")
     @PutMapping(path = "/Stats/{id}/totalScore/{totalScore}")
     String updateTotalScoreById(@PathVariable int id, @PathVariable int totalScore)
     {
@@ -131,6 +155,7 @@ public class StatsController {
         return "Success";
     }
 
+    @Operation(summary = "Updates the perfect guesses of a specific Stats object found by id")
     @PutMapping(path = "/Stats/{id}/perfectGuesses/{perfectGuesses}")
     String updatePerfectGuessesById(@PathVariable int id, @PathVariable int perfectGuesses)
     {
@@ -145,6 +170,7 @@ public class StatsController {
         return "Succes";
     }
 
+    @Operation(summary = "Updates the time played of a specific Stats object found by id")
     @PutMapping(path = "/Stats/{id}/timePlayed/{timePlayed}")
     String updateTimePlayedById(@PathVariable int id, @PathVariable float timePlayed)
     {
@@ -158,6 +184,7 @@ public class StatsController {
         return "Success";
     }
 
+    @Operation(summary = "Updates the wins of a specific Stats object found by id")
     @PutMapping(path = "/Stats/{id}/wins/{wins}")
     String updateWinsById(@PathVariable int id, @PathVariable int wins)
     {
@@ -171,6 +198,7 @@ public class StatsController {
         return "Success";
     }
 
+    @Operation(summary = "Updates the games played of a specific Stats object found by id")
     @PutMapping(path = "/Stats/{id}/gamesPlayed/{gamesPlayed}")
     String updateGamesPlayedById(@PathVariable int id, @PathVariable int gamesPlayed)
     {
@@ -184,6 +212,7 @@ public class StatsController {
         return "Success";
     }
 
+    @Operation(summary = "Updates the losses of a specific Stats object found by id")
     @PutMapping(path = "/Stats/{id}/losses/{losses}")
     String updateLossesById(@PathVariable int id, @PathVariable int losses)
     {
@@ -197,6 +226,21 @@ public class StatsController {
         return "Success";
     }
 
+    @Operation(summary = "Updates the perfect games of a specific Stats object found by id")
+    @PutMapping(path = "/Stats/{id}/perfectGames/{perfectGames}")
+    String updateUserPerfectGamesById(@PathVariable int id, @PathVariable int perfectGames)
+    {
+        Stats stats = statsRepository.findById(id);
+        if(stats == null)
+        {
+            return "failed";
+        }
+        stats.setPerfectGames(perfectGames);
+        statsRepository.save(stats);
+        return "Success";
+    }
+
+    @Operation(summary = "Updates the username of a specific Stats object found by id")
     @PutMapping(path = "/Stats/username/{id}")
     String updateUsernameById(@PathVariable int id, @RequestParam String newUsername)
     {
@@ -212,6 +256,7 @@ public class StatsController {
         return "Username Updated";
     }
 
+    @Operation(summary = "Deletes a specific Stats object by its id")
     @DeleteMapping(path = "/Stats/{id}")
     String deleteById(@PathVariable int id)
     {

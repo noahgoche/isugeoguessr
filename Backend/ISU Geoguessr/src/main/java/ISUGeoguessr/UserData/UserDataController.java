@@ -5,6 +5,7 @@ import java.util.List;
 
 import ISUGeoguessr.Chat.Message;
 import ISUGeoguessr.Chat.MessageRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,18 +23,21 @@ public class UserDataController {
     @Autowired
     MessageRepository messageRepository;
 
+    @Operation(summary = "Retrieves all users")
     @GetMapping(path = "/users")
     List<UserData> getAllUsers()
     {
         return userDataRepository.findAll();
     }
 
+    @Operation(summary = "Retrieves a specific user by its id")
     @GetMapping(path = "/users/{id}")
     UserData getUserById(@PathVariable int id)
     {
         return userDataRepository.findById(id);
     }
 
+    @Operation(summary = "Retrieves a specific user's messages by its id")
     @GetMapping(path = "/users/{id}/messages")
     List<Message> getUserMessagesById(@PathVariable int id)
     {
@@ -42,6 +46,7 @@ public class UserDataController {
         return userData.getMessageList();
     }
 
+    @Operation(summary = "Retrieves a specific user's password by its id")
     @GetMapping(path = "users/password/{id}")
     String getPasswordById(@PathVariable int id)
     {
@@ -52,6 +57,7 @@ public class UserDataController {
         return userData.getUserPassword();
     }
 
+    @Operation(summary = "Retrieves a specific user's wins by its id")
     @GetMapping(path = "users/Wins/{id}")
     int getWinsById(@PathVariable int id)
     {
@@ -62,6 +68,7 @@ public class UserDataController {
         return userData.getStatsList().get(0).getWins();
     }
 
+    @Operation(summary = "Creates a new user")
     @PostMapping(path = "/users")
     String createUser(@RequestBody UserData userData)
     {
@@ -73,6 +80,7 @@ public class UserDataController {
         return "Success";
     }
 
+    @Operation(summary = "Update the Stats object of a user by the user's id")
     @PutMapping(path = "/users/{id}/Stats/{statsId}")
     String assignStatsToUser(@PathVariable int id, @PathVariable int statsId) {
         UserData userData = userDataRepository.findById(id);
@@ -95,6 +103,7 @@ public class UserDataController {
 
 
     //Have to use form-data in postman to change password
+    @Operation(summary = "Updates a user's password by its id")
     @PutMapping(path = "/users/password/{id}")
     String updatePasswordById(@PathVariable int id, @RequestParam String newPassword)
     {
@@ -111,6 +120,7 @@ public class UserDataController {
     }
 
     //Have to use form-data in postman to change @RequestParam
+    @Operation(summary = "Updates a user's username by its id")
     @PutMapping(path = "/users/username/{id}")
     String updateUsernameById(@PathVariable int id, @RequestParam String newUsername)
     {
@@ -127,6 +137,7 @@ public class UserDataController {
     }
 
     //Have to use form-data in postman to change @RequestParam
+    @Operation(summary = "Updates a user's email by its id")
     @PutMapping(path = "/users/email/{id}")
     String updateEmailById(@PathVariable int id, @RequestParam String newEmail)
     {
@@ -142,6 +153,7 @@ public class UserDataController {
         return "Email Updated";
     }
 
+    @Operation(summary = "Deletes a specific user by its id")
     @DeleteMapping(path = "/users/{id}")
     String deleteUserById(@PathVariable int id){
         UserData userData = userDataRepository.findById(id);
