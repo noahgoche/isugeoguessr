@@ -89,7 +89,7 @@ public class JacobSystemTest {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            
+
                             if (linearLayout.getChildCount() < 1) {
                                 throw new AssertionError("Leaderboard has no entries");
                             }
@@ -113,7 +113,7 @@ public class JacobSystemTest {
 
         Espresso.onView(withId(R.id.edit_profile_button)).perform(click());
         Espresso.onView(withId(R.id.deleteProfileButton)).perform(click());
-        Espresso.onView(withId(R.id.main_login_btn))
+        Espresso.onView(withId(R.id.login_login_btn))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 }
