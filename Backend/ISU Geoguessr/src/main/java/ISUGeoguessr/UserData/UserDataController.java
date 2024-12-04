@@ -160,13 +160,18 @@ public class UserDataController {
         List<Stats> stats = userData.getStatsList();
         List<Message> messages = userData.getMessageList();
 
-        for(int i =0; i < stats.size(); i++)
-        {
-            stats.get(i).setUserData(null);
-            messages.get(i).setUserData(null);
-        }
+
         userData.setStatsList(null);
         userData.setMessageList(null);
+
+        for (Stats stat : stats) {
+            stat.setUserData(null);
+        }
+        for(Message message: messages){
+            message.setUserData(null);
+            messageRepository.delete(message);
+        }
+
 
         userDataRepository.deleteById(id);
         return "deleted";

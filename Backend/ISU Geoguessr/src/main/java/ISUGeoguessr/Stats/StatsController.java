@@ -268,7 +268,9 @@ public class StatsController {
         }
         UserData userData = stats.getUserData();
         if(userData != null) {
-            userData.setStatsList(null);
+            List<Stats> statsList = userData.getStatsList();
+            statsList.remove(statsRepository.findById(id));
+            userData.setStatsList(statsList);
             stats.setUserData(null);
         }
 
