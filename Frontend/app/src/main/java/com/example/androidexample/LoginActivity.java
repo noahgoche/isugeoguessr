@@ -124,6 +124,8 @@ public class LoginActivity extends AppCompatActivity {
                             if (!loginSuccess) {
                                 Log.d("Login", "User not found or incorrect password");
                                 Toast.makeText(getApplicationContext(), "User not found or incorrect password", Toast.LENGTH_LONG).show();
+                                Log.d("Login", "User not found or incorrect password");
+
                             }
 
                         } catch (JSONException e) {
