@@ -160,13 +160,14 @@ public class UserDataController {
         List<Stats> stats = userData.getStatsList();
         List<Message> messages = userData.getMessageList();
 
-        int size = Math.max(messages.size(), stats.size());
 
-        for(int i =0; i < size; i++)
-        {
-            stats.get(i).setUserData(null);
-            messages.get(i).setUserData(null);
+        for (Stats stat : stats) {
+            stat.setUserData(null);
         }
+        for(Message message: messages){
+            message.setUserData(null);
+        }
+
         userData.setStatsList(null);
         userData.setMessageList(null);
 
