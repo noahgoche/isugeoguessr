@@ -135,7 +135,8 @@ public class UserProfileActivity extends AppCompatActivity {
                             }
 
                             if (statsId != null) {
-                                deleteUser(userId, statsId);
+                                //deleteUser(userId, statsId);
+                                deleteStats(userId, statsId);
                             } else {
                                 Toast.makeText(UserProfileActivity.this, "Stats not found", Toast.LENGTH_LONG).show();
                             }
@@ -178,7 +179,10 @@ public class UserProfileActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Delete User", "User deleted successfully: " + response);
-                        deleteStats(statsId);
+                        Toast.makeText(UserProfileActivity.this, "User and stats deleted successfully", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 },
                 new Response.ErrorListener() {
@@ -204,7 +208,7 @@ public class UserProfileActivity extends AppCompatActivity {
      * Takes statsId and deletes stats of the user
      * @param statsId
      */
-    private void deleteStats(String statsId) {
+    private void deleteStats(String userId, String statsId) {
         String URL_DELETE_STATS = "http://coms-3090-070.class.las.iastate.edu:8080/Stats/" + statsId;
 
         StringRequest deleteStatsRequest = new StringRequest(
@@ -214,10 +218,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Delete Stats", "Stats deleted successfully: " + response);
-                        Toast.makeText(UserProfileActivity.this, "User and stats deleted successfully", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(UserProfileActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
+                        deleteUser(userId, statsId);
                     }
                 },
                 new Response.ErrorListener() {
