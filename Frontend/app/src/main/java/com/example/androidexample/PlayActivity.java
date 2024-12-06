@@ -242,9 +242,6 @@ public class PlayActivity extends AppCompatActivity {
         System.out.println("Score: " + (int) score);
     }
 
-
-
-
     /**
      * Updates the panorama image displayed on the screen.
      *
