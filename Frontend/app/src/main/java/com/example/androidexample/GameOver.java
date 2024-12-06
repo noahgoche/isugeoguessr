@@ -81,6 +81,7 @@ public class GameOver extends AppCompatActivity {
                             if (statsRecord.getString("username").equals(username)) {
                                 int gamesPlayed = statsRecord.getInt("gamesPlayed");
                                 int totalScore = statsRecord.getInt("totalScore");
+                                int perfectGames = statsRecord.getInt("perfectGames");
 
                                 int updatedGamesPlayed = gamesPlayed + 1;
                                 int updatedTotalScore = totalScore + (int) gameScore;
@@ -88,6 +89,10 @@ public class GameOver extends AppCompatActivity {
 
                                 // Chain updates: first update the total score, then games played
                                 updateTotalScoreAndChain(statsId, updatedTotalScore, updatedGamesPlayed);
+
+                                if (gameScore == 5000) {
+                                    updatePerfectGames(statsId, perfectGames);
+                                }
                                 break;
                             }
                         }
@@ -124,6 +129,26 @@ public class GameOver extends AppCompatActivity {
                         updateGamesPlayed(id, updatedGamesPlayed);
                     } else {
                         Log.e("Update TotalScore", "Unexpected response: " + response);
+                    }
+                },
+                error -> Log.e("Update Error", error.toString())
+        );
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(putRequest);
+    }
+
+    private void updatePerfectGames(int id, int currentPerfectGames) {
+        String url = "http://coms-3090-070.class.las.iastate.edu:8080/Stats/" + id + "/perfectGames/" + (currentPerfectGames+1);
+
+        StringRequest putRequest = new StringRequest(
+                Request.Method.PUT,
+                url,
+                response -> {
+                    if ("Success".equals(response)) {
+                        Log.i("Update perfectGames", "Perfect games update succeeded");
+                    } else {
+                        Log.e("Update perfectGames", "Unexpected response: " + response);
                     }
                 },
                 error -> Log.e("Update Error", error.toString())
