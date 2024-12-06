@@ -37,6 +37,7 @@ public class PlayActivity extends AppCompatActivity {
     private static final int TOTAL_ROUNDS = 5;
     private int currentRound = 0;
     private double gameScore;
+    private int perfectGuesses = 0;
     private int currentImageResourceId = R.drawable.sighisoara_sphere; // Default image resource ID
     double latitude;
     double longitude;
@@ -167,6 +168,7 @@ public class PlayActivity extends AppCompatActivity {
         Intent intent = new Intent(PlayActivity.this, GameOver.class);
         intent.putExtra("GAME_SCORE", gameScore);
         intent.putExtra("USERNAME", username);
+        intent.putExtra("PERFECT_GUESSES", perfectGuesses);
         startActivity(intent);
         finish();
     }
@@ -230,6 +232,8 @@ public class PlayActivity extends AppCompatActivity {
             double decayFactor = (quarterMile - distance) / quarterMile;
             score = Math.max(minScore, Math.min(maxScore, maxScore * decayFactor * decayFactor));
         }
+
+        if (score == 1000) perfectGuesses++;
 
         gameScore += (int) score;
 

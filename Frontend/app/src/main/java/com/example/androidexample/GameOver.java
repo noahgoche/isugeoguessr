@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +25,7 @@ import org.json.JSONObject;
 public class GameOver extends AppCompatActivity {
 
     String username;
+    private int perfectGuesses;
     private Button homeButton;
     private TextView scoreTextView;
 
@@ -39,7 +41,7 @@ public class GameOver extends AppCompatActivity {
         setContentView(R.layout.game_over);
 
         username = getIntent().getStringExtra("USERNAME");
-
+        perfectGuesses = getIntent().getIntExtra("PERFECT_GUESSES", 0);
         // Initialize UI components
         homeButton = findViewById(R.id.homeButton);
         scoreTextView = findViewById(R.id.scoreTextView);
@@ -82,6 +84,7 @@ public class GameOver extends AppCompatActivity {
                                 int gamesPlayed = statsRecord.getInt("gamesPlayed");
                                 int totalScore = statsRecord.getInt("totalScore");
                                 int perfectGames = statsRecord.getInt("perfectGames");
+                                int currentPerfectGuesses = statsRecord.getInt("perfectGuesses");
 
                                 int updatedGamesPlayed = gamesPlayed + 1;
                                 int updatedTotalScore = totalScore + (int) gameScore;
@@ -92,6 +95,9 @@ public class GameOver extends AppCompatActivity {
 
                                 if (gameScore == 5000) {
                                     updatePerfectGames(statsId, perfectGames);
+                                }
+                                if (perfectGuesses != 0) {
+                                    updatedPerfectGuesses(statsId, currentPerfectGuesses, perfectGuesses);
                                 }
                                 break;
                             }
@@ -149,6 +155,25 @@ public class GameOver extends AppCompatActivity {
                         Log.i("Update perfectGames", "Perfect games update succeeded");
                     } else {
                         Log.e("Update perfectGames", "Unexpected response: " + response);
+                    }
+                },
+                error -> Log.e("Update Error", error.toString())
+        );
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(putRequest);
+    }
+
+    private void updatedPerfectGuesses(int id, int currentPerfectGuesses, int newPerfectGuesses) {
+        String url = "http://coms-3090-070.class.las.iastate.edu:8080/Stats/" + id + "/perfectGuesses/" + (currentPerfectGuesses+newPerfectGuesses);
+        StringRequest putRequest = new StringRequest(
+                Request.Method.PUT,
+                url,
+                response -> {
+                    if ("Success".equals(response)) {
+                        Log.i("Update perfect guesses", "Perfect guesses update succeeded");
+                    } else {
+                        Log.e("Update perfect guesses", "Unexpected response: " + response);
                     }
                 },
                 error -> Log.e("Update Error", error.toString())
