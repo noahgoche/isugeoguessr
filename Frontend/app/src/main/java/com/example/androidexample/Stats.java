@@ -55,15 +55,18 @@ public class Stats extends AppCompatActivity {
                                 int gamesPlayed = statsRecord.getInt("gamesPlayed");
                                 int totalScore = statsRecord.getInt("totalScore");
                                 int perfectGames = statsRecord.getInt("perfectGames");
+                                int perfectGuesses = statsRecord.getInt("perfectGuesses");
 
                                 // Update UI with the retrieved values
                                 TextView gamesPlayedValue = findViewById(R.id.gamesPlayedValue);
                                 TextView totalScoreValue = findViewById(R.id.totalScoreValue);
                                 TextView perfectGamesValue = findViewById(R.id.perfectGamesValue);
+                                TextView perfectGuessesValue = findViewById(R.id.perfectGuessesValue);
 
                                 gamesPlayedValue.setText(String.valueOf(gamesPlayed));
                                 totalScoreValue.setText(String.valueOf(totalScore));
                                 perfectGamesValue.setText(String.valueOf(perfectGames));
+                                perfectGuessesValue.setText(String.valueOf(perfectGuesses));
                                 break; // Exit loop once the matching record is found
                             }
                         }
