@@ -25,6 +25,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The homescreen the user sees after logging into an account
+ */
 public class UserHome extends AppCompatActivity implements WebSocketListener {
 
     private Button playButton;

@@ -21,6 +21,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug{
+            testCoverageEnabled true
+        }
+
     }
 }
 
@@ -34,12 +38,17 @@ dependencies {
     implementation 'org.osmdroid:osmdroid-wms:6.1.20'
     implementation 'com.github.hannesa2:panoramagl:1.11'
     implementation 'org.java-websocket:Java-WebSocket:1.5.1'
-
+    //For Jacob to create javadocs. Uncomment to do so.
+    //implementation fileTree(dir: '/Users/jacobg/Library/Android/sdk/platforms/android-34', include: ['*.aar', '*.jar'], exclude: [])
 
 
     // Ensure the same version for both
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
 
 }

@@ -3,10 +3,11 @@
 package ISUGeoguessr.Chat;
 
 import java.io.IOException;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import ISUGeoguessr.UserData.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Persistence;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnError;
 import jakarta.websocket.OnMessage;
@@ -15,10 +16,16 @@ import jakarta.websocket.Session;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 
+
+import org.apache.catalina.User;
+import org.hibernate.Hibernate;
+import org.hibernate.SessionFactory;
+import org.hibernate.proxy.HibernateProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
 
 @Controller      // this is needed for this to be an endpoint to springboot
 @ServerEndpoint(value = "/chat/{username}")  // this is Websocket url
@@ -26,6 +33,7 @@ public class Chat {
     // cannot autowire static directly (instead we do it by the below method)
     private static MessageRepository msgRepo;
 
+    private static UserDataRepository userDataRepo;
     /*
      * Grabs the MessageRepository singleton from the Spring Application
      * Context.  This works because of the @Controller annotation on this
@@ -38,11 +46,18 @@ public class Chat {
         msgRepo = repo;  // we are setting the static variable
     }
 
+    @Autowired
+    public void setUserDataRepository(UserDataRepository repository)
+    {
+        userDataRepo = repository;
+    }
+
     // Store all socket session and their corresponding username.
     private static Map<Session, String> sessionUsernameMap = new Hashtable<>();
     private static Map<String, Session> usernameSessionMap = new Hashtable<>();
 
     private final Logger logger = LoggerFactory.getLogger(Chat.class);
+
 
     @OnOpen
     public void onOpen(Session session, @PathParam("username") String username) throws IOException {
@@ -68,8 +83,8 @@ public class Chat {
         sendMessageToPArticularUser(username, getChatHistory());
 
 
-    }
 
+    }
 
     @OnMessage
     public void onMessage(Session session, String message) throws IOException {
@@ -91,8 +106,17 @@ public class Chat {
             broadcast(username + ": " + message);
         }
 
-        // Saving chat history to repository
-        msgRepo.save(new Message(username, message, "All chat"));
+        // Saving chat history to repository and user that sent the message
+        Message chatMessage = new Message(username, message, "All chat");
+        UserData user = userDataRepo.findByUsername(username);
+        chatMessage.setUserData(user);
+        msgRepo.save(chatMessage);
+
+        //add to list of messages in user object
+        user.addMessages(chatMessage);
+        userDataRepo.save(user);
+
+
     }
 
 

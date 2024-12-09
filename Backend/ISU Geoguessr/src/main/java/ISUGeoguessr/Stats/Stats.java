@@ -24,10 +24,12 @@ public class Stats implements Comparator<Stats> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int totalScore;
+    private int perfectGuesses;
     private float timePlayed;
     private int wins;
     private int gamesPlayed;
     private int gamesLost;
+    private int perfectGames;
     private String gameMode;
     private String username;
 

@@ -6,6 +6,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import ISUGeoguessr.UserData.UserData;
+import ISUGeoguessr.UserData.UserDataRepository;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnError;
 import jakarta.websocket.OnMessage;
@@ -25,6 +27,7 @@ public class Chatroom3 {
     // cannot autowire static directly (instead we do it by the below method)
     private static MessageRepository msgRepo;
 
+    private static UserDataRepository userDataRepo;
     /*
      * Grabs the MessageRepository singleton from the Spring Application
      * Context.  This works because of the @Controller annotation on this
@@ -37,6 +40,11 @@ public class Chatroom3 {
         msgRepo = repo;  // we are setting the static variable
     }
 
+    @Autowired
+    public void setUserDataRepository(UserDataRepository repository)
+    {
+        userDataRepo = repository;
+    }
     // Store all socket session and their corresponding username.
     private static Map<Session, String> sessionUsernameMap = new Hashtable<>();
     private static Map<String, Session> usernameSessionMap = new Hashtable<>();
@@ -91,7 +99,14 @@ public class Chatroom3 {
         }
 
         // Saving chat history to repository
-        msgRepo.save(new Message(username, message, "Chatroom 3"));
+        Message chatMessage = new Message(username, message, "Chatroom 3");
+        UserData user = userDataRepo.findByUsername(username);
+        chatMessage.setUserData(user);
+        msgRepo.save(chatMessage);
+
+        //add to list of messages in user object
+        user.addMessages(chatMessage);
+        userDataRepo.save(user);
     }
 
 

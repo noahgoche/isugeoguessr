@@ -21,21 +21,12 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
 import android.view.View;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
+/**
+ * PlayActivity that handles the game logic, including displaying panoramic images,
+ * interacting with a map to select locations, and calculating scores.
+ */
 public class PlayActivity extends AppCompatActivity {
 
     private PLManager plManager;
@@ -46,12 +37,19 @@ public class PlayActivity extends AppCompatActivity {
     private static final int TOTAL_ROUNDS = 5;
     private int currentRound = 0;
     private double gameScore;
+    private int perfectGuesses = 0;
     private int currentImageResourceId = R.drawable.sighisoara_sphere; // Default image resource ID
     double latitude;
     double longitude;
     private int playCount = 1;
     String username;
 
+    /**
+     * Called when the activity is created.
+     * Initializes the panoramic image, map, and other UI elements, and starts the first round of the game.
+     *
+     * @param savedInstanceState the saved state of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,17 +76,10 @@ public class PlayActivity extends AppCompatActivity {
         panorama.getCamera().setYMax(2.0f);
         plManager.setPanorama(panorama);
 
-
-        // Set the initial image
-        //updatePanoramaImage(currentImageResourceId);
-
         // Initialize other UI elements
         mapView = findViewById(R.id.mapView);
         submitLocationButton = findViewById(R.id.submitLocationButton);
         Button mapToggleButton = findViewById(R.id.mapToggleButton);
-
-        // Start the first round
-
 
         // Toggle map visibility when map button is clicked
         mapToggleButton.setOnClickListener(v -> {
@@ -163,6 +154,12 @@ public class PlayActivity extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * Returns the correct longitude for the current round.
+     *
+     * @return the correct longitude for the current round.
+     */
     private double getCorrectLongitude() {
         if (playCount == 2) {
             // Correct longitude for the second round
@@ -189,15 +186,18 @@ public class PlayActivity extends AppCompatActivity {
 
 
     private void endGame() {
-        // send out gameScore
         Intent intent = new Intent(PlayActivity.this, GameOver.class);
         intent.putExtra("GAME_SCORE", gameScore);
         intent.putExtra("PLAY_COUNT", playCount + 1); // Increment play count
         intent.putExtra("USERNAME", username);
+        intent.putExtra("PERFECT_GUESSES", perfectGuesses);
         startActivity(intent);
         finish();
     }
 
+    /**
+     * Starts the next round by setting the appropriate image for the round and resetting the map marker.
+     */
     private void startRound() {
         if (playCount == 2) {
             // Logic for the second round
@@ -260,8 +260,15 @@ public class PlayActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Calculates the score based on the distance between the selected and correct locations.
+     *
+     * @param guessLatitude the latitude of the guessed location.
+     * @param guessLongitude the longitude of the guessed location.
+     * @param correctLatitude the correct latitude.
+     * @param correctLongitude the correct longitude.
+     */
     private void calculateScore(double guessLatitude, double guessLongitude, double correctLatitude, double correctLongitude) {
-        // Earth radius in kilometers
         double earthRadius = 6371;
         double dLat = Math.toRadians(correctLatitude - guessLatitude);
         double dLon = Math.toRadians(correctLongitude - guessLongitude);
@@ -269,36 +276,53 @@ public class PlayActivity extends AppCompatActivity {
                 Math.cos(Math.toRadians(guessLatitude)) * Math.cos(Math.toRadians(correctLatitude)) *
                         Math.sin(dLon / 2) * Math.sin(dLon / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = earthRadius * c; // Distance in kilometers
+        double distance = earthRadius * c;
 
-        // Calculate score based on distance
-        int maxScore = 1000; // Maximum score
-        int minScore = 0; // Minimum score
-        double maxDistance = 5.0; // Maximum distance in kilometers for scoring purposes (5 miles ~ 8 km)
+        double quarterMile = 0.402336;  // Quarter mile in kilometers
+        double thirtyFeet = 0.009144;  // 30 feet in kilometers
+        int maxScore = 1000;
+        int minScore = 0;
 
-        // Calculate the score inversely proportional to the distance
-        double score = Math.max(minScore, Math.min(maxScore, maxScore * (1 - (distance / maxDistance))));
+        double score;
+        if (distance <= thirtyFeet) {
+            score = maxScore;
+        } else if (distance >= quarterMile) {
+            score = minScore;
+        } else {
+            // Smooth quadratic decay from maxScore to minScore between 0 and quarterMile
+            double decayFactor = (quarterMile - distance) / quarterMile;
+            score = Math.max(minScore, Math.min(maxScore, maxScore * decayFactor * decayFactor));
+        }
 
-        // Accumulate score
-        gameScore += (int) score; // Store score as an integer
+        if (score == 1000) perfectGuesses++;
 
-        // Provide feedback
+        gameScore += (int) score;
+
         Toast.makeText(this, "Score: " + (int) score, Toast.LENGTH_LONG).show();
-        System.out.println("Score: " + (int) score); // For debugging
+
+        System.out.println("Score: " + (int) score);
     }
 
+    /**
+     * Updates the panorama image displayed on the screen.
+     *
+     * @param imageResourceId the resource ID of the image to be displayed.
+     */
     private void updatePanoramaImage(int imageResourceId) {
-        // Update the panorama image dynamically
         panorama.setImage(new PLImage(PLUtils.getBitmap(this, imageResourceId), false));
     }
 
+    /**
+     * Places a marker on the map at the selected latitude and longitude.
+     *
+     * @param latitude the latitude of the selected location.
+     * @param longitude the longitude of the selected location.
+     */
     private void placeMarker(double latitude, double longitude) {
-        // Remove previous marker, if any
         if (currentMarker != null) {
             mapView.getOverlays().remove(currentMarker);
         }
 
-        // Add a new marker at the selected location
         currentMarker = new Marker(mapView);
         currentMarker.setPosition(new GeoPoint(latitude, longitude));
         currentMarker.setTitle("Selected Location");
@@ -326,7 +350,4 @@ public class PlayActivity extends AppCompatActivity {
         super.onDestroy();
         plManager.onDestroy();
     }
-
-
-
 }

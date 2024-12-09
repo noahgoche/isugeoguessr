@@ -16,6 +16,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Class to view users stats
+ */
 public class Stats extends AppCompatActivity {
 
     @Override
@@ -31,6 +34,10 @@ public class Stats extends AppCompatActivity {
         loadStats(username);
     }
 
+    /**
+     * Loads the users stats from the DB based on their username
+     * @param username
+     */
     private void loadStats(String username) {
         String URL_STATS = "http://coms-3090-070.class.las.iastate.edu:8080/Stats";
 
@@ -47,13 +54,19 @@ public class Stats extends AppCompatActivity {
                             if (statsRecord.getString("username").equals(username)) {
                                 int gamesPlayed = statsRecord.getInt("gamesPlayed");
                                 int totalScore = statsRecord.getInt("totalScore");
+                                int perfectGames = statsRecord.getInt("perfectGames");
+                                int perfectGuesses = statsRecord.getInt("perfectGuesses");
 
                                 // Update UI with the retrieved values
                                 TextView gamesPlayedValue = findViewById(R.id.gamesPlayedValue);
                                 TextView totalScoreValue = findViewById(R.id.totalScoreValue);
+                                TextView perfectGamesValue = findViewById(R.id.perfectGamesValue);
+                                TextView perfectGuessesValue = findViewById(R.id.perfectGuessesValue);
 
                                 gamesPlayedValue.setText(String.valueOf(gamesPlayed));
                                 totalScoreValue.setText(String.valueOf(totalScore));
+                                perfectGamesValue.setText(String.valueOf(perfectGames));
+                                perfectGuessesValue.setText(String.valueOf(perfectGuesses));
                                 break; // Exit loop once the matching record is found
                             }
                         }

@@ -8,6 +8,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * This is the first view upon opening the app.
+ * User can chose to signup or login.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private TextView messageText;   // define message textview variable
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             signupButton.setVisibility(View.INVISIBLE);             // set signup button invisible
         }
 
-        /* click listener on login button pressed */
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

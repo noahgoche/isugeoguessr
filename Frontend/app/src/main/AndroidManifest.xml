@@ -44,7 +44,6 @@
             android:name=".ChatRoom1"
             android:exported="false" />
 
-        <!-- New UserProfileActivity added here -->
         <activity
             android:name=".UserProfileActivity"
             android:exported="false" />
