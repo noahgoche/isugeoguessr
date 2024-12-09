@@ -39,6 +39,7 @@ public class GameOver extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_over);
+        int playCount = getIntent().getIntExtra("PLAY_COUNT",1); // Default to 1 if not passed
 
         username = getIntent().getStringExtra("USERNAME");
         perfectGuesses = getIntent().getIntExtra("PERFECT_GUESSES", 0);
@@ -57,6 +58,7 @@ public class GameOver extends AppCompatActivity {
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(GameOver.this, UserHome.class);
             intent.putExtra("USERNAME", username);
+            intent.putExtra("PLAY_COUNT", playCount); // Increment play count
             startActivity(intent);
             finish();
         });
