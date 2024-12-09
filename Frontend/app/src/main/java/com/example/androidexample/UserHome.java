@@ -50,6 +50,7 @@ public class UserHome extends AppCompatActivity implements WebSocketListener {
         statsButton = findViewById(R.id.stats_button);
         leaderboardButton = findViewById(R.id.leaderboard_button);
         editProfileButton = findViewById(R.id.edit_profile_button);
+        int playCount = getIntent().getIntExtra("PLAY_COUNT", 1); // Default to 1 if not passed
 
         // Set welcome text with the username
         welcomeText = findViewById(R.id.welcomeText);
@@ -62,6 +63,7 @@ public class UserHome extends AppCompatActivity implements WebSocketListener {
             public void onClick(View v) {
                 // Launch Play Activity
                 Intent intent = new Intent(UserHome.this, PlayActivity.class);
+                intent.putExtra("PLAY_COUNT", playCount); // Pass play count
                 intent.putExtra("USERNAME", username);
                 startActivity(intent);
                 finish();
