@@ -135,11 +135,11 @@ public class PlayActivity extends AppCompatActivity {
         if (playCount == 2) {
             // Correct latitude for the second round
             switch (currentRound) {
-                case 0: return 42.030000; // Correct latitude for round 1 in second round
-                case 1: return 42.031000; // Correct latitude for round 2 in second round
-                case 2: return 42.032000; // Correct latitude for round 3 in second round
-                case 3: return 42.033000; // Correct latitude for round 4 in second round
-                case 4: return 42.034000; // Correct latitude for round 5 in second round
+                case 0: return 42.028085; // Correct latitude for round 1 in second round
+                case 1: return 42.025435; // Correct latitude for round 2 in second round
+                case 2: return 42.023974; // Correct latitude for round 3 in second round
+                case 3: return 42.025242; // Correct latitude for round 4 in second round
+                case 4: return 42.024182; // Correct latitude for round 5 in second round
                 default: return 0; // Default return
             }
         } else {
@@ -147,9 +147,9 @@ public class PlayActivity extends AppCompatActivity {
             switch (currentRound) {
                 case 0: return 42.025227; // Correct latitude for round 1
                 case 1: return 42.025659; // Correct latitude for round 2
-                case 2: return 42.025000; // Add correct latitude for round 3
-                case 3: return 42.024500; // Add correct latitude for round 4
-                case 4: return 42.024000; // Add correct latitude for round 5
+                case 2: return 42.024158; // Add correct latitude for round 3
+                case 3: return 42.027752; // Add correct latitude for round 4
+                case 4: return 42.027503; // Add correct latitude for round 5
                 default: return 0; // Default return
             }
         }
@@ -164,11 +164,11 @@ public class PlayActivity extends AppCompatActivity {
         if (playCount == 2) {
             // Correct longitude for the second round
             switch (currentRound) {
-                case 0: return -93.650000; // Correct longitude for round 1 in second round
-                case 1: return -93.651000; // Correct longitude for round 2 in second round
-                case 2: return -93.652000; // Correct longitude for round 3 in second round
-                case 3: return -93.653000; // Correct longitude for round 4 in second round
-                case 4: return -93.654000; // Correct longitude for round 5 in second round
+                case 0: return -93.642990; // Correct longitude for round 1 in second round
+                case 1: return -93.645028; // Correct longitude for round 2 in second round
+                case 2: return -93.643979; // Correct longitude for round 3 in second round
+                case 3: return -93.640318; // Correct longitude for round 4 in second round
+                case 4: return -93.642024; // Correct longitude for round 5 in second round
                 default: return 0; // Default return
             }
         } else {
@@ -176,14 +176,13 @@ public class PlayActivity extends AppCompatActivity {
             switch (currentRound) {
                 case 0: return -93.649116; // Correct longitude for round 1
                 case 1: return -93.648445; // Correct longitude for round 2
-                case 2: return -93.647000; // Add correct longitude for round 3
-                case 3: return -93.646500; // Add correct longitude for round 4
-                case 4: return -93.646000; // Add correct longitude for round 5
+                case 2: return -93.653829; // Add correct longitude for round 3
+                case 3: return -93.644315; // Add correct longitude for round 4
+                case 4: return -93.642775; // Add correct longitude for round 5
                 default: return 0; // Default return
             }
         }
     }
-
 
     private void endGame() {
         Intent intent = new Intent(PlayActivity.this, GameOver.class);
