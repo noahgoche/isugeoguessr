@@ -80,83 +80,76 @@ public class LoginActivity extends AppCompatActivity {
      * @param usernameInput
      * @param passwordInput
      */
-   private void login(String usernameInput, String passwordInput) {
+    private void login(String usernameInput, String passwordInput) {
+        //skip login for testing
 
-                                       Log.d("Login", "Login successful for user: " + usernameInput);
+        String URL_GET_USERS = "http://coms-3090-070.class.las.iastate.edu:8080/users";
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                URL_GET_USERS,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d("Volley Response", response.toString());
+                        try {
+                            boolean loginSuccess = false;
+
+                            // Loop all users
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject userObject = response.getJSONObject(i);
+                                String fetchedUsername = userObject.getString("username");
+                                String fetchedPassword = userObject.getString("userPassword");
+                                String fetchedId = userObject.getString("id");
+
+                                // Check username
+                                if (fetchedUsername.equals(usernameInput)) {
+                                    // Check pass
+                                    if (fetchedPassword.equals(passwordInput)) {
+                                        loginSuccess = true;
+                                        Log.d("Login", "Login successful for user: " + usernameInput);
                                         Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(LoginActivity.this, UserHome.class);
-
+                                        intent.putExtra("USERNAME", fetchedUsername);
+                                        intent.putExtra("ID", fetchedId);
                                         startActivity(intent);
+                                        break;  // Exit the loop once user is found
+                                    } else {
+                                        Log.d("Login", "Incorrect password for user: " + usernameInput);
+                                    }
+                                }
+                            }
 
-//        //skip login for testing
-//
-//        String URL_GET_USERS = "http://coms-3090-070.class.las.iastate.edu:8080/users";
-//
-//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-//                Request.Method.GET,
-//                URL_GET_USERS,
-//                null,
-//                new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse(JSONArray response) {
-//                        Log.d("Volley Response", response.toString());
-//                        try {
-//                            boolean loginSuccess = false;
-//
-//                            // Loop all users
-//                            for (int i = 0; i < response.length(); i++) {
-//                                JSONObject userObject = response.getJSONObject(i);
-//                                String fetchedUsername = userObject.getString("username");
-//                                String fetchedPassword = userObject.getString("userPassword");
-//                                String fetchedId = userObject.getString("id");
-//
-//                                // Check username
-//                                if (fetchedUsername.equals(usernameInput)) {
-//                                    // Check pass
-//                                    if (fetchedPassword.equals(passwordInput)) {
-//                                        loginSuccess = true;
-//                                        Log.d("Login", "Login successful for user: " + usernameInput);
-//                                        Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_LONG).show();
-//                                        Intent intent = new Intent(LoginActivity.this, UserHome.class);
-//                                        intent.putExtra("USERNAME", fetchedUsername);
-//                                        intent.putExtra("ID", fetchedId);
-//                                        startActivity(intent);
-//                                        break;  // Exit the loop once user is found
-//                                    } else {
-//                                        Log.d("Login", "Incorrect password for user: " + usernameInput);
-//                                    }
-//                                }
-//                            }
-//
-//                            if (!loginSuccess) {
-//                                Log.d("Login", "User not found or incorrect password");
-//                                Toast.makeText(getApplicationContext(), "User not found or incorrect password", Toast.LENGTH_LONG).show();
-//                                Log.d("Login", "User not found or incorrect password");
-//
-//                            }
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.e("Volley Error", error.toString());
-//                    }
-//                }) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                HashMap<String, String> headers = new HashMap<>();
-//                headers.put("Content-Type", "application/json");
-//                return headers;
-//            }
-//        };
-//
-//        RequestQueue requestQueue = Volley.newRequestQueue(this);
-//        requestQueue.add(jsonArrayRequest);
-//
-   }
+                            if (!loginSuccess) {
+                                Log.d("Login", "User not found or incorrect password");
+                                Toast.makeText(getApplicationContext(), "User not found or incorrect password", Toast.LENGTH_LONG).show();
+                                Log.d("Login", "User not found or incorrect password");
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Volley Error", error.toString());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonArrayRequest);
+
+    }
 
 }
