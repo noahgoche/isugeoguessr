@@ -6,33 +6,39 @@ stages:             # these stages (jobs) forms the CICD pipeline
   - androidtest     # this is a JOB to run tests in your Android application (it's okay you don't have any test for now)
 
 maven-build:            
-  stage: mavenbuild     # one of the stages listed above
-  tags:                 # to specify which runner to execute this job
-    - springboot_tag    # change to your runner's tag
-  script:               # what to execute for this job
-    - cd Backend/ISU\ Geoguessr       # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
-    - mvn package       # maven package
+  stage: mavenbuild
+  tags:
+    - springboot_tag      # <-- change to your runner's tag
+  before_script:
+    - export JAVA_HOME="/"
+  script:
+    - cd Backend/ISU\ Geoguessr        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
+    - mvn package
   artifacts:            # where to output the packaged jar file, change 'Backend' to to where you have the pom.xml
     paths:
     - Backend/ISU\ Geoguessr/target/*.jar # change 'Backend' to where you have 'target' (do not add a / in the beginning)
   only:
     refs:
-      - main            # only to trigger the pipeline when changes are pushed to 'main'
+      - main
     changes:
-      - Backend/**/*    # more specifically - only when changes are made inside the 'Backend' folder
+      - Backend/**/*
+
 
 maven-test:             
-  stage: maventest     # one of the stages listed above
+  stage: maventest
   tags:
-     - springboot_tag   # change to your runner's tag
+    - springboot_tag     # <-- change to your runner's tag
+  before_script:
+    - export JAVA_HOME="/"
   script:
-     - cd Backend/ISU\ Geoguessr       # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
-     - mvn test         # maven test
+    - cd Backend/ISU\ Geoguessr       # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
+    - mvn test
   only:
     refs:
-      - main            # only to trigger the pipeline when changes are pushed to 'main'
+      - main
     changes:
-      - Backend/**/*    # more specifically - only when changes are made inside the 'Backend' folder
+      - Backend/**/*
+
 
 auto-deploy:
   stage: mavendeploy    # one of the stages listed above
