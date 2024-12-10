@@ -1,6 +1,7 @@
 package ISUGeoguessr.UserData;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ISUGeoguessr.Chat.Message;
@@ -157,21 +158,59 @@ public class UserDataController {
     @DeleteMapping(path = "/users/{id}")
     String deleteUserById(@PathVariable int id){
         UserData userData = userDataRepository.findById(id);
+
+        if(userData == null)
+        {
+            return "failed";
+        }
+
         List<Stats> stats = userData.getStatsList();
         List<Message> messages = userData.getMessageList();
-
 
         userData.setStatsList(null);
         userData.setMessageList(null);
 
-        for (Stats stat : stats) {
-            stat.setUserData(null);
-        }
-        for(Message message: messages){
-            message.setUserData(null);
-            messageRepository.delete(message);
+        if(!stats.isEmpty()) {
+            for (Stats stat : stats) {
+                stat.setUserData(null);
+                statsRepository.save(stat);
+                statsRepository.deleteById(stat.getId());
+            }
         }
 
+        if(!messages.isEmpty()) {
+            for (Message message : messages) {
+                message.setUserData(null);
+                messageRepository.save(message);
+                messageRepository.deleteById(message.getId());
+            }
+        }
+
+        //commented section was for deleting items in stat and message table that still had the user Id when it was null in the actual user and couldn't be referenced by user directly
+//        messages = new ArrayList<>(messages);
+//        messages.addAll(messageRepository.findAll());
+//        for(Message message: messages)
+//        {
+//            if(message.getUserData() != null && message.getUserData().getId() == userData.getId())
+//            {
+//                message.setUserData(null);
+//                messageRepository.save(message);
+//                messageRepository.deleteById(message.getId());
+//            }
+//        }
+//
+//
+//        stats = new ArrayList<>(stats);
+//        stats.addAll(statsRepository.findAll());
+//        for(Stats stat: stats)
+//        {
+//            if(stat.getUserData() != null && stat.getUserData().getId() == userData.getId())
+//            {
+//                stat.setUserData(null);
+//                statsRepository.save(stat);
+//                statsRepository.deleteById(stat.getId());
+//            }
+//        }
 
         userDataRepository.deleteById(id);
         return "deleted";
