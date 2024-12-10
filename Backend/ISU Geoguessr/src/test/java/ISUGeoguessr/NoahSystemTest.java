@@ -29,7 +29,7 @@ public class NoahSystemTest {
     }
 
     @Test
-    public void locationTest() {
+    public void locationNameTest() {
         // Check response body for correct response
         RestAssured.get("/Location/4").then().assertThat().body("locationName", equalTo("Carver"));
 
@@ -43,14 +43,46 @@ public class NoahSystemTest {
     }
 
     @Test
-    public void userTest(){
-        RestAssured.get("/users/25").then().assertThat().body("username", equalTo("Noah"));
+    public void usernameTest(){
+        RestAssured.get("/users/64").then().assertThat().body("username", equalTo("Noah"));
 
     }
 
     @Test
-    public void statTest(){
-        RestAssured.get("/Stats/18").then().assertThat().body("username", equalTo("Noah"));
+    public void statUserTest(){
+        RestAssured.get("/Stats/53").then().assertThat().body("username", equalTo("Noah"));
+    }
+
+    @Test
+    public void changeEmailTest(){
+        RestAssured.put("/users/email/64?newEmail=empty");
+        RestAssured.put("/users/email/64?newEmail=testEmail@gmail.com");
+        RestAssured.get("/users/64").then().assertThat().body("userEmail", equalTo("testEmail@gmail.com"));
+
+    }
+
+    @Test
+    public void changeScoreTest(){
+        RestAssured.put("/Stats/53/totalScore/0");
+        RestAssured.put("/Stats/53/totalScore/5000");
+        RestAssured.get("/Stats/53").then().assertThat().body("totalScore", equalTo(5000));
+
+    }
+
+
+    @Test
+    public void checkWinsTest(){
+        RestAssured.put("/Stats/53/wins/0");
+        RestAssured.put("/Stats/53/wins/20");
+        String res = RestAssured.get("/users/Wins/64").asPrettyString();
+        int expectedResult = Integer.parseInt(res);
+        RestAssured.get("/Stats/53").then().assertThat().body("wins", equalTo(expectedResult));
+
+    }
+
+    @Test
+    public void imageFileNameTest(){
+        RestAssured.get("/Location/4").then().assertThat().body("imageFileName", equalTo("carver.JPEG"));
 
     }
 
