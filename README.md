@@ -1,6 +1,6 @@
 # ISU GeoGuessr
 
-An Android app GueoGussr game but for Iowa State University campus. 
+An Android app GueoGuessr game but for Iowa State University campus. 
 
 ## Creators 
 
